@@ -24,6 +24,14 @@ function Navbar() {
 
   }, [])
 
+  // This function will scroll the window to the top 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // for smoothly scrolling
+    });
+  };
+
   return (
     <>
       <div className="">
@@ -45,6 +53,10 @@ function Navbar() {
             </ul>
           </nav>
     </div>
+
+  {changeNavbarColor && (
+    <button className="fixed bottom-5 right-5 h-16 w-16 rounded-full bg-blue-500 hover:bg-red-500 text-white" onClick={scrollToTop}>Top</button>
+  )}
     </>
   )
 }
