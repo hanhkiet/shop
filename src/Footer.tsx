@@ -44,12 +44,12 @@ function Footer() {
           <div className="footer-item mx-10 text-center md:text-left lg:text-left">
             <h2 className="font-bold mb-5">CONNECT</h2>
             <div className="flex justify-between mb-5">
-                <a className="hover:opacity-80" href="https://www.facebook.com/asrvsportswear" target="_blank"><i className="fab fa-facebook"></i></a>
-                <a className="hover:opacity-80" href="https://twitter.com/asrvsportswear" target="_blank"><i className="fab fa-twitter"></i></a>
-                <a className="hover:opacity-80" href="https://www.instagram.com/asrv" target="_blank"><i className="fab fa-instagram"></i></a>
-                <a className="hover:opacity-80" href="https://www.youtube.com/channel/UCYUwDoGKEGis5Q1mASQA7Kg" target="_blank"><i className="fab fa-youtube"></i></a>
-                <a className="hover:opacity-80" href="https://www.tiktok.com/@asrv" target="_blank"><i className="fab fa-tiktok"></i></a>
-                <a className="hover:opacity-80" href="https://www.linkedin.com/company/asrv" target="_blank"><i className="fab fa-linkedin"></i></a>
+                <a className="hover:opacity-80" href="https://www.facebook.com/asrvsportswear" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/20/20673.png" className="h-5" /></a>
+                <a className="hover:opacity-80" href="https://twitter.com/asrvsportswear" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733635.png" className="h-5" /></a>
+                <a className="hover:opacity-80" href="https://www.instagram.com/asrv" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384031.png" className="h-5" /></a>
+                <a className="hover:opacity-80" href="https://www.youtube.com/channel/UCYUwDoGKEGis5Q1mASQA7Kg" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384028.png" className="h-5" /></a>
+                <a className="hover:opacity-80" href="https://www.tiktok.com/@asrv" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" className="h-5" /></a>
+                <a className="hover:opacity-80" href="https://www.linkedin.com/company/asrv" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3536/3536569.png" className="h-5" /></a>
             </div>
             <div className="flex ">
               <a className="hover:opacity-80" href="https://apps.apple.com/us/app/asrv/id1572892588" target="_blank"><img className="w-5/6 mx-auto" src="https://cdn.shopify.com/s/files/1/0297/6293/files/apple-button-400x134.png" /></a>
@@ -59,6 +59,7 @@ function Footer() {
         </div>
       </div>
     </footer>
+    
       </>
     )
   }
