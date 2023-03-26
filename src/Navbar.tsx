@@ -62,7 +62,7 @@ function Navbar() {
           </nav>
 
   {changeNavbarColor && (
-    <button className="fixed bottom-5 right-5 h-12 w-12 rounded-full bg-blue-500 hover:bg-red-500 text-white" onClick={scrollToTop}><img src="https://cdn-icons-png.flaticon.com/512/608/608336.png" className="h-5 grayscale invert flex mx-auto" /></button>
+    <button className="fixed bottom-5 right-5 h-12 w-12 rounded-full bg-blue-500 hover:bg-red-500 text-white z-50" onClick={scrollToTop}><img src="https://cdn-icons-png.flaticon.com/512/608/608336.png" className="h-5 grayscale invert flex mx-auto" /></button>
   )}
     </>
   )
