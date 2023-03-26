@@ -11,7 +11,6 @@ function App() {
   return (
     <>
       <Navbar />
-      <Cover />
       <Footer />
     </>
   )

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Cover from "./Cover"
 
 function Navbar() {
   const [changeNavbarColor, setChangeNavbarColor] = useState(false)
@@ -34,9 +35,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="">
-        <video className= "relative" autoPlay muted loop src="https://cdn.shopify.com/videos/c/o/v/a1e944e243cd4e06b50e5eebd96d0d2f.mp4"></video>
-
+    <Cover />
         <nav className={`px-12 py-6 flex duration-300 justify-between text-sm font-light fixed top-0 left-0 right-0 ${changeNavbarColor ? 'bg-white text-neutral-600' : 'text-white'} hover:bg-white hover:text-neutral-600`}  onMouseOver={() => setHoverNavbar(true)} 
         onMouseLeave={() => setHoverNavbar(false)}>
             <ul className="uppercase hidden md:flex lg:flex">
@@ -61,7 +60,6 @@ function Navbar() {
               <li className="pl-8"><img src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png" className={`h-5 mx-auto duration-300 ${changeNavbarColor || hoverNavbar ? '' : 'grayscale invert'}`} /></li>
             </ul>
           </nav>
-    </div>
 
   {changeNavbarColor && (
     <button className="fixed bottom-5 right-5 h-16 w-16 rounded-full bg-blue-500 hover:bg-red-500 text-white" onClick={scrollToTop}><img src="https://cdn-icons-png.flaticon.com/512/608/608336.png" className="h-5 grayscale invert flex mx-auto" /></button>
