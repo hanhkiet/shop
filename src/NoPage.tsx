@@ -1,5 +1,6 @@
 import { useEffect } from "react"
-export default function NoPage() {
+
+function NoPage() {
 
     // return to top when change path or component
     useEffect(() => {
@@ -23,3 +24,5 @@ export default function NoPage() {
         </>
     )
 }
+
+export default NoPage

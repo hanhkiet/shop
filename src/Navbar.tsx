@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Cover from "./Cover"
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 function Navbar() {
   const [changeNavbarColor, setChangeNavbarColor] = useState(false)
   const [hoverNavbar, setHoverNavbar] = useState(false)
-  const [linkChange, setLinkChange] = useState(true)
+  const [scrollPercentageChange, setScrollPercentageChange] = useState(0)
 
   useEffect(() => {
+    const h = document.documentElement,
+      b = document.body,
+      st = 'scrollTop',
+      sh = 'scrollHeight';
+
     const handleScroll = () => {
+      setScrollPercentageChange((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100)
       if (window.scrollY >= 20) {
         setChangeNavbarColor(true)
       } else {
@@ -36,13 +44,13 @@ function Navbar() {
 
   return (
     <>
-      <nav className={`z-50 px-6 py-6 flex duration-300 justify-between text-sm font-light fixed top-0 left-0 right-0 ${changeNavbarColor || window.location.pathname != '/' ? 'bg-white text-neutral-600' : 'text-white'} hover:bg-white hover:text-neutral-600`} onMouseOver={() => setHoverNavbar(true)}
+      <nav className={`z-50 px-6 py-6 flex duration-300 justify-between text-sm font-light top-0 left-0 right-0 ${changeNavbarColor || window.location.pathname != '/' ? 'bg-white text-neutral-600' : 'text-white'} ${window.location.pathname == '/' ? 'fixed' : 'sticky'} hover:bg-white hover:text-neutral-600`} onMouseOver={() => setHoverNavbar(true)}
         onMouseLeave={() => setHoverNavbar(false)}>
         <ul className="uppercase hidden md:flex lg:flex">
-          <li><a href="category.html">shop</a></li>
-          <li className="pl-8"><a>kits</a></li>
-          <li className="pl-8"><a href="tech.html">tech</a></li>
-          <li className="pl-8"><a>explore</a></li>
+          <li><Link to="/category">shop</Link></li>
+          <li className="pl-8"><Link to="/kits">kits</Link></li>
+          <li className="pl-8"><Link to="/tech">tech</Link></li>
+          <li className="pl-8"><Link to="/explore">explore</Link></li>
         </ul>
         <ul className="uppercase flex md:hidden lg:hidden">
           <li><img src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png" className={`h-4 mx-auto duration-300 ${changeNavbarColor || window.location.pathname != '/' || hoverNavbar ? '' : 'grayscale invert'}`} /></li>
@@ -62,7 +70,10 @@ function Navbar() {
       </nav>
 
       {changeNavbarColor && (
-        <button className="fixed bottom-5 right-5 h-12 w-12 rounded-full bg-gray-500 hover:bg-gray-400 text-white z-50" onClick={scrollToTop}><img src="https://cdn-icons-png.flaticon.com/512/608/608336.png" className="h-5 grayscale invert flex mx-auto" /></button>
+        <button className="fixed bottom-5 right-5 h-12 w-12 rounded-full bg-gray-500 hover:bg-gray-400 text-white z-50" onClick={scrollToTop}><CircularProgressbarWithChildren value={scrollPercentageChange}>
+          {/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
+          <img src="https://cdn-icons-png.flaticon.com/512/608/608336.png" className="h-5 grayscale invert flex mx-auto" />
+        </CircularProgressbarWithChildren></button>
       )}
     </>
   )
