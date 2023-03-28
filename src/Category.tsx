@@ -90,8 +90,8 @@ function Category() {
     }
     return (
         <>
-            <div className="relative mb-10 z-50">
-                <div className="sort fixed left-0 right-0 bg-white">
+            <div className="">
+                <div className="sort sticky top-0 left-0 right-0 bg-white">
                     <div className="flex flex-row-reverse md:flex-row lg:flex-row">
                         <div className="basis-1/3 lg:basis-1/6 border-2 grid content-center flex justify-center">
                             <div className="flex justify-between">
@@ -111,7 +111,7 @@ function Category() {
                 </div>
             </div>
             <div className="flex">
-                <div className="basis-1/6 hidden lg:block">
+                <div className="basis-1/6 hidden lg:block bg-neutral-600">
                     <label className="uppercase">product type</label>
                     <ul className="capitalize">
                         <li>hoodies</li>
@@ -138,7 +138,7 @@ function Category() {
                         <li>white</li>
                     </ul>
                 </div>
-                <div className={`basis-auto grid grid-cols-${gridMode}`}>
+                <div className={`basis-5/6 grid grid-cols-${gridMode} bg-neutral-400`}>
                     {listItems}
                     
                 </div>
