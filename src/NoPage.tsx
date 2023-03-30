@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { Link } from "react-router-dom"
 
 function NoPage() {
 
@@ -18,7 +19,7 @@ function NoPage() {
                 </div>
                 <div className="absolute w-full h-[300px] opacity-0 top-0"></div>
                 <div className="text-center p-10">
-                    <a href="google.com" className="bg-black text-white font-bold px-5 py-3 hover:opacity-80">BACK TO HOMEPAGE</a>
+                    <Link to="/" className="bg-black text-white font-bold px-5 py-3 hover:opacity-80">BACK TO HOMEPAGE</Link>
                 </div>
             </div>
         </>

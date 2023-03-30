@@ -1,30 +1,32 @@
+import { Link } from 'react-router-dom'
+
 function Footer() {
 
   return (
     <>
-      <footer className="mb-10 mt-10">
+      <footer className="mb-10 mt-10 z-40">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="footer-item mx-10 text-center md:text-left lg:text-left">
               <h2 className="font-bold mb-5">INFO</h2>
               <div>
                 <ul>
-                  <li><a className="hover:opacity-80 font-light" href="">MANUFACTURING</a></li>
-                  <li><a className="hover:opacity-80 font-light" href="">DISCOUNTS</a></li>
-                  <li><a className="hover:opacity-80 font-light" href="">PRIVACY POLICY</a></li>
-                  <li><a className="hover:opacity-80 font-light" href="">TERMS OF SERVICE</a></li>
-                  <li><a className="hover:opacity-80 font-light" href="">ACCESSIBILITY STATEMENT</a></li>
+                  <li><Link to="/" className="hover:opacity-80 font-light">MANUFACTURING</Link></li>
+                  <li><Link to="/" className="hover:opacity-80 font-light">DISCOUNTS</Link></li>
+                  <li><Link to="/" className="hover:opacity-80 font-light">PRIVACY POLICY</Link></li>
+                  <li><Link to="/" className="hover:opacity-80 font-light">TERMS OF SERVICE</Link></li>
+                  <li><Link to="/" className="hover:opacity-80 font-light">ACCESSIBILITY STATEMENT</Link></li>
                 </ul>
               </div>
             </div>
             <div className="footer-item mx-10 text-center md:text-left lg:text-left">
               <h2 className="font-bold mb-5">HELP</h2>
               <ul>
-                <li><a className="hover:opacity-80 font-light" href="">HELP CENTER</a></li>
-                <li><a className="hover:opacity-80 font-light" href="">SHIPPING</a></li>
-                <li><a className="hover:opacity-80 font-light" href="">RETURNS</a></li>
-                <li><a className="hover:opacity-80 font-light" href="">CONTACT</a></li>
-                <li><a className="hover:opacity-80 font-light" href="">WHOLESALE REQUEST</a></li>
+                <li><Link to="/" className="hover:opacity-80 font-light">HELP CENTER</Link></li>
+                <li><Link to="/" className="hover:opacity-80 font-light">SHIPPING</Link></li>
+                <li><Link to="/" className="hover:opacity-80 font-light">RETURNS</Link></li>
+                <li><Link to="/" className="hover:opacity-80 font-light">CONTACT</Link></li>
+                <li><Link to="/" className="hover:opacity-80 font-light">WHOLESALE REQUEST</Link></li>
               </ul>
             </div>
             <div className="footer-item mx-10 text-center md:text-left lg:text-left">

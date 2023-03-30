@@ -58,14 +58,19 @@ function Navbar() {
         </ul>
         <Link to="/"><img src="https://cdn.shopify.com/s/files/1/0297/6293/files/Wings_ASRV_NEW_d5bba963-30a6-4d73-ba2e-68d1a8ea69c4_120x@2x.png?v=1664577873" className={`mx-auto h-5 duration-300 ${changeNavbarColor || window.location.pathname != '/' || hoverNavbar ? '' : 'brightness-200'}`} /></Link>
         <ul className="capitalize font-light hidden md:flex lg:flex">
-          <li><a href="account.html">account</a></li>
-          <li className="pl-8"><a>search</a></li>
-          <li className="pl-8"><a>cart({0})</a></li>
+          <li><Link to="/account">account</Link></li>
+          <li className="pl-8"><Link to="/search">search</Link></li>
+          <li className="pl-8"><Link to="/cart">cart({0})</Link></li>
         </ul>
         <ul className="uppercase flex md:hidden lg:hidden">
           <li><img src="https://cdn-icons-png.flaticon.com/512/149/149852.png" className={`h-4 mx-auto duration-300 ${changeNavbarColor || window.location.pathname != '/' || hoverNavbar ? '' : 'grayscale invert'}`} /></li>
           {/* <li className="pl-8"><img src="https://cdn-icons-png.flaticon.com/512/419/419910.png" className={`h-4 mx-auto duration-300 ${changeNavbarColor || window.location.pathname != '/' || hoverNavbar ? '' : 'grayscale invert'}`} /></li> */}
-          <li className="pl-8"><img src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png" className={`h-4 mx-auto duration-300 ${changeNavbarColor || window.location.pathname != '/' || hoverNavbar ? '' : 'grayscale invert'}`} /></li>
+          <li className="pl-8">
+            <div className="relative">
+              <span className="absolute bottom-[2.5px] left-[10.7px] text-[4px] font-light text-white w-1 text-center">{99}</span>
+              <img src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png" className={`h-4 mx-auto duration-300 ${changeNavbarColor || window.location.pathname != '/' || hoverNavbar ? '' : 'grayscale invert'}`} />
+            </div>
+            </li>
         </ul>
       </nav>
 
