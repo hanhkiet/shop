@@ -8,7 +8,7 @@ function ProductDetail() {
     
     return (
         <div>
-            <h1>{thisProduct?.id}</h1>
+            <h1>{thisProduct?.productId}</h1>
             <h1>{thisProduct?.name}</h1>
             <p>Price: ${thisProduct?.price}</p>
         </div>

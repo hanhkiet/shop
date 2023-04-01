@@ -4,7 +4,6 @@ import Product from './Product'
 import Loading from './Loading'
 import productsData from "./data/productsData"
 import axios from 'axios'
-import ErrorPage from './ErrorPage'
 
 function Category() {
 
@@ -45,7 +44,7 @@ function Category() {
   if (!post) return <Loading />
     const products = post
     const listItems = products.map((product:any) =>
-    <Product key={product.id} name={product.name} price={product.price} imageOne={product.image[0]} imageTwo={product.image[1]} size={product.size} />
+    <Product key={product.productId} name={product.name} price={product.price} imageOne={product.image[0]} imageTwo={product.image[1]} size={product.size} />
 );
     const handleClickMode1 = () => {
         setClickMode(true)
