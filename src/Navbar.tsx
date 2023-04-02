@@ -13,9 +13,18 @@ function Navbar() {
   const [scrollPercentageChange, setScrollPercentageChange] = useState(0)
   const [showCart, setShowCart] = useState(false)
   const [showNote, setShowNote] = useState(false)
+  const [zoom, setZoom] = useState(Math.round(window.devicePixelRatio / 1.25 * 100))
+  const handleZoom = () => {
+    console.log(zoom)
+    function onChange() {
+      setZoom(Math.round(window.devicePixelRatio / 1.25 * 100));
+    }
+    matchMedia(
+      `(resolution: ${window.devicePixelRatio}dppx)`
+    ).addEventListener("change", onChange, { once: true });
+  }
+  handleZoom();
   const cartItems = 99
-  
-
   useEffect(() => {
     const h = document.documentElement,
       b = document.body,
@@ -51,16 +60,15 @@ function Navbar() {
   }
 
   const baseURL = "http://localhost:5500/src/static/data/productsData.json"
-  const [post, setPost] = useState<any>();
-  // console.log(post)
+  const [product, setProduct] = useState<any>();
+  // console.log(product)
   useEffect(() => {
     axios.get(baseURL)
       .then((response) => {
-        setPost(response.data)
+        setProduct(response.data)
       })
   }, [])
 
-  const products = post
   return (
     <>
       <nav className={`z-40 px-6 py-6 flex duration-300 justify-between text-sm font-light top-0 left-0 right-0 ${changeNavbarColor || window.location.pathname != '/' ? 'bg-white text-neutral-600' : 'text-white'} ${window.location.pathname == '/' ? 'fixed' : 'sticky'} hover:bg-white hover:text-neutral-600`} onMouseOver={() => setHoverNavbar(true)}
@@ -99,39 +107,40 @@ function Navbar() {
           <img src="https://cdn-icons-png.flaticon.com/512/608/608336.png" className="h-5 grayscale invert flex mx-auto" />
         </CircularProgressbarWithChildren></button>
       )}
-      {showCart && (<div className="fixed right-0 w-[50%] h-screen top-0 z-50 bg-neutral-300">
+      {showCart && (<div className="fixed right-0 w-[90%] h-screen top-0 z-50 bg-neutral-300">
         <div className="mt-1 border-b-[2px] border-indigo-500">
           <div className="h-16 flex justify-between mx-5">
             <div className="grid content-center font-light text-1xl">Cart ({cartItems})</div>
             <img onClick={() => setShowCart(false)} className="h-3 my-auto hover:cursor-pointer" src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png" alt="" />
           </div>
         </div>
-        <div className="productCartList h-[calc(100vh-80px-140px)] overflow-y-auto">
-          {products.map((product: any) =>
+        {!product && <div className="m-auto w-max h-[50%] flex items-center text-center">Your cart is empty 👢</div>}
+        {product && (<><div className="productCartList h-[calc(100vh-80px-140px)] overflow-y-auto">
+          {product.map((product: any) =>
             <ProductCart key={product.productId} name={product.name} image={product.image[1]} size={product.size[0]} price={product.price} />
           )}
 
         </div>
-        <div className="h-[150px] absolute bottom-0 right-0 w-full z-50 border-t-[2px] border-indigo-500">
-          <div className="m-5">
-            <p onClick={() => setShowNote(true)} className="hover:cursor-pointer underline">{customerNote ? "Edit Order Note" : "Add Order Note"}</p>
-            <p>Shipping & taxes calculated at checkout</p>
-            <button className="w-full bg-black text-white mt-5 h-12 relative">
-              <div className="flex flex-row align-top"><div className="basis-2/5 text-right">Checkout</div>
-                <div className="basis-1/5 text-center leading-none relative">
-                  <div className="align-top">.</div>
-                </div>
-                <div className="basis-2/5 text-left">${123} USD</div></div>
-            </button>
-          </div>
-        </div>
+          <div className="h-[150px] bg-white absolute bottom-0 right-0 w-full z-50 border-t-[2px] border-indigo-500">
+            <div className="m-5">
+              <p onClick={() => setShowNote(true)} className="hover:cursor-pointer underline">{customerNote ? "Edit Order Note" : "Add Order Note"}</p>
+              <p>Shipping & taxes calculated at checkout</p>
+              <button className="w-full bg-black text-white mt-5 h-12 relative">
+                <div className="flex flex-row align-top"><div className="basis-2/5 text-right">Checkout</div>
+                  <div className="basis-1/5 text-center leading-none relative">
+                    <div className="align-top">.</div>
+                  </div>
+                  <div className="basis-2/5 text-left">${123} USD</div></div>
+              </button>
+            </div>
+          </div></>)}
         {showNote && (<div className="h-[250px] bg-white absolute bottom-0 right-0 w-full z-50 border-t-[2px] border-indigo-500">
           <div className="m-5">
             <div className="mb-5 flex justify-between">
               <div className="grid content-center font-light text-1xl">Edit Order Note</div>
               <img onClick={() => setShowNote(false)} className="h-3 my-auto hover:cursor-pointer" src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png" alt="" />
             </div>
-            <textarea value={customerNote} onChange={(e) => {setCustomerNote(e.target.value)}} className="resize-none focus:outline-none w-full h-24 p-3 border-[2px] border-indigo-500"></textarea>
+            <textarea value={customerNote} onChange={(e) => { setCustomerNote(e.target.value) }} className="resize-none focus:outline-none w-full h-24 p-3 border-[2px] border-indigo-500"></textarea>
             <button className="w-full bg-black text-white mt-5 h-12 relative">
               <div className="flex flex-row align-top"><div className="basis-2/5 text-right">Checkout</div>
                 <div className="basis-1/5 text-center leading-none relative">
