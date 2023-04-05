@@ -1,11 +1,5 @@
-
 function Search() {
-
-    return (
-        <>
-
-        </>
-    )
+  return <></>;
 }
 
-export default Search
+export default Search;
