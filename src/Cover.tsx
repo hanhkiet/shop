@@ -9,7 +9,7 @@ function Cover() {
         src="https://cdn.shopify.com/videos/c/o/v/a1e944e243cd4e06b50e5eebd96d0d2f.mp4"
       ></video>
       <div className="absolute top-0 h-screen w-full opacity-0"></div>
-      <div className="relative bottom-24 w-full text-center uppercase sm:mx-0 md:bottom-36 md:mx-20 md:w-max md:text-left lg:bottom-36 lg:mx-20 lg:w-max lg:text-left">
+      <div className="relative bottom-24 w-full text-center uppercase sm:mx-0 md:bottom-36 md:mx-20 md:w-max md:text-left lg:bottom-36 lg:mx-20 lg:w-max lg:text-left h-0">
         <h1 className="pb-2 text-xs font-bold text-white md:text-3xl lg:text-3xl">
           Spring '23 Collection
         </h1>
@@ -25,6 +25,7 @@ function Cover() {
           </button>
         </div>
       </div>
+      <div className="">1111</div>
     </>
   );
 }

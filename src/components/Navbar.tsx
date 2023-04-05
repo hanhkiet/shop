@@ -109,13 +109,11 @@ function Navbar() {
   return (
     <>
       <nav
-        className={`top-0 left-0 right-0 z-40 flex justify-between px-6 py-6 text-sm font-light duration-300 ${
-          changeNavbarColor || window.location.pathname != '/'
-            ? 'bg-white text-neutral-600'
-            : 'text-white'
-        } ${
-          window.location.pathname == '/' ? 'fixed' : 'sticky'
-        } hover:bg-white hover:text-neutral-600`}
+        className={`top-0 left-0 right-0 z-40 flex justify-between px-6 py-6 text-sm font-light duration-300 ${changeNavbarColor || window.location.pathname != '/'
+          ? 'bg-white text-neutral-600'
+          : 'text-white'
+          } ${window.location.pathname == '/' ? 'fixed' : 'sticky'
+          } hover:bg-white hover:text-neutral-600`}
         onMouseOver={() => setHoverNavbar(true)}
         onMouseLeave={() => setHoverNavbar(false)}
       >
@@ -137,38 +135,35 @@ function Navbar() {
           <li>
             <img
               src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
-              className={`mx-auto h-4 duration-300 ${
-                changeNavbarColor ||
+              className={`mx-auto h-4 duration-300 ${changeNavbarColor ||
                 window.location.pathname != '/' ||
                 hoverNavbar
-                  ? ''
-                  : 'grayscale invert'
-              }`}
+                ? ''
+                : 'grayscale invert'
+                }`}
             />
           </li>
           <li className="pl-8">
             <img
               src="https://media.discordapp.net/attachments/1026660684739653674/1089365167730602095/cart.png"
-              className={`mx-auto h-4 duration-300 ${
-                changeNavbarColor ||
+              className={`mx-auto h-4 duration-300 ${changeNavbarColor ||
                 window.location.pathname != '/' ||
                 hoverNavbar
-                  ? ''
-                  : 'grayscale invert'
-              }`}
+                ? ''
+                : 'grayscale invert'
+                }`}
             />
           </li>
         </ul>
         <Link to="/">
           <img
             src="https://cdn.shopify.com/s/files/1/0297/6293/files/Wings_ASRV_NEW_d5bba963-30a6-4d73-ba2e-68d1a8ea69c4_120x@2x.png?v=1664577873"
-            className={`mx-auto h-5 duration-300 ${
-              changeNavbarColor ||
+            className={`mx-auto h-5 duration-300 ${changeNavbarColor ||
               window.location.pathname != '/' ||
               hoverNavbar
-                ? ''
-                : 'brightness-200'
-            }`}
+              ? ''
+              : 'brightness-200'
+              }`}
           />
         </Link>
         <ul className="hidden font-light capitalize md:flex lg:flex">
@@ -191,13 +186,13 @@ function Navbar() {
           <li>
             <img
               src="https://cdn-icons-png.flaticon.com/512/149/149852.png"
-              className={`mx-auto h-4 duration-300 ${
-                changeNavbarColor ||
+              onClick={handleSearchShow}
+              className={`hover:cursor-pointer mx-auto h-4 duration-300 ${changeNavbarColor ||
                 window.location.pathname != '/' ||
                 hoverNavbar
-                  ? ''
-                  : 'grayscale invert'
-              }`}
+                ? ''
+                : 'grayscale invert'
+                }`}
             />
           </li>
           {/* <li className="pl-8"><img src="https://cdn-icons-png.flaticon.com/512/419/419910.png" className={`h-4 mx-auto duration-300 ${changeNavbarColor || window.location.pathname != '/' || hoverNavbar ? '' : 'grayscale invert'}`} /></li> */}
@@ -211,19 +206,18 @@ function Navbar() {
               </span>
               <img
                 src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png"
-                className={`mx-auto h-4 duration-300 ${
-                  changeNavbarColor ||
+                className={`mx-auto h-4 duration-300 ${changeNavbarColor ||
                   window.location.pathname != '/' ||
                   hoverNavbar
-                    ? ''
-                    : 'grayscale invert'
-                }`}
+                  ? ''
+                  : 'grayscale invert'
+                  }`}
               />
             </div>
           </li>
         </ul>
         {showSearchBar && (
-          <div className="absolute top-[68px] left-0 z-50 w-screen bg-neutral-100 p-6 text-neutral-600">
+          <div className="absolute top-[68px] left-0 z-50 w-screen bg-white p-6 text-neutral-600">
             <RemoveScrollBar />
             <div className="mx-5 flex justify-between">
               <div className="text-1xl grid w-full content-center font-light">
