@@ -5,7 +5,7 @@ function Product(props : any) {
     const [isShown, setIsShown] = useState(false)
     return (
         <>
-            <div key={props.productId} onMouseEnter={() => setIsShown(true)}
+            <div onClick={props.onClick || ""} key={props.productId} onMouseEnter={() => setIsShown(true)}
                 onMouseLeave={() => setIsShown(false)} className="text-center w-fit mx-auto m-10">
                 {!isShown && <img src={props.imageOne} className="mx-auto h-96 w-96" />}
                 {isShown && <Link to={`/products/${props.name.replace(/\W+/gi, "-").toLowerCase()}`}><img src={props.imageTwo} className="mx-auto h-96 w-96" /></Link>}

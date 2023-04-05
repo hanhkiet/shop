@@ -53,7 +53,7 @@ function Footer() {
                 <a className="hover:opacity-80" href="https://www.tiktok.com/@asrv" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" className="h-5" /></a>
                 <a className="hover:opacity-80" href="https://www.linkedin.com/company/asrv" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3536/3536569.png" className="h-5" /></a>
               </div>
-              <div className="flex ">
+              <div className="flex">
                 <a className="hover:opacity-80 mr-3" href="https://apps.apple.com/us/app/asrv/id1572892588" target="_blank"><img className="" src="https://cdn.shopify.com/s/files/1/0297/6293/files/apple-button-400x134.png" /></a>
                 <a className="hover:opacity-80 ml-3" href="https://play.google.com/store/apps/details?id=co.tapcart.app.id_CxUw9Bapyn" target="_blank"><img className="" src="https://cdn.shopify.com/s/files/1/0297/6293/files/google-button-400x134.png" /></a>
               </div>

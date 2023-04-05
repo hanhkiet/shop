@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import Product from './Product'
+import Product from './components/Product'
 import Loading from './Loading'
 import productsData from "./data/productsData"
 import axios from 'axios'
@@ -44,8 +44,7 @@ function Category() {
   if (!post) return <Loading />
     const products = post
     const listItems = products.map((product:any) =>
-    <Product key={product.productId} name={product.name} price={product.price} imageOne={product.image[0]} imageTwo={product.image[1]} size={product.size} />
-);
+    <Product key={product.productId} name={product.name} price={product.price} imageOne={product.image[0]} imageTwo={product.image[1]} size={product.size} />)
     const handleClickMode1 = () => {
         setClickMode(true)
         setGridMode("grid-cols-2")
@@ -69,7 +68,7 @@ function Category() {
     return (
         <>
             <div className="">
-                <div className="sort fixed left-0 right-0 bg-white z-40">
+                <div className="sort fixed left-0 right-0 bg-white z-30">
                     <div className="flex flex-row-reverse md:flex-row lg:flex-row">
                         <div className="basis-1/3 lg:basis-1/6 border-2 grid content-center flex justify-center">
                             <div className="flex justify-between">
