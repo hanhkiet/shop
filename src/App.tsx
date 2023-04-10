@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Cover from './Cover';
-import Footer from './Footer';
+import Cover from './components/Cover';
+import Footer from './components/Footer';
 import NoPage from './pages/NoPage';
-import Category from './Category';
-import ProductDetail from './ProductDetail';
-import Search from './Search';
+import Category from './pages/Category';
+import ProductDetail from './pages/ProductDetail';
+import Search from './pages/Search';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Cover />} />
           <Route path="category" element={<Category />} />
           <Route path="search" element={<Search />} />
+          <Route path="login" element={<Login />} />
           <Route path="/products/:productName" element={<ProductDetail />} />
           <Route path="*" element={<NoPage />} />
         </Routes>

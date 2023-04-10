@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Cover from '../Cover';
-import ProductCart from '../ProductCart';
+import Cover from './Cover';
+import ProductCart from './ProductCart';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import Product from './Product';
-import Loading from '../Loading';
+import Loading from './Loading';
 
 function Navbar() {
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
@@ -22,7 +22,7 @@ function Navbar() {
   );
   const [searchLetters, setSearchLetters] = useState('');
   const handleZoom = () => {
-    // console.log(zoom)
+    console.log(zoom)
     function onChange() {
       setZoom(Math.round((window.devicePixelRatio / 1.25) * 100));
     }
@@ -168,7 +168,7 @@ function Navbar() {
         </Link>
         <ul className="hidden font-light capitalize md:flex lg:flex">
           <li>
-            <Link to="/account">account</Link>
+            <Link to="/login">account</Link>
           </li>
           <li className="pl-8 hover:cursor-pointer" onClick={handleSearchShow}>
             search
@@ -202,7 +202,7 @@ function Navbar() {
               onClick={() => setShowCart(true)}
             >
               <span className="absolute bottom-[2.5px] left-[10.7px] w-1 text-center text-[4px] font-light text-white">
-                {cartItems}
+                {/* {cartItems} */}
               </span>
               <img
                 src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png"
