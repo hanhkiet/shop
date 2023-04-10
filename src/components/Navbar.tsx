@@ -22,7 +22,6 @@ function Navbar() {
   );
   const [searchLetters, setSearchLetters] = useState('');
   const handleZoom = () => {
-    console.log(zoom)
     function onChange() {
       setZoom(Math.round((window.devicePixelRatio / 1.25) * 100));
     }

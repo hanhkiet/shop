@@ -25,7 +25,6 @@ function Cover() {
           </button>
         </div>
       </div>
-      <div className="">1111</div>
     </>
   );
 }
