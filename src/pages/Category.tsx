@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import Product from './components/Product';
-import Loading from './Loading';
+import Product from '../components/Product';
+import Loading from '../components/Loading';
+import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import axios from 'axios';
 
 function Category() {
   const [scrollPercentageChange, setScrollPercentageChange] = useState(0);
-  console.log(scrollPercentageChange);
   const [clickMode, setClickMode] = useState(true);
   const [gridMode, setGridMode] = useState('grid-cols-2');
   const [clickMode2, setClickMode2] = useState(true);
   const [gridMode2, setGridMode2] = useState('grid-cols-1');
+  const [showFilter, setShowFilter] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       setScrollPercentageChange(window.scrollY);
@@ -116,14 +117,19 @@ function Category() {
                 className="ml-3 w-5"
               />
             </div>
-            <div className="block flex grid basis-1/3 content-center justify-center border-2 lg:hidden lg:basis-1/6">
+            <div
+              onClick={() => {
+                setShowFilter(true);
+              }}
+              className="block flex grid basis-1/3 cursor-pointer content-center justify-center border-2 lg:hidden lg:basis-1/6"
+            >
               <span className="font-light">Filter</span>
             </div>
           </div>
         </div>
       </div>
       <div className="flex">
-        <div className="sticky top-0 hidden h-screen basis-1/6 bg-neutral-600 lg:block">
+        <div className="sticky top-0 hidden h-screen basis-1/6 lg:block">
           <div
             className={`${
               scrollPercentageChange >= 2012 ? `` : `fixed`
@@ -157,11 +163,47 @@ function Category() {
           </div>
         </div>
         <div
-          className={`grid w-full basis-auto ${gridMode2} md:${gridMode} lg:${gridMode} bg-neutral-400`}
+          className={`grid w-full basis-auto ${gridMode2} md:${gridMode} lg:${gridMode}`}
         >
           {listItems}
         </div>
       </div>
+      {showFilter && (
+        <>
+          <div
+            onClick={() => {
+              setShowFilter(false);
+            }}
+            className="fixed right-0 top-0 z-40 h-screen w-[100%] bg-black opacity-60"
+          ></div>
+          <div className="fixed right-0 top-0 z-50 h-screen w-[50%] bg-white">
+            <RemoveScrollBar />
+            <div className="mx-5 mb-5 flex h-16 justify-between">
+              <div></div>
+              <div className="text-1xl grid content-center font-light">
+                <p className="text-center">Filters</p>
+              </div>
+              <img
+                onClick={() => {
+                  setShowFilter(false);
+                }}
+                className="my-auto h-3 hover:cursor-pointer"
+                src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png"
+                alt=""
+              />
+            </div>
+            <div className="mx-5">
+              <ul>
+                <li>SHOP</li>
+                <li>KITS</li>
+                <li>TECH</li>
+                <li>EXPLORE</li>
+                <li>ACCOUNT</li>
+              </ul>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
