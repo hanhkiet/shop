@@ -5,18 +5,16 @@ function Product(props: any) {
   return (
     <>
       <div
-        onClick={props.onClick || ''}
-        key={props.productId}
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
         className="m-10 mx-auto w-fit text-center"
       >
-        {!isShown && <img src={props.imageOne} className="mx-auto h-96 w-96" />}
+        {!isShown && <img src={props.imageOne} className="mx-auto w-[30%]" />}
         {isShown && (
           <Link
             to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
           >
-            <img src={props.imageTwo} className="mx-auto h-96 w-96" />
+            <img src={props.imageTwo} className="mx-auto w-[30%]" />
           </Link>
         )}
         <Link
