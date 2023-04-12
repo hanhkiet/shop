@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { isMobile } from 'react-device-detect';
 
 function Search() {
   const [searchResult, setSearchResult] = useState('');
@@ -7,9 +6,7 @@ function Search() {
   return (
     <div
       className={`${
-        isMobile
-          ? 'h-[calc(100vh-68px)]'
-          : 'md:h-[calc(100vh-68px)] lg:h-[calc(100vh-68px)]'
+           'md:h-[calc(100vh-68px)] lg:h-[calc(100vh-68px)]'
       } flex items-center justify-center`}
     >
       <form className="min-w-[20%] space-y-6 text-center">

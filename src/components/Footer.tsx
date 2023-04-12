@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <>
-      <footer className="z-40 mb-10 mt-10">
+      <footer className="mb-10 mt-10">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             <div className="footer-item mx-10 text-center md:text-left lg:text-left">
@@ -96,84 +96,84 @@ function Footer() {
                 <a
                   className="hover:opacity-80"
                   href="https://www.facebook.com/asrvsportswear"
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/20/20673.png"
                     className="h-5"
-                  />
+                   alt=""/>
                 </a>
                 <a
                   className="hover:opacity-80"
                   href="https://twitter.com/asrvsportswear"
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/733/733635.png"
                     className="h-5"
-                  />
+                   alt=""/>
                 </a>
                 <a
                   className="hover:opacity-80"
                   href="https://www.instagram.com/asrv"
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/1384/1384031.png"
                     className="h-5"
-                  />
+                   alt=""/>
                 </a>
                 <a
                   className="hover:opacity-80"
                   href="https://www.youtube.com/channel/UCYUwDoGKEGis5Q1mASQA7Kg"
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/1384/1384028.png"
                     className="h-5"
-                  />
+                   alt=""/>
                 </a>
                 <a
                   className="hover:opacity-80"
                   href="https://www.tiktok.com/@asrv"
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png"
                     className="h-5"
-                  />
+                   alt=""/>
                 </a>
                 <a
                   className="hover:opacity-80"
                   href="https://www.linkedin.com/company/asrv"
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/3536/3536569.png"
                     className="h-5"
-                  />
+                   alt=""/>
                 </a>
               </div>
               <div className="flex">
                 <a
                   className="mr-3 hover:opacity-80"
                   href="https://apps.apple.com/us/app/asrv/id1572892588"
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   <img
                     className=""
                     src="https://cdn.shopify.com/s/files/1/0297/6293/files/apple-button-400x134.png"
-                  />
+                   alt=""/>
                 </a>
                 <a
                   className="ml-3 hover:opacity-80"
                   href="https://play.google.com/store/apps/details?id=co.tapcart.app.id_CxUw9Bapyn"
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   <img
                     className=""
                     src="https://cdn.shopify.com/s/files/1/0297/6293/files/google-button-400x134.png"
-                  />
+                   alt=""/>
                 </a>
               </div>
             </div>

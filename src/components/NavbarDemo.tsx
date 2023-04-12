@@ -6,7 +6,7 @@ import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
-import Product from './Product';
+import ProductCard from './ProductCard';
 import Loading from './Loading';
 import LoadingBar from 'react-top-loading-bar';
 
@@ -97,7 +97,7 @@ function NavbarDemo() {
   const listItems = products ? (
     <div className="grid h-72 grid-cols-1 overflow-y-auto md:grid-cols-2 lg:grid-cols-4">
       {products.slice(0, 4).map((product: any) => (
-        <Product
+        <ProductCard
           onClick={() => {
             setSearchLetters('');
             setShowSearchBar(false);

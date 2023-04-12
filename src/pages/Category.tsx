@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Product from '../components/Product';
+import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import axios from 'axios';
@@ -37,7 +37,7 @@ function Category() {
   if (!post) return <Loading />;
   const products = post;
   const listItems = products.map((product: any) => (
-    <Product
+    <ProductCard
       key={product.productId}
       name={product.name}
       price={product.price}
