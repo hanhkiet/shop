@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-function Product(props: any) {
+
+type Props = {
+  imageOne: string,
+  imageTwo: string,
+  name: string,
+  size: [],
+  price: number,
+}
+
+function ProductCard(props: Props) {
   const [isShown, setIsShown] = useState(false);
   return (
     <>
@@ -9,12 +18,12 @@ function Product(props: any) {
         onMouseLeave={() => setIsShown(false)}
         className="m-10 mx-auto w-fit text-center"
       >
-        {!isShown && <img src={props.imageOne} className="mx-auto w-[30%]" />}
+        {!isShown && <img src={props.imageOne} className="mx-auto w-[30%]"  alt=""/>}
         {isShown && (
           <Link
             to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
           >
-            <img src={props.imageTwo} className="mx-auto w-[30%]" />
+            <img src={props.imageTwo} className="mx-auto w-[30%]"  alt=""/>
           </Link>
         )}
         <Link
@@ -46,4 +55,4 @@ function Product(props: any) {
   );
 }
 
-export default Product;
+export default ProductCard;
