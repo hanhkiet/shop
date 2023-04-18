@@ -33,6 +33,7 @@
     @apply rounded px-6 py-3 text-sm uppercase tracking-widest text-gray-500;
     @apply bg-neutral-200;
     @apply hover:bg-neutral-600 hover:text-neutral-100;
+    @apply cursor-pointer;
   }
 
   .button-dark {
@@ -40,7 +41,7 @@
   }
 
   .input-field {
-    @apply rounded px-4 py-3 text-sm;
+    @apply rounded py-3 px-4 text-sm;
     @apply border outline-none;
     @apply focus:border-neutral-600;
     @apply transition-colors;
