@@ -38,10 +38,10 @@
     .button-dark {
         @apply bg-neutral-800 text-neutral-200;
     }
-}
 
-.CircularProgressbar .CircularProgressbar-path {
-    stroke: black;
+    .button-light {
+        @apply bg-white text-black;
+    }
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -52,5 +52,5 @@ input::-webkit-inner-spin-button {
 
 /* Firefox */
 input[type=number] {
-    -moz-appearance: textfield;
+    appearance: textfield;
 }
