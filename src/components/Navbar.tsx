@@ -106,7 +106,7 @@ function Navbar() {
         </ul>
         <ul className="hidden md:flex lg:flex w-1/6 items-center justify-end gap-12 px-6 font-light">
           <li className="capitalize">
-            <Link to="/login">account</Link>
+            <Link to="/account">account</Link>
           </li>
           <li className="capitalize hover:cursor-pointer">search</li>
           <li>
