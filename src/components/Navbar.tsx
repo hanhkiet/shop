@@ -38,7 +38,7 @@ function Navbar() {
         {/* Right navbar */}
         <ul className="flex w-1/6 items-center justify-end gap-12 px-6 font-light">
           <li className="capitalize">
-            <Link to="/account">account</Link>
+            <Link to="/auth/login">account</Link>
           </li>
           <li className="capitalize">search</li>
           <li>
