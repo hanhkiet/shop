@@ -5,7 +5,7 @@ import { emailRegex, passwordRegex } from '../utils/regex';
 const LoginSection = () => {
   const {
     ref: emailRef,
-    error: usernameError,
+    error: emailError,
     validate: validateEmail,
   } = useFieldValidator(
     emailRegex,
@@ -40,20 +40,28 @@ const LoginSection = () => {
         <div className="w-full space-y-1 text-left">
           <input
             ref={emailRef}
-            className="input-field w-full required:border-red-500 invalid:border-red-500 lg:text-base"
+            className={`input-field w-full lg:text-base ${
+              emailError && 'border-red-500'
+            }`}
             type="email"
             placeholder="Email"
           />
-          <p className="mx-1 text-xs text-red-500">{usernameError ?? ' '}</p>
+          <p className="mx-1 text-xs text-red-500">
+            {emailError ?? <span></span>}
+          </p>
         </div>
         <div className="w-full space-y-1 text-left">
           <input
             ref={passwordRef}
-            className="input-field w-full required:border-red-500 lg:text-base"
+            className={`input-field w-full lg:text-base ${
+              passwordError && 'border-red-500'
+            }`}
             type="password"
             placeholder="Password"
           />
-          <p className="mx-1 text-xs text-red-500">{passwordError ?? ' '}</p>
+          <p className="mx-1 text-xs text-red-500">
+            {passwordError ?? <span></span>}
+          </p>
         </div>
         <button className="button button-dark" type="submit">
           login

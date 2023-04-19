@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  imageOne: string,
-  imageTwo: string,
-  name: string,
-  size: [],
-  price: number,
-}
+  imageOne: string;
+  imageTwo: string;
+  name: string;
+  size: [];
+  price: number;
+};
 
 function ProductCard(props: Props) {
   const [isShown, setIsShown] = useState(false);
@@ -15,7 +15,7 @@ function ProductCard(props: Props) {
     <div
       onMouseEnter={() => setIsShown(true)}
       onMouseLeave={() => setIsShown(false)}
-      className="relative w-fit text-center flex flex-col items-center"
+      className="relative flex w-fit flex-col items-center text-center"
     >
       {!isShown && <img src={props.imageOne} className="block w-60" alt="" />}
       {isShown && (
@@ -25,9 +25,7 @@ function ProductCard(props: Props) {
           <img src={props.imageTwo} className="block w-60" alt="" />
         </Link>
       )}
-      <Link
-        to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
-      >
+      <Link to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
         <p className="mb-5 text-sm font-light uppercase text-neutral-800">
           {props.name}
         </p>
@@ -38,12 +36,12 @@ function ProductCard(props: Props) {
         </p>
       )}
       {isShown && (
-        <div className='absolute bottom-0 left-0 flex gap-2'>
+        <div className="absolute bottom-0 left-0 flex gap-2">
           {props.size.map((eachSize: any) => (
             <Link to="/">
               <span
                 key={eachSize}
-                className="text-xs border border-solid border-neutral-300 px-3 hover:border-neutral-600 transition-colors"
+                className="border border-solid border-neutral-300 px-3 text-xs transition-colors hover:border-neutral-600"
               >
                 {eachSize}
               </span>

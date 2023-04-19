@@ -7,22 +7,34 @@ import ConnectSection from './ConnectSection';
 import MenuListItem from './MenuListItem';
 
 function Footer() {
-  const menuItems1 = ['MANUFACTURING', 'DISCOUNTS', 'PRIVACY POLICY', 'TERMS OF SERVICE', 'ACCESSIBILITY STATEMENT']
-  const menuItems2 = ['HELP CENTER', 'SHIPPING', 'RETURNS', 'CONTACT', 'WHOLESALE REQUEST']
+  const menuItems1 = [
+    'MANUFACTURING',
+    'DISCOUNTS',
+    'PRIVACY POLICY',
+    'TERMS OF SERVICE',
+    'ACCESSIBILITY STATEMENT',
+  ];
+  const menuItems2 = [
+    'HELP CENTER',
+    'SHIPPING',
+    'RETURNS',
+    'CONTACT',
+    'WHOLESALE REQUEST',
+  ];
   return (
     <>
-      <footer className="py-10 h-full bg-gray-100">
+      <footer className="h-full bg-gray-100 py-10">
         <ListAllMenu numOfCols={4}>
-          <MenuList menuItemTitle='INFO'>
+          <MenuList menuItemTitle="INFO">
             <MenuListItem itemData={menuItems1} />
           </MenuList>
-          <MenuList menuItemTitle='HELP'>
+          <MenuList menuItemTitle="HELP">
             <MenuListItem itemData={menuItems2} />
           </MenuList>
-          <MenuList menuItemTitle='SUBSCRIBE'>
+          <MenuList menuItemTitle="SUBSCRIBE">
             <SubscribeSection />
           </MenuList>
-          <MenuList menuItemTitle='CONNECT'>
+          <MenuList menuItemTitle="CONNECT">
             <ConnectSection />
           </MenuList>
         </ListAllMenu>

@@ -15,7 +15,7 @@ const RegisterSection = () => {
   } = useFieldValidator(nameRegex, 'Please enter a valid last name');
   const {
     ref: emailRef,
-    error: usernameError,
+    error: emailError,
     validate: validateEmail,
   } = useFieldValidator(
     emailRegex,
@@ -51,7 +51,9 @@ const RegisterSection = () => {
         <div className="w-full space-y-1 text-left">
           <input
             ref={firstNameRef}
-            className="input-field w-full required:border-red-500 invalid:border-red-500 lg:text-base"
+            className={`input-field w-full lg:text-base ${
+              firstNameError && 'border-red-500'
+            }`}
             type="text"
             placeholder="First name"
           />
@@ -62,7 +64,9 @@ const RegisterSection = () => {
         <div className="w-full space-y-1 text-left">
           <input
             ref={lastNameRef}
-            className="input-field w-full required:border-red-500 invalid:border-red-500 lg:text-base"
+            className={`input-field w-full lg:text-base ${
+              lastNameError && 'border-red-500'
+            }`}
             type="text"
             placeholder="Last name"
           />
@@ -73,18 +77,22 @@ const RegisterSection = () => {
         <div className="w-full space-y-1 text-left">
           <input
             ref={emailRef}
-            className="input-field w-full required:border-red-500 invalid:border-red-500 lg:text-base"
+            className={`input-field w-full lg:text-base ${
+              emailError && 'border-red-500'
+            }`}
             type="email"
             placeholder="Email"
           />
           <p className="mx-1 text-xs text-red-500">
-            {usernameError ?? <span></span>}
+            {emailError ?? <span></span>}
           </p>
         </div>
         <div className="w-full space-y-1 text-left">
           <input
             ref={passwordRef}
-            className="input-field w-full required:border-red-500 lg:text-base"
+            className={`input-field w-full lg:text-base ${
+              passwordError && 'border-red-500'
+            }`}
             type="password"
             placeholder="Password"
           />
