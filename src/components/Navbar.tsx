@@ -28,13 +28,23 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   return (
-    <header onMouseLeave={() => { setShowShopMenu(false); setShowExploreMenu(false) }}>
+    <header
+      onMouseLeave={() => {
+        setShowShopMenu(false);
+        setShowExploreMenu(false);
+      }}
+    >
       <nav
-        className={`top-0 left-0 right-0 z-40 flex justify-between px-6 py-6 text-sm font-light duration-300 ${showShopMenu || showExploreMenu || changeNavbarColor || location.pathname != '/'
-          ? 'bg-white text-neutral-600'
-          : 'text-white'
-          } ${location.pathname == '/' ? 'fixed' : 'sticky'
-          } hover:bg-white hover:text-neutral-600`}
+        className={`top-0 left-0 right-0 z-40 flex justify-between px-6 py-6 text-sm font-light duration-300 ${
+          showShopMenu ||
+          showExploreMenu ||
+          changeNavbarColor ||
+          location.pathname != '/'
+            ? 'bg-white text-neutral-600'
+            : 'text-white'
+        } ${
+          location.pathname == '/' ? 'fixed' : 'sticky'
+        } hover:bg-white hover:text-neutral-600`}
         onMouseOver={() => setHoverNavbar(true)}
         onMouseLeave={() => setHoverNavbar(false)}
       >
@@ -106,7 +116,7 @@ function Navbar() {
         </ul>
         <ul className="hidden md:flex lg:flex w-1/6 items-center justify-end gap-12 px-6 font-light">
           <li className="capitalize">
-            <Link to="/account">account</Link>
+            <Link to="/auth/login">account</Link>
           </li>
           <li className="capitalize hover:cursor-pointer">search</li>
           <li>

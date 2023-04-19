@@ -1,35 +1,35 @@
-import { FormEvent, useRef, useState } from 'react';
-import { emailRegex } from '../utils/regex';
+import { FormEvent } from 'react';
+import { useFieldValidator } from '../hooks/useFieldValidator';
+import { emailRegex, passwordRegex } from '../utils/regex';
 
 const LoginSection = () => {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const {
+    ref: emailRef,
+    error: usernameError,
+    validate: validateEmail,
+  } = useFieldValidator(
+    emailRegex,
+    'Please enter a valid email address (e.g. abcd@gmail.com)',
+  );
+  const {
+    ref: passwordRef,
+    error: passwordError,
+    validate: validatePassword,
+  } = useFieldValidator(
+    passwordRegex,
+    'Please enter a valid password (min 6 characters)',
+  );
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const email = emailRef.current?.value;
-
-    if (email && emailRegex.test(email)) {
-      setUsernameError('');
-    } else {
-      setUsernameError(
-        'Please enter a valid email address (e.g. abcd@gmail.com)',
-      );
-    }
-
-    const password = passwordRef.current?.value;
-    if (password && password.length >= 6) {
-      setPasswordError('');
-    } else {
-      setPasswordError('Please enter a valid password (min 6 characters)');
-    }
+    validateEmail();
+    validatePassword();
   };
 
   return (
-    <div className="absolute top-1/2 left-1/2 w-3/4 -translate-x-1/2 -translate-y-1/2 space-y-6 rounded-lg bg-white p-6 text-center md:w-7/12 lg:static lg:flex lg:h-screen lg:translate-x-0 lg:translate-y-0 lg:flex-col lg:justify-center lg:space-y-8 lg:rounded-none lg:px-12">
+    <>
+      {' '}
       <div className="space-y-2">
         <h2 className="text-2xl font-light lg:text-3xl">Login</h2>
         <p className="text-sm font-light lg:text-base">
@@ -60,9 +60,9 @@ const LoginSection = () => {
         </button>
       </form>
       <p className="text-sm font-light lg:text-base">
-        Don't have an account? <a href="">Create one</a>
+        Don't have an account? <a href="./register">Create one</a>
       </p>
-    </div>
+    </>
   );
 };
 
