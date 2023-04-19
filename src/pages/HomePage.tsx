@@ -9,7 +9,7 @@ function HomePage() {
   return (
     <>
       <Navbar />
-      <Cover src="https://cdn.shopify.com/s/files/1/0297/6293/files/D2B_1000x.png?v=1681496790"
+      <Cover src="https://cdn.shopify.com/s/files/1/0297/6293/files/D2B_2000x.png?v=1681496790"
         srcSmallScreen='https://cdn.shopify.com/s/files/1/0297/6293/files/MobileDrop2_x800.heic?v=1681328045'
         mainTitle='SPRING DROP 2'
         subTitle='BUILT FOR THE HIGH-PERFORMANCE LIFESTYLE'
@@ -50,6 +50,8 @@ function HomePage() {
           srcImg="https://cdn.shopify.com/s/files/1/0297/6293/files/phil-4_1800x.png?v=1678912482"
           adText="“ASRV exists for the individual who relentlessly chases the next challenge, in search of that beautiful place between pressure and ability, where we find our deepest sense of purpose.”"
           buttonText="our philosophy"
+          isCenter={true}
+          textSize={1}
         />
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <Advertisement

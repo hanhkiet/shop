@@ -24,7 +24,7 @@ function Cover(props: Props) {
   }, []);
   const numberOfShowItems = props.numberOfShowItems
   const listItems = products ? (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+    <div className="mx-auto p-12 grid gap-x-24 gap-y-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:max-w-screen-xl">
       {products.slice(0, numberOfShowItems).map((product: any) => (
         <ProductCard
           key={product.productId}
@@ -40,12 +40,12 @@ function Cover(props: Props) {
     <Loading />
   );
   const renderSrc = props.src.split('.').pop() == 'mp4' ? <video
-    className="hidden md:block lg:block -z-10 h-screen w-full object-cover"
+    className="hidden md:block lg:block -z-10 h-screen w-full object-cover brightness-[.80]"
     autoPlay
     loop
     muted
     src={props.src}
-  ></video> : <img className="hidden md:block lg:block -z-10 h-screen w-full object-cover" src={props.src} alt="" />
+  ></video> : <img className="hidden md:block lg:block -z-10 h-screen w-full object-cover brightness-[.80]" src={props.src} alt="" />
   return (
     <>
       <div className='relative h-screen'>
