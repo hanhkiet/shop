@@ -49,31 +49,49 @@ function Navbar() {
         onMouseLeave={() => setHoverNavbar(false)}
       >
         {/* Left navbar */}
-        <ul className="flex md:hidden lg:hidden w-1/6 items-center justify-start gap-6 uppercase">
+        <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:hidden lg:hidden">
           <li>
             <img
               alt=""
               src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
-              className={`mx-auto h-4 cursor-pointer duration-300 ${changeNavbarColor ||
+              className={`mx-auto h-4 cursor-pointer duration-300 ${
+                changeNavbarColor ||
                 location.pathname != '/' ||
                 hoverNavbar ||
                 showShopMenu ||
                 showExploreMenu
-                ? ''
-                : 'grayscale invert'
-                }`}
+                  ? ''
+                  : 'grayscale invert'
+              }`}
             />
           </li>
         </ul>
-        <ul className="hidden md:flex lg:flex w-1/6 items-center justify-start gap-12 px-6 uppercase">
-          <li className='hover:cursor-pointer hover:underline' onMouseOver={() => { setShowShopMenu(true); setShowExploreMenu(false) }}
+        <ul className="hidden w-1/6 items-center justify-start gap-12 px-6 uppercase md:flex lg:flex">
+          <li
+            className="hover:cursor-pointer hover:underline"
+            onMouseOver={() => {
+              setShowShopMenu(true);
+              setShowExploreMenu(false);
+            }}
           >
             <Link to="/category">shop</Link>
           </li>
-          <li className='hover:underline' onMouseOver={() => { setShowShopMenu(false); setShowExploreMenu(false) }}>
+          <li
+            className="hover:underline"
+            onMouseOver={() => {
+              setShowShopMenu(false);
+              setShowExploreMenu(false);
+            }}
+          >
             <Link to="/kits">kits</Link>
           </li>
-          <li className='hover:cursor-pointer hover:underline' onMouseOver={() => { setShowShopMenu(false); setShowExploreMenu(true) }}>
+          <li
+            className="hover:cursor-pointer hover:underline"
+            onMouseOver={() => {
+              setShowShopMenu(false);
+              setShowExploreMenu(true);
+            }}
+          >
             <Link to="/explore">explore</Link>
           </li>
         </ul>
@@ -81,40 +99,46 @@ function Navbar() {
           <Link to="/">
             <img
               src="https://cdn.shopify.com/s/files/1/0297/6293/files/Wings_ASRV_NEW_d5bba963-30a6-4d73-ba2e-68d1a8ea69c4_120x@2x.png?v=1664577873"
-              className={`mx-auto h-5 duration-300 ${showShopMenu || showExploreMenu || changeNavbarColor || hoverNavbar || location.pathname != '/' ? '' : 'brightness-200'}`}
+              className={`mx-auto h-5 duration-300 ${
+                showShopMenu ||
+                showExploreMenu ||
+                changeNavbarColor ||
+                hoverNavbar ||
+                location.pathname != '/'
+                  ? ''
+                  : 'brightness-200'
+              }`}
               alt=""
             />
           </Link>
         </div>
 
         {/* Right navbar */}
-        <ul className="flex md:hidden lg:hidden w-1/6 items-center justify-start gap-6 uppercase">
+        <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:hidden lg:hidden">
           <li>
             <img
               alt=""
               src="https://cdn-icons-png.flaticon.com/512/149/149852.png"
-              className={`mx-auto h-4 cursor-pointer duration-300 ${changeNavbarColor ||
-                location.pathname != '/' ||
-                hoverNavbar
-                ? ''
-                : 'grayscale invert'
-                }`}
+              className={`mx-auto h-4 cursor-pointer duration-300 ${
+                changeNavbarColor || location.pathname != '/' || hoverNavbar
+                  ? ''
+                  : 'grayscale invert'
+              }`}
             />
           </li>
           <li>
             <img
               alt=""
               src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png"
-              className={`mx-auto h-4 cursor-pointer duration-300 ${changeNavbarColor ||
-                location.pathname != '/' ||
-                hoverNavbar
-                ? ''
-                : 'grayscale invert'
-                }`}
+              className={`mx-auto h-4 cursor-pointer duration-300 ${
+                changeNavbarColor || location.pathname != '/' || hoverNavbar
+                  ? ''
+                  : 'grayscale invert'
+              }`}
             />
           </li>
         </ul>
-        <ul className="hidden md:flex lg:flex w-1/6 items-center justify-end gap-12 px-6 font-light">
+        <ul className="hidden w-1/6 items-center justify-end gap-12 px-6 font-light md:flex lg:flex">
           <li className="capitalize">
             <Link to="/auth/login">account</Link>
           </li>
@@ -134,11 +158,11 @@ function Navbar() {
       )}
       {changeNavbarColor && <ScrollToTop />}
       <MegaMenu
-        className={showShopMenu ? "visible opacity-100" : "collapse"}
+        className={showShopMenu ? 'visible opacity-100' : 'collapse'}
         itemMenuType="header-shop"
       />
       <MegaMenu
-        className={showExploreMenu ? "visible opacity-100" : "collapse"}
+        className={showExploreMenu ? 'visible opacity-100' : 'collapse'}
         itemMenuType="header-explore"
       />
     </header>

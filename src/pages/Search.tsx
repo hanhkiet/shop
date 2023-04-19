@@ -5,9 +5,7 @@ function Search() {
 
   return (
     <div
-      className={`${
-           'md:h-[calc(100vh-68px)] lg:h-[calc(100vh-68px)]'
-      } flex items-center justify-center`}
+      className={`${'md:h-[calc(100vh-68px)] lg:h-[calc(100vh-68px)]'} flex items-center justify-center`}
     >
       <form className="min-w-[20%] space-y-6 text-center">
         <h2 className="text-1xl font-extralight">Search</h2>

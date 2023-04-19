@@ -43,6 +43,13 @@
     @apply bg-white text-black;
   }
 
+  .input-field {
+    @apply rounded px-4 py-3 text-sm text-gray-700 outline-none;
+    @apply border border-neutral-300;
+    @apply focus:border-neutral-600;
+    @apply transition-colors;
+  }
+
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
