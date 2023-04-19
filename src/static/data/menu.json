@@ -1,0 +1,68 @@
+[
+    {
+        "menuId": 1,
+        "type": "header-shop",
+        "menuItemTitle": "FEATURED",
+        "data": ["SPRING '23 COLLECTION", "WINTER '22 COLLECTION", "CORE COLLECTION", "SURPLUS SALE", "GIFT CARDS"]
+    },
+    {
+        "menuId": 2,
+        "type": "header-shop",
+        "menuItemTitle": "TOPS",
+        "data": ["ALL TOPS", "TANKS", "SHORT SLEEVES", "LONG SLEEVES", "HOODIES", "OUTERWEAR"]
+    },
+    {
+        "menuId": 3,
+        "type": "header-shop-demo",
+        "menuItemTitle": "BOTTOMS",
+        "data": ["ALL BOTTOMS", "SHORTS", "TECH JOGGERS", "LEGGINGS"]
+    },
+    {
+        "menuId": 4,
+        "type": "header-shop",
+        "menuItemTitle": "ACCESSORIES",
+        "data": ["ALL ACCESSORIES", "HATS & HEADWEAR", "TRAINING ACCESSORIES", "SOCKS & UNDERWEAR", "BAGS", "MASKS"]
+    },
+    {
+        "menuId": 5,
+        "type": "header-shop",
+        "menuItemTitle": "DESIGNED FOR",
+        "data": ["PRO", "TRAIN", "REC"]
+    },
+    {
+        "menuId": 6,
+        "type": "header-explore",
+        "menuItemTitle": "ABOUT",
+        "data": ["OUR PHILOSOPHY", "DESIGN PRINCIPLES", "FABRIC TECHNOLOGY"]
+    },
+    {
+        "menuId": 7,
+        "type": "header-explore",
+        "menuItemTitle": "ASRV MINDSET",
+        "data": ["MINDSET TRAINING", "MINDSET NEWSLETTER", "MUSIC FOR THE MIND"]
+    },
+    {
+        "menuId": 8,
+        "type": "header-explore",
+        "menuItemTitle": "MEDIA",
+        "data": ["LOOKBOOKS", "THE ASRV APP", "NEWS"]
+    },
+    {
+        "menuId": 9,
+        "type": "header-explore",
+        "menuItemTitle": "RETAIL",
+        "data": ["BEVERLY HILLS"]
+    },
+    {
+        "menuId": 10,
+        "type": "footer",
+        "menuItemTitle": "INFO",
+        "data": ["MANUFACTURING", "DISCOUNTS", "PRIVACY POLICY", "TERMS OF SERVICE", "ACCESSIBILITY STATEMENT"]
+    },
+    {
+        "menuId": 11,
+        "type": "footer",
+        "menuItemTitle": "HELP",
+        "data": ["HELP CENTER", "SHIPPING", "RETURNS", "CONTACT", "WHOLESALE REQUEST"]
+    }
+]

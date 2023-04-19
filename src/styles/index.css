@@ -29,28 +29,20 @@
 }
 
 @layer components {
-  .button {
-    @apply rounded px-6 py-3 text-sm uppercase tracking-widest text-gray-500;
-    @apply bg-neutral-200;
-    @apply hover:bg-neutral-600 hover:text-neutral-100;
-    @apply cursor-pointer;
-  }
+    .button {
+        @apply rounded px-6 py-3 text-sm uppercase tracking-widest text-gray-500;
+        @apply bg-neutral-200;
+        /* @apply hover:bg-neutral-600 hover:text-neutral-100; */
+    }
 
-  .button-dark {
-    @apply bg-neutral-800 text-neutral-200;
-  }
+    .button-dark {
+        @apply bg-neutral-800 text-neutral-200;
+    }
 
-  .input-field {
-    @apply rounded py-3 px-4 text-sm;
-    @apply border outline-none;
-    @apply focus:border-neutral-600;
-    @apply transition-colors;
-  }
-}
+    .button-light {
+        @apply bg-white text-black;
+    }
 
-.CircularProgressbar .CircularProgressbar-path {
-  stroke: black;
-}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -59,6 +51,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
-  -moz-appearance: textfield;
+input[type=number] {
+    appearance: textfield;
 }
+
