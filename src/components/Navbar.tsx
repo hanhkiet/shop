@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom';
-import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import { useState } from 'react';
-import Modal from './Modal';
-import CartModal from './CartContent';
+import { Link } from 'react-router-dom';
 import CartContent from './CartContent';
+import Modal from './Modal';
 
 function Navbar() {
   const [showCart, setShowCart] = useState(false);
@@ -24,9 +22,9 @@ function Navbar() {
           <li>
             <Link to="/kits">kits</Link>
           </li>
-            <li>
-                <Link to="/about">about</Link>
-            </li>
+          <li>
+            <Link to="/about">about</Link>
+          </li>
         </ul>
         <div className="flex w-8/12 items-center justify-center">
           <Link to="/">
@@ -40,7 +38,7 @@ function Navbar() {
         {/* Right navbar */}
         <ul className="flex w-1/6 items-center justify-end gap-12 px-6 font-light">
           <li className="capitalize">
-            <Link to="/login">account</Link>
+            <Link to="/account">account</Link>
           </li>
           <li className="capitalize">search</li>
           <li>
