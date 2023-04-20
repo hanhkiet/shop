@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-export const useFieldValidator = (regex: RegExp, errorMessage: string) => {
+export const useRefWithValidator = (regex: RegExp, errorMessage: string) => {
   const [error, setError] = useState('');
   const ref = useRef<HTMLInputElement>(null);
 

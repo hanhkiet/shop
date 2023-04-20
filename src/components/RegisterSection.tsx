@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { useFieldValidator } from '../hooks/useFieldValidator';
+import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { emailRegex, nameRegex, passwordRegex } from '../utils/regex';
 
 const RegisterSection = () => {
@@ -7,17 +7,17 @@ const RegisterSection = () => {
     ref: firstNameRef,
     error: firstNameError,
     validate: validateFirstName,
-  } = useFieldValidator(nameRegex, 'Please enter a valid first name');
+  } = useRefWithValidator(nameRegex, 'Please enter a valid first name');
   const {
     ref: lastNameRef,
     error: lastNameError,
     validate: validateLastName,
-  } = useFieldValidator(nameRegex, 'Please enter a valid last name');
+  } = useRefWithValidator(nameRegex, 'Please enter a valid last name');
   const {
     ref: emailRef,
     error: emailError,
     validate: validateEmail,
-  } = useFieldValidator(
+  } = useRefWithValidator(
     emailRegex,
     'Please enter a valid email address (e.g. abcd@gmail.com)',
   );
@@ -25,7 +25,7 @@ const RegisterSection = () => {
     ref: passwordRef,
     error: passwordError,
     validate: validatePassword,
-  } = useFieldValidator(
+  } = useRefWithValidator(
     passwordRegex,
     'Please enter a valid password (min 6 characters)',
   );
