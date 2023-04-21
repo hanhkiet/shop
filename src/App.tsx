@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import AccountAdressSection from './components/AccountAdressSection';
 import AccountOverviewSection from './components/AccountOverviewSection';
 import LoginSection from './components/LoginSection';
 import RegisterSection from './components/RegisterSection';
@@ -18,6 +19,14 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <AccountOverviewSection />,
+      },
+      {
+        path: 'addresses',
+        element: <AccountAdressSection />,
+      },
+      {
+        path: 'orders',
+        element: <div>Orders</div>,
       },
     ],
   },
