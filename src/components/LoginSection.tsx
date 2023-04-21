@@ -1,5 +1,6 @@
 import { FormEvent } from 'react';
-import { useFieldValidator } from '../hooks/useFieldValidator';
+import { Link } from 'react-router-dom';
+import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { emailRegex, passwordRegex } from '../utils/regex';
 
 const LoginSection = () => {
@@ -7,7 +8,7 @@ const LoginSection = () => {
     ref: emailRef,
     error: emailError,
     validate: validateEmail,
-  } = useFieldValidator(
+  } = useRefWithValidator(
     emailRegex,
     'Please enter a valid email address (e.g. abcd@gmail.com)',
   );
@@ -15,7 +16,7 @@ const LoginSection = () => {
     ref: passwordRef,
     error: passwordError,
     validate: validatePassword,
-  } = useFieldValidator(
+  } = useRefWithValidator(
     passwordRegex,
     'Please enter a valid password (min 6 characters)',
   );
@@ -68,7 +69,7 @@ const LoginSection = () => {
         </button>
       </form>
       <p className="text-sm font-light lg:text-base">
-        Don't have an account? <a href="./register">Create one</a>
+        Don't have an account? <Link to="/auth/register">Register</Link>
       </p>
     </>
   );

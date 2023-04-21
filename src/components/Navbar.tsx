@@ -1,12 +1,9 @@
-import { Link } from 'react-router-dom';
-import { RemoveScrollBar } from 'react-remove-scroll-bar';
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import Modal from './Modal';
-import CartModal from './CartContent';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import CartContent from './CartContent';
-import ScrollToTop from './ScrollToTop';
 import MegaMenu from './MegaMenu';
+import Modal from './Modal';
+import ScrollToTop from './ScrollToTop';
 
 function Navbar() {
   const [showCart, setShowCart] = useState(false);
@@ -140,7 +137,7 @@ function Navbar() {
         </ul>
         <ul className="hidden w-1/6 items-center justify-end gap-12 px-6 font-light md:flex lg:flex">
           <li className="capitalize">
-            <Link to="/auth/login">account</Link>
+            <Link to="/account">account</Link>
           </li>
           <li className="capitalize hover:cursor-pointer">search</li>
           <li>
