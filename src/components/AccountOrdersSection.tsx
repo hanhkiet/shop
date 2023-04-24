@@ -16,6 +16,16 @@ const AccountOrdersSection = () => {
             </Link>
             <h2 className="text-3xl font-light">My orders</h2>
           </div>
+          <div>
+            <div className="flex items-center justify-center gap-3">
+              <label htmlFor="id">Find by id</label>
+              <input
+                name="id"
+                type="text"
+                className="rounded border px-2 py-1 outline-none"
+              />
+            </div>
+          </div>
 
           <table className="w-full table-auto rounded border border-neutral-400 text-center">
             <thead>
