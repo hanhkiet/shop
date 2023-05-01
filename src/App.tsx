@@ -7,6 +7,7 @@ import LoginSection from './components/LoginSection';
 import RegisterSection from './components/RegisterSection';
 import AccountPage from './pages/AccountPage';
 import AuthPage from './pages/AuthPage';
+import CheckoutPage from './pages/CheckoutPage';
 import HomePage from './pages/HomePage';
 
 const router = createBrowserRouter([
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
         element: <div>404 Not found</div>,
       },
     ],
+  },
+  {
+    path: '/checkout',
+    element: <CheckoutPage />,
   },
 ]);
 
