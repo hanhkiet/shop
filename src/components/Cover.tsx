@@ -28,6 +28,7 @@ function Cover(props: Props) {
       {products.slice(0, numberOfShowItems).map((product: any) => (
         <ProductCard
           key={product.productId}
+          id={product.productId}
           name={product.name}
           price={product.price}
           imageOne={product.image[0]}
