@@ -1,8 +1,13 @@
 import { FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { emailRegex, nameRegex, passwordRegex } from '../utils/regex';
 
 const RegisterSection = () => {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
   const {
     ref: firstNameRef,
     error: firstNameError,
@@ -33,10 +38,26 @@ const RegisterSection = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    validateFirstName();
-    validateLastName();
-    validateEmail();
-    validatePassword();
+    const isValidFirstName = validateFirstName();
+    const isValidLastName = validateLastName();
+    const isValidEmail = validateEmail();
+    const isValidPassword = validatePassword();
+
+    if (
+      isValidFirstName &&
+      isValidLastName &&
+      isValidEmail &&
+      isValidPassword
+    ) {
+      register(
+        firstNameRef.current?.value ?? '',
+        lastNameRef.current?.value ?? '',
+        emailRef.current?.value ?? '',
+        passwordRef.current?.value ?? '',
+      )
+        .then(response => navigate('/'))
+        .catch(error => console.log(error.message));
+    }
   };
 
   return (
