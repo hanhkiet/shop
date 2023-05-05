@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import data from '../static/data/orders.json';
 
 const AccountOverviewSection = () => {
   const navigate = useNavigate();
@@ -18,37 +19,39 @@ const AccountOverviewSection = () => {
             <p className="border-b border-b-neutral-200 pb-3 text-sm font-light capitalize text-neutral-500">
               my orders
             </p>
-            <div className="py-6 px-3 text-center text-neutral-600">
-              <table className="w-full table-auto rounded border border-neutral-400">
-                <thead>
-                  <tr>
-                    <th className="border border-neutral-400 p-2">ID</th>
-                    <th className="border border-neutral-400 p-2">
-                      Order date
-                    </th>
-                    <th className="border border-neutral-400 p-2">Address</th>
-                    <th className="border border-neutral-400 p-2">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[...Array(5)].map((_, index) => (
-                    <tr key={index}>
-                      <td className="border border-neutral-400 p-2 text-sm">
-                        #00001
-                      </td>
-                      <td className="border border-neutral-400 p-2 text-sm">
-                        21-04-2023 15:31:01
-                      </td>
-                      <td className="border border-neutral-400 p-2 text-sm">
-                        164 Nguyen Van Thuong, Ho Chi Minh
-                      </td>
-                      <td className="border border-neutral-400 p-2 text-sm">
-                        Pending
-                      </td>
+            <div className="text-center text-neutral-600">
+              <div className="py-3">
+                <table className="w-full table-auto rounded border border-neutral-400">
+                  <thead>
+                    <tr>
+                      <th className="border border-neutral-400 p-2">ID</th>
+                      <th className="border border-neutral-400 p-2">
+                        Order date
+                      </th>
+                      <th className="border border-neutral-400 p-2">Address</th>
+                      <th className="border border-neutral-400 p-2">Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {data.map((order, index) => (
+                      <tr key={order.order_id}>
+                        <td className="border border-neutral-400 p-2 text-sm">
+                          {`#000${order.order_id}`}
+                        </td>
+                        <td className="border border-neutral-400 p-2 text-sm">
+                          {order.order_date}
+                        </td>
+                        <td className="border border-neutral-400 p-2 text-sm">
+                          {order.order_address}
+                        </td>
+                        <td className="border border-neutral-400 p-2 text-sm capitalize">
+                          {order.order_status}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               <Link
                 to="orders"
                 className="underline underline-offset-4 transition-all hover:no-underline"
