@@ -39,6 +39,7 @@ function Category() {
   const listItems = products.map((product: any) => (
     <ProductCard
       key={product.productId}
+      id={product.productId}
       name={product.name}
       price={product.price}
       imageOne={product.image[0]}
@@ -77,34 +78,30 @@ function Category() {
                   onClick={handleClickMode1}
                   src="https://cdn-icons-png.flaticon.com/512/238/238910.png"
                   alt=""
-                  className={`mr-5 h-5 cursor-pointer ${
-                    clickMode ? 'opacity-100' : 'opacity-50'
-                  } hidden md:block lg:block`}
+                  className={`mr-5 h-5 cursor-pointer ${clickMode ? 'opacity-100' : 'opacity-50'
+                    } hidden md:block lg:block`}
                 />
                 {/* https://cdn1.iconfinder.com/data/icons/griddler-layouts/100/layout-display-view-grid-4x4-512.png */}
                 <img
                   onClick={handleClickMode2}
                   src="https://cdn-icons-png.flaticon.com/512/3603/3603178.png"
                   alt=""
-                  className={`h-5 cursor-pointer ${
-                    clickMode ? 'opacity-50' : 'opacity-100'
-                  } hidden md:block lg:block`}
+                  className={`h-5 cursor-pointer ${clickMode ? 'opacity-50' : 'opacity-100'
+                    } hidden md:block lg:block`}
                 />
                 <img
                   onClick={handleClickMode3}
                   src="https://cdn-icons-png.flaticon.com/512/25/25394.png"
                   alt=""
-                  className={`mr-5 h-5 cursor-pointer ${
-                    clickMode2 ? 'opacity-100' : 'opacity-50'
-                  } block md:hidden lg:hidden`}
+                  className={`mr-5 h-5 cursor-pointer ${clickMode2 ? 'opacity-100' : 'opacity-50'
+                    } block md:hidden lg:hidden`}
                 />
                 <img
                   onClick={handleClickMode4}
                   src="https://cdn-icons-png.flaticon.com/512/238/238910.png"
                   alt=""
-                  className={`h-5 cursor-pointer ${
-                    clickMode2 ? 'opacity-50' : 'opacity-100'
-                  } block md:hidden lg:hidden`}
+                  className={`h-5 cursor-pointer ${clickMode2 ? 'opacity-50' : 'opacity-100'
+                    } block md:hidden lg:hidden`}
                 />
               </div>
             </div>
@@ -131,9 +128,8 @@ function Category() {
       <div className="flex">
         <div className="sticky top-0 hidden h-screen basis-1/6 lg:block">
           <div
-            className={`${
-              scrollPercentageChange >= 2012 ? `` : `fixed`
-            } grid h-full content-center`}
+            className={`${scrollPercentageChange >= 2012 ? `` : `fixed`
+              } grid h-full content-center`}
           >
             <label className="uppercase">product type</label>
             <ul className="capitalize">

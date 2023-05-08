@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Loading from '../components/Loading';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import ProductCard from '../components/ProductCard';
 
 type Props = {
@@ -21,23 +22,29 @@ function Cover(props: Props) {
     axios.get(baseURL).then(response => {
       setProducts(response.data);
     });
-  }, []);
+  }, [products]);
   const numberOfShowItems = props.numberOfShowItems;
   const listItems = products ? (
-    <div className="mx-auto grid grid-cols-1 gap-x-24 gap-y-12 p-12 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-4">
-      {products.slice(0, numberOfShowItems).map((product: any) => (
-        <ProductCard
-          key={product.productId}
-          name={product.name}
-          price={product.price}
-          imageOne={product.image[0]}
-          imageTwo={product.image[1]}
-          size={product.size}
-        />
-      ))}
-    </div>
+    <>
+      <div className="mx-auto grid grid-cols-1 gap-x-24 gap-y-12 p-12 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-4">
+        {products.slice(0, numberOfShowItems).map((product: any) => (
+          <ProductCard
+            key={product.productId}
+            id={product.productId}
+            name={product.name}
+            price={product.price}
+            imageOne={product.image[0]}
+            imageTwo={product.image[1]}
+            size={product.size}
+          />
+        ))}
+      </div>
+      <button className="button button-dark mx-auto mb-10 grid place-content-center">
+        VIEW ALL
+      </button>
+    </>
   ) : (
-    <Loading />
+    <Skeleton count={5} />
   );
   const renderSrc =
     props.src.split('.').pop() == 'mp4' ? (
@@ -87,9 +94,7 @@ function Cover(props: Props) {
         {props.mainTitle}
       </h2>
       {listItems}
-      <button className="button button-dark mx-auto mb-10 grid place-content-center">
-        VIEW ALL
-      </button>
+
     </>
   );
 }
