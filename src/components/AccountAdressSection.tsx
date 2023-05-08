@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 const AddressItem = () => {
   return (
@@ -24,26 +24,27 @@ const AddressItem = () => {
 };
 
 const AccountAdressSection = () => {
+  const nagivate = useNavigate();
+
   return (
-    <div className="flex-1 justify-center p-12 md:p-24 lg:flex">
-      <div className="w-9/12 space-y-9 text-neutral-700">
-        <div className="space-y-6 ">
-          <Link
-            to="/account"
-            className="text-sm font-light text-neutral-400 transition-colors before:mr-3 before:content-['<'] hover:text-neutral-600"
-          >
-            Back to account
-          </Link>
-          <h2 className="text-3xl font-light">My addresses</h2>
-          <button className="button button-dark">add new address</button>
-        </div>
-        <div className="grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3">
-          {[...Array(10)].map((_, index) => (
-            <AddressItem key={index} />
-          ))}
+    <>
+      <div className="flex-1 justify-center p-12 md:p-24 lg:flex">
+        <div className="w-9/12 space-y-9 text-neutral-700">
+          <div className="space-y-6 ">
+            <Link
+              to="/account"
+              className="text-sm font-light text-neutral-400 transition-colors before:mr-3 before:content-['<'] hover:text-neutral-600"
+            >
+              Back to account
+            </Link>
+            <h2 className="text-3xl font-light">My addresses</h2>
+            <button className="button button-dark">add new address</button>
+          </div>
+          <div className="grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3"></div>
         </div>
       </div>
-    </div>
+      <Outlet />
+    </>
   );
 };
 

@@ -1,6 +1,12 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 function AuthPage() {
+  const nagivate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) nagivate('/account');
+
   return (
     <div className="relative lg:flex">
       <img
