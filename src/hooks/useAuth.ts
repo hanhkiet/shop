@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginFailed, loginSuccess, logoutSuccess } from '../slices/AuthSlice';
-import { RootState } from '../store';
+import { loginFailed, loginSuccess, logoutSuccess } from '../app/AuthSlice';
+import { RootState } from '../app/store';
 import { api_url } from '../utils/url';
 
 export const useAuth = () => {
