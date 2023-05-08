@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
@@ -35,13 +35,21 @@ const RegisterSection = () => {
     'Please enter a valid password (min 6 characters)',
   );
 
+  const [message, setMessage] = useState('');
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setMessage('');
 
     const isValidFirstName = validateFirstName();
     const isValidLastName = validateLastName();
     const isValidEmail = validateEmail();
     const isValidPassword = validatePassword();
+
+    // console.log(firstNameRef.current?.value ?? '');
+    // console.log(lastNameRef.current?.value ?? '');
+    // console.log(emailRef.current?.value ?? '');
+    // console.log(passwordRef.current?.value ?? '');
 
     if (
       isValidFirstName &&
@@ -55,8 +63,8 @@ const RegisterSection = () => {
         emailRef.current?.value ?? '',
         passwordRef.current?.value ?? '',
       )
-        .then(response => navigate('/'))
-        .catch(error => console.log(error.message));
+        .then(() => navigate('/account'))
+        .catch(error => setMessage(error.message));
     }
   };
 
@@ -125,6 +133,7 @@ const RegisterSection = () => {
           register
         </button>
       </form>
+      {message && <p className="text-sm text-red-500">{message}</p>}
     </>
   );
 };

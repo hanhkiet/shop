@@ -48,13 +48,19 @@ export const useAuth = () => {
         },
       );
 
+      const uuid = response.data.uuid;
+      if (!uuid) {
+        throw new Error(response.data.message || 'Register failed');
+      }
+
       const user = {
         uuid: response.data.uuid,
         email,
-        name: response.data.firstName + ' ' + response.data.lastName,
+        name: `${firstName} ${lastName}`,
       };
 
       dispatch(loginSuccess(user));
+      return response.data;
     } catch (error) {
       dispatch(loginFailed('Register failed'));
       throw error;
