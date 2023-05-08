@@ -1,16 +1,34 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem } from '../app/cartSlice';
+import { RootState } from '../app/store';
+import { toggleVisibility } from '../app/cartSlice';
 
 type Props = {
+  id: number;
   imageOne: string;
   imageTwo: string;
   name: string;
   size: [];
   price: number;
+  onClick?: any;
 };
 
 function ProductCard(props: Props) {
+  const items = useSelector((state: RootState) => state.cart.items);
   const [isShown, setIsShown] = useState(false);
+  const dispatch = useDispatch();
+  const handleCartAppear = () => {
+    dispatch(toggleVisibility());
+  }
+  const handleAddToCart = (size: string) => {
+    dispatch(addItem({
+      product: {
+        id: props.id,
+      }, size: size
+    }));
+  };
   return (
     <div
       onMouseEnter={() => setIsShown(true)}
@@ -25,10 +43,10 @@ function ProductCard(props: Props) {
           <img src={props.imageTwo} className="block w-60" alt="" />
         </Link>
       )}
-      <Link to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
-        <p className="mb-5 text-sm font-light uppercase text-neutral-800">
-          {props.name}
-        </p>
+      <Link className="mb-5 text-sm font-light uppercase text-neutral-800" to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
+        {/* <button onClick={handleAddToCart}> */}
+        {props.name}
+        {/* </button> */}
       </Link>
       {!isShown && (
         <p className="font-light uppercase text-neutral-500">
@@ -36,9 +54,11 @@ function ProductCard(props: Props) {
         </p>
       )}
       {isShown && (
-        <div className="absolute bottom-0 left-0 flex gap-2">
+        <div className="absolute bottom-0 flex gap-2">
           {props.size.map((eachSize: any) => (
-            <Link to="/">
+            <Link to="/"
+              onClick={() => { handleAddToCart(eachSize); handleCartAppear() }}
+            >
               <span
                 key={eachSize}
                 className="border border-solid border-neutral-300 px-3 text-xs transition-colors hover:border-neutral-600"

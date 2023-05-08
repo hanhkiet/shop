@@ -1,9 +1,12 @@
 import { ReactNode, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { RemoveScrollBar } from 'react-remove-scroll-bar';
 
 type Props = {
   className?: string;
   onClose: Function;
   children: ReactNode;
+  isLeft?: boolean;
 };
 
 function Modal(props: Props) {
@@ -26,7 +29,8 @@ function Modal(props: Props) {
     <div
       className={`fixed left-0 top-0 z-50 flex h-screen w-full items-center bg-neutral-900 bg-opacity-75 ${props.className}`}
     >
-      <div className="rounded-lg bg-white py-6" ref={modalRef}>
+      <div className={`fixed ${props.isLeft ? "left" : "right"}-0 top-0 z-50 h-screen overflow-y-auto w-[85%] bg-white md:w-[50%] lg:w-[50%]`} ref={modalRef}>
+        <RemoveScrollBar />
         {props.children}
       </div>
     </div>
