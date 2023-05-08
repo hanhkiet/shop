@@ -1,8 +1,5 @@
 export interface Product {
   id: number;
-  name: string;
-  price: number;
-  imageOne: string;
 }
 
 export interface CartItem {

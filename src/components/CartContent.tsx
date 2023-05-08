@@ -23,13 +23,7 @@ function CartContent() {
     dispatch(toggleVisibility());
   }
   const [showNote, setShowNote] = useState(false);
-  const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
-  const [products, setProducts] = useState<any>();
-  useEffect(() => {
-    axios.get(baseURL).then(response => {
-      setProducts(response.data);
-    });
-  }, []);
+
   return (
     <>
       <div className="mt-1 border-b-[2px] border-neutral-300">
@@ -55,7 +49,7 @@ function CartContent() {
             <ul>
               {items.slice(0).reverse().map((item, index) => (
                 <li key={index}>
-                  <ProductCart productId={item.product.id} quantity={item.quantity} image={item.product.imageOne} name={item.product.name} size={item.size} price={item.product.price} />
+                  <ProductCart productId={item.product.id} quantity={item.quantity} size={item.size} />
                 </li>
               ))}
             </ul>

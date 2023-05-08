@@ -26,9 +26,6 @@ function ProductCard(props: Props) {
     dispatch(addItem({
       product: {
         id: props.id,
-        name: props.name,
-        imageOne: props.imageOne,
-        price: props.price
       }, size: size
     }));
   };

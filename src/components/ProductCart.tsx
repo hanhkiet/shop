@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { useDispatch } from 'react-redux';
 import { removeItem, incrementQuantity, decrementQuantity, setQuantity } from '../app/cartSlice';
 
 type Props = {
   productId: number;
-  image: string;
-  name: string;
   size: string;
-  price: number;
   quantity: number;
 }
 
@@ -34,20 +34,28 @@ function ProductCart(props: Props) {
     }
     dispatch(setQuantity({ productId: props.productId, size: props.size, quantity: newQuantity }));
   }
+  const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
+  const [products, setProducts] = useState<any>();
+  useEffect(() => {
+    axios.get(baseURL).then(response => {
+      setProducts(response.data.filter((item: any) => (item.productId === props.productId))[0]);
+    });
+  }, [products]);
+  if (!products) return <Skeleton count={5} />
   return (
     <>
       <div key={props.productId} className="m-5 flex flex-row">
         <div className="my-auto basis-1/4">
-          <img className="mx-auto w-40" src={props.image} alt="" />
+          <img className="mx-auto w-40" src={products.image[0]} alt="" />
         </div>
         <div className="my-auto ml-5 basis-3/4">
           <Link
-            to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
+            to={`/products/${products.name.replace(/\W+/gi, '-').toLowerCase()}`}
           >
-            {props.name}
+            {products.name}
           </Link>
           <p className="mt-2">Size: {props.size}</p>
-          <p className="mt-2">${props.price}</p>
+          <p className="mt-2">${products.price}</p>
           <div className="mt-5 flex flex-row">
             <div className="m-auto basis-1/2 border-[1px] border-neutral-500 text-center">
               <div className="flex flex-row">
