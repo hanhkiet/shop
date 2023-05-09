@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import ProductCard from '../components/ProductCard';
 
 type Props = {
@@ -94,7 +94,6 @@ function Cover(props: Props) {
         {props.mainTitle}
       </h2>
       {listItems}
-
     </>
   );
 }

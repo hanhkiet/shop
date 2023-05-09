@@ -1,8 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import data from '../static/data/orders.json';
 
 const AccountOverviewSection = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    try {
+      logout();
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex-1 justify-center p-12 md:p-24 lg:flex">
@@ -10,7 +21,10 @@ const AccountOverviewSection = () => {
         <div className="space-y-3 text-neutral-700">
           <h2 className="text-3xl font-light">My account</h2>
           <p className="text-md font-light">Welcome back, [First name]!</p>
-          <button className="text-md font-light text-neutral-400 transition-colors hover:text-neutral-600">
+          <button
+            className="text-md font-light text-neutral-400 transition-colors hover:text-neutral-600"
+            onClick={handleLogout}
+          >
             Log out
           </button>
         </div>

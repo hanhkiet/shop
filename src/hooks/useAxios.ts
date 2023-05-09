@@ -1,37 +1,57 @@
-import axios, { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
+import axios, { AxiosRequestConfig } from 'axios';
+import { useState } from 'react';
+import useLocalStorage from './useLocalStorage';
 
-interface AxiosType<T> {
-  data: T | null;
-  error: Error | null;
-  isLoading: boolean;
+interface AxiosProps<T> {
+  baseUrl: string;
+  method: 'get' | 'post' | 'put' | 'delete';
+  data?: AxiosRequestConfig['data'];
+  headers?: AxiosRequestConfig['headers'];
+  onSuccess?: (data: T) => void;
+  onError?: (error: any) => void;
 }
 
-export const useAxios = <T>(
-  initialUrl: string,
-  initialData: T | null = null,
-) => {
-  const [url, setUrl] = useState(initialUrl);
-  const [data, setData] = useState<T | null>(initialData);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+const useAxios = <T>({
+  baseUrl,
+  method,
+  data,
+  headers,
+  onSuccess,
+  onError,
+}: AxiosProps<T>) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
+  const [response, setResponse] = useState<T | null>(null);
+  const [token, _] = useLocalStorage('accessToken');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response: AxiosResponse<T> = await axios(url);
-        setData(response.data);
-        setErrorMessage('');
-      } catch (err) {
-        setData(null);
-      } finally {
-        setIsLoading(false);
+  const execute = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios({
+        baseURL: baseUrl,
+        method,
+        data,
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setResponse(response.data);
+      if (onSuccess) {
+        onSuccess(response.data);
       }
-    };
+    } catch (error) {
+      setError(error);
+      if (onError) {
+        onError(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    fetchData();
-  }, [url]);
-
-  return { data, errorMessage, isLoading, setUrl };
+  return { isLoading, error, response, execute };
 };
+
+export default useAxios;
