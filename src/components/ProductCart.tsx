@@ -1,19 +1,23 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { useDispatch } from 'react-redux';
-import { removeItem, incrementQuantity, decrementQuantity, setQuantity } from '../app/cartSlice';
+import {
+  removeItem,
+  incrementQuantity,
+  decrementQuantity,
+  setQuantity,
+} from '../app/cartSlice';
 
 type Props = {
   productId: number;
   size: string;
   quantity: number;
-}
+};
 
 function ProductCart(props: Props) {
-
   const dispatch = useDispatch();
 
   function handleRemove() {
@@ -24,7 +28,6 @@ function ProductCart(props: Props) {
   }
 
   function handleDecrement(productId: number, size: string) {
-
     dispatch(decrementQuantity({ productId, size }));
   }
   function handleQuantityChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -32,16 +35,26 @@ function ProductCart(props: Props) {
     if (!newQuantity || newQuantity <= 0) {
       newQuantity = 1;
     }
-    dispatch(setQuantity({ productId: props.productId, size: props.size, quantity: newQuantity }));
+    dispatch(
+      setQuantity({
+        productId: props.productId,
+        size: props.size,
+        quantity: newQuantity,
+      }),
+    );
   }
   const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
   const [products, setProducts] = useState<any>();
   useEffect(() => {
     axios.get(baseURL).then(response => {
-      setProducts(response.data.filter((item: any) => (item.productId === props.productId))[0]);
+      setProducts(
+        response.data.filter(
+          (item: any) => item.productId === props.productId,
+        )[0],
+      );
     });
   }, [products]);
-  if (!products) return <Skeleton count={5} />
+  if (!products) return <Skeleton count={5} />;
   return (
     <>
       <div key={props.productId} className="m-5 flex flex-row">
@@ -50,7 +63,9 @@ function ProductCart(props: Props) {
         </div>
         <div className="my-auto ml-5 basis-3/4">
           <Link
-            to={`/products/${products.name.replace(/\W+/gi, '-').toLowerCase()}`}
+            to={`/products/${products.name
+              .replace(/\W+/gi, '-')
+              .toLowerCase()}`}
           >
             {products.name}
           </Link>
@@ -61,7 +76,9 @@ function ProductCart(props: Props) {
               <div className="flex flex-row">
                 <div
                   className="basis-1/3 hover:cursor-pointer"
-                  onClick={() => { handleDecrement(props.productId, props.size) }}
+                  onClick={() => {
+                    handleDecrement(props.productId, props.size);
+                  }}
                 >
                   –
                 </div>
@@ -76,14 +93,21 @@ function ProductCart(props: Props) {
                 </div>
                 <div
                   className="basis-1/3 hover:cursor-pointer"
-                  onClick={() => { handleIncrement(props.productId, props.size) }}
+                  onClick={() => {
+                    handleIncrement(props.productId, props.size);
+                  }}
                 >
                   +
                 </div>
               </div>
             </div>
             <div className="m-auto basis-1/2 text-center">
-              <button className="underline underline-offset-4 hover:cursor-pointer hover:no-underline" onClick={handleRemove}>Remove</button>
+              <button
+                className="underline underline-offset-4 hover:cursor-pointer hover:no-underline"
+                onClick={handleRemove}
+              >
+                Remove
+              </button>
             </div>
           </div>
         </div>

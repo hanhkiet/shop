@@ -21,13 +21,16 @@ function ProductCard(props: Props) {
   const dispatch = useDispatch();
   const handleCartAppear = () => {
     dispatch(toggleVisibility());
-  }
+  };
   const handleAddToCart = (size: string) => {
-    dispatch(addItem({
-      product: {
-        id: props.id,
-      }, size: size
-    }));
+    dispatch(
+      addItem({
+        product: {
+          id: props.id,
+        },
+        size: size,
+      }),
+    );
   };
   return (
     <div
@@ -43,7 +46,10 @@ function ProductCard(props: Props) {
           <img src={props.imageTwo} className="block w-60" alt="" />
         </Link>
       )}
-      <Link className="mb-5 text-sm font-light uppercase text-neutral-800" to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
+      <Link
+        className="mb-5 text-sm font-light uppercase text-neutral-800"
+        to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
+      >
         {/* <button onClick={handleAddToCart}> */}
         {props.name}
         {/* </button> */}
@@ -56,8 +62,12 @@ function ProductCard(props: Props) {
       {isShown && (
         <div className="absolute bottom-0 flex gap-2">
           {props.size.map((eachSize: any) => (
-            <Link to="/"
-              onClick={() => { handleAddToCart(eachSize); handleCartAppear() }}
+            <Link
+              to="/"
+              onClick={() => {
+                handleAddToCart(eachSize);
+                handleCartAppear();
+              }}
             >
               <span
                 key={eachSize}

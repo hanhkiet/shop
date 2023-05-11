@@ -46,11 +46,6 @@ const RegisterSection = () => {
     const isValidEmail = validateEmail();
     const isValidPassword = validatePassword();
 
-    // console.log(firstNameRef.current?.value ?? '');
-    // console.log(lastNameRef.current?.value ?? '');
-    // console.log(emailRef.current?.value ?? '');
-    // console.log(passwordRef.current?.value ?? '');
-
     if (
       isValidFirstName &&
       isValidLastName &&
@@ -58,10 +53,10 @@ const RegisterSection = () => {
       isValidPassword
     ) {
       register(
-        firstNameRef.current?.value ?? '',
-        lastNameRef.current?.value ?? '',
-        emailRef.current?.value ?? '',
-        passwordRef.current?.value ?? '',
+        firstNameRef.current?.value as string,
+        lastNameRef.current?.value as string,
+        emailRef.current?.value as string,
+        passwordRef.current?.value as string,
       )
         .then(() => navigate('/account'))
         .catch(error => setMessage(error.message));
