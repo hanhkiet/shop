@@ -16,3 +16,9 @@ export interface CartState {
 export interface OrderState {
   note: string;
 }
+
+export interface MenuState {
+  hoverMenuId: number;
+  activeMenu: string | null;
+  activeMenuChild: Array<string>;
+}

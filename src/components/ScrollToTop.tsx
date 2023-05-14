@@ -7,7 +7,7 @@ export default function ScrollToTop() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // for smoothly scrolling
+      behavior: 'smooth',
     });
   };
   useEffect(() => {
@@ -23,11 +23,9 @@ export default function ScrollToTop() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    // window.addEventListener('mouseover', handleHover)
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      // window.removeEventListener('mouseover', handleHover)
     };
   }, []);
 

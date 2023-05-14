@@ -16,18 +16,20 @@ type Props = {
 };
 
 function ProductCard(props: Props) {
-  const items = useSelector((state: RootState) => state.cart.items);
   const [isShown, setIsShown] = useState(false);
   const dispatch = useDispatch();
   const handleCartAppear = () => {
     dispatch(toggleVisibility());
-  }
+  };
   const handleAddToCart = (size: string) => {
-    dispatch(addItem({
-      product: {
-        id: props.id,
-      }, size: size
-    }));
+    dispatch(
+      addItem({
+        product: {
+          id: props.id,
+        },
+        size: size,
+      }),
+    );
   };
   return (
     <div
@@ -43,10 +45,11 @@ function ProductCard(props: Props) {
           <img src={props.imageTwo} className="block w-60" alt="" />
         </Link>
       )}
-      <Link className="mb-5 text-sm font-light uppercase text-neutral-800" to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
-        {/* <button onClick={handleAddToCart}> */}
+      <Link
+        className="mb-5 text-sm font-light uppercase text-neutral-800"
+        to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
+      >
         {props.name}
-        {/* </button> */}
       </Link>
       {!isShown && (
         <p className="font-light uppercase text-neutral-500">
@@ -55,9 +58,14 @@ function ProductCard(props: Props) {
       )}
       {isShown && (
         <div className="absolute bottom-0 flex gap-2">
-          {props.size.map((eachSize: any) => (
-            <Link to="/"
-              onClick={() => { handleAddToCart(eachSize); handleCartAppear() }}
+          {props.size.map((eachSize: any, index) => (
+            <Link
+              to="/"
+              key={index}
+              onClick={() => {
+                handleAddToCart(eachSize);
+                handleCartAppear();
+              }}
             >
               <span
                 key={eachSize}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import ProductCard from '../components/ProductCard';
 
 type Props = {
@@ -17,7 +17,6 @@ type Props = {
 function Cover(props: Props) {
   const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
   const [products, setProducts] = useState<any>();
-  // console.log(products)
   useEffect(() => {
     axios.get(baseURL).then(response => {
       setProducts(response.data);
@@ -94,7 +93,6 @@ function Cover(props: Props) {
         {props.mainTitle}
       </h2>
       {listItems}
-
     </>
   );
 }

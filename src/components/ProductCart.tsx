@@ -55,7 +55,7 @@ function ProductCart(props: Props) {
             {products.name}
           </Link>
           <p className="mt-2">Size: {props.size}</p>
-          <p className="mt-2">${products.price}</p>
+          <p className="mt-2">Unit Price: ${products.price}</p>
           <div className="mt-5 flex flex-row">
             <div className="m-auto basis-1/2 border-[1px] border-neutral-500 text-center">
               <div className="flex flex-row">

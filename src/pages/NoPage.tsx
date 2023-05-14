@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function NoPage() {
-  // return to top when change path or component
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

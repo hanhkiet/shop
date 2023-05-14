@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import ProductCart from './ProductCart';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
@@ -41,19 +40,25 @@ function CartContent() {
       </div>
       {items.length <= 0 ? (
         <div className="m-auto flex h-[85%] w-max items-center text-center">
-          <p className='font-light'>Your cart is empty</p>
+          <p className="font-light">Your cart is empty</p>
         </div>
       ) : (
         <>
           <div className="productCartList h-[calc(100vh-80px-140px)] overflow-y-auto">
             <ul>
-              {items.slice(0).reverse().map((item, index) => (
-                <li key={index}>
-                  <ProductCart productId={item.product.id} quantity={item.quantity} size={item.size} />
-                </li>
-              ))}
+              {items
+                .slice(0)
+                .reverse()
+                .map((item, index) => (
+                  <li key={index}>
+                    <ProductCart
+                      productId={item.product.id}
+                      quantity={item.quantity}
+                      size={item.size}
+                    />
+                  </li>
+                ))}
             </ul>
-
           </div>
           <div className="absolute bottom-0 right-0 z-50 h-[150px] w-full border-t-[2px] border-neutral-500 bg-white">
             <div className="m-5">
@@ -63,9 +68,7 @@ function CartContent() {
               >
                 {notes.trim() != '' ? 'Edit Order Note' : 'Add Order Note'}
               </p>
-              <p className="text-xs">
-                Shipping, taxes calculated at checkout
-              </p>
+              <p className="text-xs">Shipping, taxes calculated at checkout</p>
               <CheckoutButton />
             </div>
           </div>
@@ -90,7 +93,7 @@ function CartContent() {
                   />
                 </div>
                 <textarea
-                  placeholder='Write your order note...'
+                  placeholder="Write your order note..."
                   value={notes}
                   onChange={handleNoteChange}
                   className="h-24 w-full resize-none border-[2px] border-neutral-500 p-3 focus:outline-none"
