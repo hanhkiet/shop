@@ -1,8 +1,13 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { emailRegex, nameRegex, passwordRegex } from '../utils/regex';
 
 const RegisterSection = () => {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
   const {
     ref: firstNameRef,
     error: firstNameError,
@@ -30,13 +35,32 @@ const RegisterSection = () => {
     'Please enter a valid password (min 6 characters)',
   );
 
+  const [message, setMessage] = useState('');
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setMessage('');
 
-    validateFirstName();
-    validateLastName();
-    validateEmail();
-    validatePassword();
+    const isValidFirstName = validateFirstName();
+    const isValidLastName = validateLastName();
+    const isValidEmail = validateEmail();
+    const isValidPassword = validatePassword();
+
+    if (
+      isValidFirstName &&
+      isValidLastName &&
+      isValidEmail &&
+      isValidPassword
+    ) {
+      register(
+        firstNameRef.current?.value as string,
+        lastNameRef.current?.value as string,
+        emailRef.current?.value as string,
+        passwordRef.current?.value as string,
+      )
+        .then(() => navigate('/account'))
+        .catch(error => setMessage(error.message));
+    }
   };
 
   return (
@@ -104,6 +128,7 @@ const RegisterSection = () => {
           register
         </button>
       </form>
+      {message && <p className="text-sm text-red-500">{message}</p>}
     </>
   );
 };

@@ -29,7 +29,12 @@ function Modal(props: Props) {
     <div
       className={`fixed left-0 top-0 z-50 flex h-screen w-full items-center bg-neutral-900 bg-opacity-75 ${props.className}`}
     >
-      <div className={`fixed ${props.isLeft ? "left" : "right"}-0 top-0 z-50 h-screen overflow-y-auto w-[85%] bg-white md:w-[50%] lg:w-[50%]`} ref={modalRef}>
+      <div
+        className={`fixed ${
+          props.isLeft ? 'left' : 'right'
+        }-0 top-0 z-50 h-screen w-[85%] overflow-y-auto bg-white md:w-[50%] lg:w-[50%]`}
+        ref={modalRef}
+      >
         <RemoveScrollBar />
         {props.children}
       </div>

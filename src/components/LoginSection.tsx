@@ -1,9 +1,13 @@
-import { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { FormEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { emailRegex, passwordRegex } from '../utils/regex';
 
 const LoginSection = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const {
     ref: emailRef,
     error: emailError,
@@ -21,11 +25,24 @@ const LoginSection = () => {
     'Please enter a valid password (min 6 characters)',
   );
 
+  const [message, setMessage] = useState('');
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    validateEmail();
-    validatePassword();
+    const isValidEmail = validateEmail();
+    const isValidPassword = validatePassword();
+
+    if (isValidEmail && isValidPassword) {
+      login(
+        emailRef.current?.value as string,
+        passwordRef.current?.value as string,
+      )
+        .then(() => navigate('/account'))
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -71,6 +88,7 @@ const LoginSection = () => {
       <p className="text-sm font-light lg:text-base">
         Don't have an account? <Link to="/auth/register">Register</Link>
       </p>
+      {message && <p className="text-sm text-red-500">{message}</p>}
     </>
   );
 };
