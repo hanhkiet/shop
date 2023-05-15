@@ -8,6 +8,7 @@ import CartContent from './CartContent';
 type Props = {
   className?: string;
   changeColor: boolean;
+  onClick: () => void;
 };
 
 function NavbarRight(props: Props) {
@@ -15,6 +16,7 @@ function NavbarRight(props: Props) {
   const dispatch = useDispatch();
   function handleCartAppear() {
     dispatch(toggleVisibility());
+    props.onClick();
   }
   return (
     <>

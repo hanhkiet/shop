@@ -11,6 +11,7 @@ import MegaMenu from './MegaMenu';
 type Props = {
   className?: string;
   changeColor: boolean;
+  onClick: () => void;
 };
 
 function NavbarLeft(props: Props) {
@@ -72,7 +73,12 @@ function NavbarLeft(props: Props) {
         ))}
       </ul>
       {showMenu && (
-        <Modal onClose={() => setShowMenu(false)}>
+        <Modal
+          onClose={() => {
+            setShowMenu(false);
+            props.onClick();
+          }}
+        >
           <MenuDropDown onClick={() => setShowMenu(false)} />
         </Modal>
       )}

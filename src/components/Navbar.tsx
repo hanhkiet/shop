@@ -45,6 +45,7 @@ function Navbar() {
           changeColor={
             changeNavbarColor || location.pathname != '/' || hoverNavbar
           }
+          onClick={() => setHoverNavbar(false)}
         />
         <div className="flex w-2/12 items-center justify-center">
           <Link to="/">
@@ -63,6 +64,7 @@ function Navbar() {
           changeColor={
             changeNavbarColor || location.pathname != '/' || hoverNavbar
           }
+          onClick={() => setHoverNavbar(false)}
         />
       </nav>
       {changeNavbarColor && <ScrollToTop />}

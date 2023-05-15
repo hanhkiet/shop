@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 
 type Props = {
