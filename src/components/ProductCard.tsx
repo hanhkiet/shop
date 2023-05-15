@@ -35,7 +35,7 @@ function ProductCard(props: Props) {
     <div
       onMouseEnter={() => setIsShown(true)}
       onMouseLeave={() => setIsShown(false)}
-      className="relative flex w-fit flex-col items-center text-center"
+      className="relative flex flex-col items-center text-center"
     >
       {!isShown && <img src={props.imageOne} className="block w-60" alt="" />}
       {isShown && (
@@ -57,7 +57,7 @@ function ProductCard(props: Props) {
         </p>
       )}
       {isShown && (
-        <div className="absolute bottom-0 flex gap-2">
+        <div className="flex gap-2">
           {props.size.map((eachSize: any, index) => (
             <Link
               to="/"
