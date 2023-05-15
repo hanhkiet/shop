@@ -19,7 +19,7 @@ function NavbarRight(props: Props) {
   return (
     <>
       <ul
-        className={`flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden ${props.className}`}
+        className={`flex w-1/6 items-center justify-end gap-6 uppercase md:flex lg:hidden ${props.className}`}
       >
         <li>
           <img
