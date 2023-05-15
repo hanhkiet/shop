@@ -55,7 +55,7 @@ function NavbarRight(props: Props) {
         </li>
       </ul>
       {visible && (
-        <Modal className="w-1/6" onClose={handleCartAppear}>
+        <Modal className="flex justify-end" onClose={handleCartAppear}>
           <CartContent />
         </Modal>
       )}

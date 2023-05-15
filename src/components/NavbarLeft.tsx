@@ -72,7 +72,7 @@ function NavbarLeft(props: Props) {
         ))}
       </ul>
       {showMenu && (
-        <Modal className="w-1/6" isLeft onClose={() => setShowMenu(false)}>
+        <Modal onClose={() => setShowMenu(false)}>
           <MenuDropDown onClick={() => setShowMenu(false)} />
         </Modal>
       )}
