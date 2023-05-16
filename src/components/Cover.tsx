@@ -11,10 +11,10 @@ type Props = {
   subTitle: string;
   firstButton: string;
   secondButton?: string;
-  numberOfShowItems: Number;
+  lineOfShowItems: number;
 };
 
-function Cover(props: Props) {
+export default function Cover(props: Props) {
   const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
   const [products, setProducts] = useState<any>();
   useEffect(() => {
@@ -22,11 +22,10 @@ function Cover(props: Props) {
       setProducts(response.data);
     });
   }, [products]);
-  const numberOfShowItems = props.numberOfShowItems;
   const listItems = products ? (
     <>
       <div className="mx-auto grid grid-cols-1 gap-x-24 gap-y-12 p-12 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-4">
-        {products.slice(0, numberOfShowItems).map((product: any) => (
+        {products.slice(0, props.lineOfShowItems * 4).map((product: any) => (
           <ProductCard
             key={product.productId}
             id={product.productId}
@@ -96,5 +95,3 @@ function Cover(props: Props) {
     </>
   );
 }
-
-export default Cover;
