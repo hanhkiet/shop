@@ -62,24 +62,26 @@ function HomePage() {
         </div>
       </div>
 
-      <div className="container mx-auto mb-1">
+      <div className="mx-auto">
         <Advertisement
           srcImg="https://cdn.shopify.com/s/files/1/0297/6293/files/phil-4_1800x.png?v=1678912482"
           adText="“ASRV exists for the individual who relentlessly chases the next challenge, in search of that beautiful place between pressure and ability, where we find our deepest sense of purpose.”"
           buttonText="our philosophy"
-          isCenter={true}
-          textSize={1}
+          isCenter
+          isSmallText
         />
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <Advertisement
             srcImg="https://asrv.com/cdn/shop/files/zach_mindset_750x960_crop_center.png"
             adText="MINDSET NEWSLETTER"
             buttonText="explore"
+            className="mt-2 mb-2 lg:mx-1"
           />
           <Advertisement
             srcImg="https://asrv.com/cdn/shop/files/omar_cycle.png"
             adText="PRO TRAINING CLUB"
             buttonText="explore"
+            className="mb-2 lg:mx-1 lg:mt-2"
           />
         </div>
       </div>
