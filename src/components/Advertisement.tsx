@@ -27,7 +27,7 @@ export default function Advertisement(props: Props) {
               className={`mb-5 pb-2 ${
                 props.isSmallText ? `text-xs` : `text-2xl`
               } font-light uppercase tracking-widest text-white ${
-                props.isCenter ? 'w-full md:w-[50%] lg:w-[50%]' : 'w-full'
+                props.isCenter ? 'w-full md:w-[70%] lg:w-[50%]' : 'w-full'
               }`}
             >
               {props.adText}
