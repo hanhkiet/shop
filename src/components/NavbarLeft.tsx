@@ -11,20 +11,22 @@ import MegaMenu from './MegaMenu';
 type Props = {
   className?: string;
   changeColor: boolean;
-  onClick: () => void;
+  onClose: () => void;
 };
 
-function NavbarLeft(props: Props) {
+export default function NavbarLeft(props: Props) {
   const [showMenu, setShowMenu] = useState(false);
   const [menuData, setMenuData] = useState([]);
   const [megaMenuData, setMegaMenuData] = useState([]);
   const [showShopMenu, setShowShopMenu] = useState(false);
   const hoverMenuId = useSelector((state: RootState) => state.menu.hoverMenuId);
   const dispatch = useDispatch();
-
   const API_MENUS_URL = import.meta.env.VITE_MENUS_API_URL;
   const API_MEGAMENUS_URL = import.meta.env.VITE_MEGAMENUS_API_URL;
-
+  const handleDisappearMenu = () => {
+    setShowMenu(false);
+    props.onClose();
+  };
   useEffect(() => {
     axios.get(API_MEGAMENUS_URL).then(response => {
       setMegaMenuData(response.data);
@@ -51,7 +53,11 @@ function NavbarLeft(props: Props) {
           />
         </li>
       </ul>
-      <ul className="hidden w-1/6 items-center justify-start gap-12 px-6 uppercase md:hidden lg:flex">
+      <ul
+        className={`hidden w-1/6 items-center justify-start gap-12 px-6 uppercase md:hidden lg:flex ${
+          props.changeColor ? `text-neutral-600` : `text-white`
+        }`}
+      >
         {menuData.map((item: any, index: any) => (
           <li
             key={index}
@@ -73,13 +79,8 @@ function NavbarLeft(props: Props) {
         ))}
       </ul>
       {showMenu && (
-        <Modal
-          onClose={() => {
-            setShowMenu(false);
-            props.onClick();
-          }}
-        >
-          <MenuDropDown onClick={() => setShowMenu(false)} />
+        <Modal onClose={handleDisappearMenu}>
+          <MenuDropDown onClickClose={handleDisappearMenu} />
         </Modal>
       )}
       {
@@ -95,5 +96,3 @@ function NavbarLeft(props: Props) {
     </>
   );
 }
-
-export default NavbarLeft;

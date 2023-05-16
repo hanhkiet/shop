@@ -9,6 +9,7 @@ type Props = {
   className?: string;
   changeColor: boolean;
   onClick: () => void;
+  onClose: () => void;
 };
 
 function NavbarRight(props: Props) {
@@ -16,7 +17,6 @@ function NavbarRight(props: Props) {
   const dispatch = useDispatch();
   function handleCartAppear() {
     dispatch(toggleVisibility());
-    props.onClick();
   }
   return (
     <>
@@ -34,7 +34,10 @@ function NavbarRight(props: Props) {
         </li>
         <li>
           <img
-            onClick={handleCartAppear}
+            onClick={() => {
+              handleCartAppear();
+              props.onClick();
+            }}
             alt=""
             src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png"
             className={`mx-auto h-4 cursor-pointer duration-300 ${
@@ -44,21 +47,35 @@ function NavbarRight(props: Props) {
         </li>
       </ul>
       <ul
-        className={`hidden w-1/6 items-center justify-end gap-12 px-6 font-light md:hidden lg:flex ${props.className}`}
+        className={`hidden w-1/6 items-center justify-end gap-12 px-6 font-light md:hidden lg:flex ${
+          props.className
+        } ${props.changeColor ? `text-neutral-600` : `text-white`}`}
       >
         <li className="capitalize">
           <Link to="/account">account</Link>
         </li>
         <li className="capitalize hover:cursor-pointer">search</li>
         <li>
-          <button className="capitalize" onClick={handleCartAppear}>
+          <button
+            className="capitalize"
+            onClick={() => {
+              handleCartAppear();
+              props.onClick();
+            }}
+          >
             cart
           </button>
         </li>
       </ul>
       {visible && (
-        <Modal className="flex justify-end" onClose={handleCartAppear}>
-          <CartContent />
+        <Modal
+          className="flex justify-end"
+          onClose={() => {
+            handleCartAppear();
+            props.onClose();
+          }}
+        >
+          <CartContent onClose={props.onClose} />
         </Modal>
       )}
     </>

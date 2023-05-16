@@ -7,7 +7,7 @@ import { setActiveMenu } from '../app/menuSlice';
 import MenuDropDownItem from './MenuDropDownItem';
 
 type Props = {
-  onClick: () => void;
+  onClickClose: () => void;
 };
 
 function MenuDropDown(props: Props) {
@@ -41,7 +41,7 @@ function MenuDropDown(props: Props) {
   return (
     <div className="z-50 m-5">
       <img
-        onClick={props.onClick}
+        onClick={props.onClickClose}
         className="mb-5 h-3 hover:cursor-pointer"
         src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png"
         alt=""
