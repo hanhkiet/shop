@@ -75,8 +75,7 @@ function MenuDropDownItem(props: Props) {
           {dataItem
             .filter(
               (item: any) =>
-                item.menuId == props.menuId &&
-                item.parentMegamenuId == null,
+                item.menuId == props.menuId && item.parentMegamenuId == null,
             )
             .map((item: any, index) => (
               <MenuDropDownItemChild

@@ -4,8 +4,8 @@ import { setNote } from '../app/orderSlice';
 import CheckoutButton from './CheckoutButton';
 
 type Props = {
-    onClickCloseNote: () => void;
-}
+  onClickCloseNote: () => void;
+};
 
 function OrderNote(props: Props) {
   const notes = useSelector((state: RootState) => state.order.note);

@@ -13,7 +13,9 @@ export default function ConnectSection() {
         <SocialMediaIcon shopSocialId="@asrv" icon="tiktok" />
         <SocialMediaIcon shopSocialId="asrv" icon="linkedin" />
       </div>
-      <div className="items-center w-64"><DownloadApp /></div>
+      <div className="w-64 items-center">
+        <DownloadApp />
+      </div>
     </div>
   );
 }
