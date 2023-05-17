@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import SkeletonProduct from './SkeletonProduct';
 import ProductCard from '../components/ProductCard';
 
 type Props = {
@@ -42,7 +41,7 @@ export default function Cover(props: Props) {
       </button>
     </>
   ) : (
-    <Skeleton count={5} />
+    <SkeletonProduct />
   );
   const renderSrc =
     props.src.split('.').pop() == 'mp4' ? (

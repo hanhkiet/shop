@@ -13,7 +13,7 @@ function HomePage() {
         mainTitle="BACK IN STOCK"
         subTitle="OUR BESTSELLERS RETURN WITH ALL-NEW COLORWAYS"
         firstButton="SHOP NEW ARRIVALS"
-        lineOfShowItems={1}
+        lineOfShowItems={4}
       />
       <Cover
         src="https://cdn.shopify.com/s/files/1/0297/6293/files/D2B_2000x.png?v=1681496790"

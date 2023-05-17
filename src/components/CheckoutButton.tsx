@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 
 function CheckoutButtonContent({ products }: { products: any }) {
   const items = useSelector((state: RootState) => state.cart.items);
@@ -36,7 +34,7 @@ function CheckoutButton() {
       setProducts(response.data);
     });
   }, []);
-  if (!products) return <Skeleton count={3} />;
+  if (!products) return <></>;
 
   return <CheckoutButtonContent products={products} />;
 }
