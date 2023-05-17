@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { setHoverMenuId } from '../app/menuSlice';
 import MenuDropDown from './MenuDropdown';
-import Modal from './Modal';
 import MegaMenu from './MegaMenu';
+import Modal from '../modals/Modal';
 
 type Props = {
   className?: string;

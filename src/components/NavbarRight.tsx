@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { toggleVisibility } from '../app/cartSlice';
-import Modal from './Modal';
 import CartContent from './CartContent';
+import Modal from '../modals/Modal';
 
 type Props = {
   className?: string;
