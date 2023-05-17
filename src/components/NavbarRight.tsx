@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { toggleVisibility } from '../app/cartSlice';
 import CartContent from './CartContent';
-import Modal from '../modals/Modal';
+import ModalNavbar from '../modals/ModalNavbar';
 
 type Props = {
   className?: string;
@@ -68,7 +68,7 @@ function NavbarRight(props: Props) {
         </li>
       </ul>
       {visible && (
-        <Modal
+        <ModalNavbar
           className="flex justify-end"
           onClose={() => {
             handleCartAppear();
@@ -76,7 +76,7 @@ function NavbarRight(props: Props) {
           }}
         >
           <CartContent onClose={props.onClose} />
-        </Modal>
+        </ModalNavbar>
       )}
     </>
   );

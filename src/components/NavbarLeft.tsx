@@ -6,7 +6,7 @@ import { RootState } from '../app/store';
 import { setHoverMenuId } from '../app/menuSlice';
 import MenuDropDown from './MenuDropdown';
 import MegaMenu from './MegaMenu';
-import Modal from '../modals/Modal';
+import ModalNavbar from '../modals/ModalNavbar';
 
 type Props = {
   className?: string;
@@ -79,9 +79,9 @@ export default function NavbarLeft(props: Props) {
         ))}
       </ul>
       {showMenu && (
-        <Modal onClose={handleDisappearMenu}>
+        <ModalNavbar onClose={handleDisappearMenu}>
           <MenuDropDown onClickClose={handleDisappearMenu} />
-        </Modal>
+        </ModalNavbar>
       )}
       {
         <MegaMenu
