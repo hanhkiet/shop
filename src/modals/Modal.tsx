@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useRef } from 'react';
-import { RemoveScrollBar } from 'react-remove-scroll-bar';
 
 type Props = {
   className?: string;
@@ -25,13 +24,9 @@ function Modal(props: Props) {
 
   return (
     <div
-      className={`fixed left-0 top-0 z-50 flex h-screen w-full items-center bg-neutral-900 bg-opacity-75 ${props.className}`}
+      className={`fixed left-0 top-0 z-50 h-screen w-screen bg-neutral-900 bg-opacity-75 ${props.className}`}
     >
-      <div
-        className={`fixed top-0 z-50 h-screen w-[85%] overflow-y-auto bg-white md:w-[50%] lg:w-[50%]`}
-        ref={modalRef}
-      >
-        <RemoveScrollBar />
+      <div className="w-fit rounded bg-white" ref={modalRef}>
         {props.children}
       </div>
     </div>

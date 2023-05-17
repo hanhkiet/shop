@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { setHoverMenuId } from '../app/menuSlice';
-import ScrollToTop from './ScrollToTop';
-import NavbarRight from './NavbarRight';
 import NavbarLeft from './NavbarLeft';
+import NavbarRight from './NavbarRight';
+import ScrollToTop from './ScrollToTop';
 
 function Navbar() {
   const [hoverNavbar, setHoverNavbar] = useState(false);
