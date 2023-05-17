@@ -10,7 +10,9 @@ function HomePage() {
       <Navbar />
       <Cover
         src="https://asrv.com/cdn/shop/files/Banner_1800x.jpg"
+        srcSmallScreen="https://asrv.com/cdn/shop/files/Banner_mobile.png"
         mainTitle="BACK IN STOCK"
+        productListTitle="CORE COLLECTION"
         subTitle="OUR BESTSELLERS RETURN WITH ALL-NEW COLORWAYS"
         firstButton="SHOP NEW ARRIVALS"
         lineOfShowItems={4}
@@ -21,7 +23,7 @@ function HomePage() {
         mainTitle="SPRING DROP 2"
         subTitle="BUILT FOR THE HIGH-PERFORMANCE LIFESTYLE"
         firstButton="SHOP NOW"
-        secondButton="MINDSET #10"
+        secondButton="MINDSET TRAINING #10"
         lineOfShowItems={1}
       />
       <Cover
@@ -80,7 +82,7 @@ function HomePage() {
           <Advertisement
             srcImg="https://asrv.com/cdn/shop/files/omar_cycle.png"
             adText="PRO TRAINING CLUB"
-            buttonText="explore"
+            buttonText="apply now"
             className="mb-2 lg:mx-1 lg:mt-2"
           />
         </div>

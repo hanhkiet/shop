@@ -15,7 +15,7 @@ export default function DownloadApp() {
         />
       </a>
       <a
-        className="ml-3 hover:opacity-80"
+        className="hover:opacity-80"
         href="https://play.google.com/store/apps/details?id=co.tapcart.app.id_CxUw9Bapyn"
         target="_blank"
         rel="noopener"

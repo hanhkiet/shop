@@ -12,6 +12,9 @@ function Navbar() {
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const handleAppearModal = () => {
     setShowModal(true);
     setHoverNavbar(false);

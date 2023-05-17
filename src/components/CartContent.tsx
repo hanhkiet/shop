@@ -13,9 +13,6 @@ type Props = {
 function CartContent(props: Props) {
   const items = useSelector((state: RootState) => state.cart.items);
   const notes = useSelector((state: RootState) => state.order.note);
-  const totalQuantity = items.reduce((total, item) => {
-    return total + item.quantity;
-  }, 0);
   const dispatch = useDispatch();
   function handleCartAppear() {
     dispatch(toggleVisibility());
@@ -26,8 +23,8 @@ function CartContent(props: Props) {
     <>
       <div className="mt-1 border-b-[2px] border-neutral-300">
         <div className="mx-5 flex h-16 justify-between">
-          <div className="text-1xl grid content-center font-light">
-            Cart ({totalQuantity})
+          <div className="text-1xl grid content-center font-light capitalize">
+            Cart
           </div>
           <img
             onClick={handleCartAppear}

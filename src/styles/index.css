@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'ASRV-Standard';
+  src: url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Standard.woff2')
+      format('woff2'),
+    url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Standard.woff')
+      format('woff');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'ASRV-Standard';
+  src: url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Light.woff2')
+      format('woff2'),
+    url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Light.woff') format('woff');
+  font-weight: 300;
+}
+
 @layer base {
   html {
     font-family: 'Mulish', sans-serif;

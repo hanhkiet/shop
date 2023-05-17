@@ -15,6 +15,10 @@ type Props = {
 function NavbarRight(props: Props) {
   const visible = useSelector((state: RootState) => state.cart.visible);
   const dispatch = useDispatch();
+  const items = useSelector((state: RootState) => state.cart.items);
+  const totalQuantity = items.reduce((total, item) => {
+    return total + item.quantity;
+  }, 0);
   function handleCartAppear() {
     dispatch(toggleVisibility());
   }
@@ -39,7 +43,11 @@ function NavbarRight(props: Props) {
               props.onClick();
             }}
             alt=""
-            src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png"
+            src={
+              totalQuantity
+                ? 'https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png'
+                : 'https://cdn-icons-png.flaticon.com/512/3144/3144456.png'
+            }
             className={`mx-auto h-4 cursor-pointer duration-300 ${
               props.changeColor ? `` : `grayscale invert`
             }`}
@@ -63,7 +71,7 @@ function NavbarRight(props: Props) {
               props.onClick();
             }}
           >
-            cart
+            cart({totalQuantity})
           </button>
         </li>
       </ul>

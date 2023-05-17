@@ -33,7 +33,7 @@ export default function Advertisement(props: Props) {
               {props.adText}
             </h1>
           </div>
-          <button className="bg-white px-9 py-3 text-sm uppercase tracking-widest text-gray-500 hover:bg-gray-200">
+          <button className="w-56 bg-white px-9 py-3 text-sm uppercase tracking-widest text-gray-500 hover:bg-gray-200">
             {props.buttonText}
           </button>
         </div>
