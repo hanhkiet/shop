@@ -6,7 +6,6 @@ const useLocalStorage = <T>(
   key: string,
   initialValue?: T,
 ): [T | null, SetValue<T>] => {
-
   const [storedValue, setStoredValue] = useState<T | null>(() => {
     try {
       const item = window.localStorage.getItem(key);

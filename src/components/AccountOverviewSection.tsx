@@ -1,10 +1,17 @@
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { RootState } from '../app/store';
 import { useAuth } from '../hooks/useAuth';
 import data from '../static/data/orders.json';
 
 const AccountOverviewSection = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const name = useSelector((state: RootState) => state.auth.user?.name);
+
+  const primaryAddress = useSelector((state: RootState) =>
+    state.addresses.find(address => address.isPrimary),
+  );
 
   const handleLogout = () => {
     try {
@@ -20,7 +27,7 @@ const AccountOverviewSection = () => {
       <div className="w-9/12 space-y-9">
         <div className="space-y-3 text-neutral-700">
           <h2 className="text-3xl font-light">My account</h2>
-          <p className="text-md font-light">Welcome back, [First name]!</p>
+          <p className="text-md font-light">Welcome back, {name}!</p>
           <button
             className="text-md font-light text-neutral-400 transition-colors hover:text-neutral-600"
             onClick={handleLogout}
@@ -79,10 +86,20 @@ const AccountOverviewSection = () => {
               primary address
             </p>
             <div className="py-6">
-              <div className="space-y-2 text-neutral-600">
-                <p>[First name] [Last name]</p>
-                <p>Viet Nam</p>
-              </div>
+              {primaryAddress ? (
+                <div className="space-y-2 text-neutral-600">
+                  <p>{primaryAddress.recipientName}</p>
+                  <p>{primaryAddress.recipientPhone}</p>
+                  <p>
+                    {primaryAddress.street}, {primaryAddress.district}
+                  </p>
+                  <p>{primaryAddress.city}</p>
+                </div>
+              ) : (
+                <p className="text-sm italic text-neutral-400">
+                  There's no primary address
+                </p>
+              )}
             </div>
             <button
               className="button button-dark"

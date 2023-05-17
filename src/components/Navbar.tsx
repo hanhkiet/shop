@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { toggleVisibility } from '../app/cartSlice';
 import { RootState } from '../app/store';
+import Modal from '../modals/Modal';
 import CartContent from './CartContent';
 import MegaMenu from './MegaMenu';
-import Modal from './Modal';
 import ScrollToTop from './ScrollToTop';
-import { toggleVisibility } from '../app/cartSlice';
 
 function Navbar() {
   const [showMenu, setShowMenu] = useState(false);

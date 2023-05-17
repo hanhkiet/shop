@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginFailed, loginSuccess, logoutSuccess } from '../app/AuthSlice';
+import { loginFailed, loginSuccess, logoutSuccess } from '../app/authSlice';
 import { RootState } from '../app/store';
+import { User } from '../app/types';
 import { api_url } from '../utils/url';
 import useLocalStorage from './useLocalStorage';
 
@@ -9,24 +10,26 @@ export const useAuth = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
   );
+
   const user = useSelector((state: RootState) => state.auth.user);
-  const error = useSelector((state: RootState) => state.auth.error);
   const dispatch = useDispatch();
   const [token, setToken] = useLocalStorage('accessToken', null);
 
   const loginHandler = async (email: string, password: string) => {
     try {
-      const response = await axios.post(`${api_url}/auth/authenticate`, {
+      const response = await axios.post(`${api_url}/auth/login`, {
         email,
         password,
       });
 
-      const user = response.data;
+      const user = response.data.userData as User;
       if (!user) {
         throw new Error('Login failed');
       }
 
-      setToken(user.token);
+      const token = response.data.jwt;
+      setToken(token);
+
       dispatch(loginSuccess(user));
     } catch (error) {
       dispatch(loginFailed('Login failed'));
@@ -41,35 +44,20 @@ export const useAuth = () => {
     password: string,
   ) => {
     try {
-      const response = await axios.post(
-        `${api_url}/auth/register`,
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      const response = await axios.post(`${api_url}/auth/register`, {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
 
-      const uuid = response.data.uuid;
-      if (!uuid) {
-        throw new Error(response.data.message || 'Register failed');
+      const user = response.data.userData as User;
+      if (!user) {
+        throw new Error('Register failed');
       }
 
-      const user = {
-        uuid: response.data.uuid,
-        email,
-        name: `${firstName} ${lastName}`,
-      };
-
-      const token = response.data.token;
+      const token = response.data.jwt;
       setToken(token);
-      console.log(token);
 
       dispatch(loginSuccess(user));
       return response.data;
@@ -79,9 +67,9 @@ export const useAuth = () => {
     }
   };
 
-  const logoutHandler = async () => {
-    try {
-      await axios.post(
+  const logoutHandler = () => {
+    axios
+      .post(
         `${api_url}/auth/logout`,
         {},
         {
@@ -89,19 +77,20 @@ export const useAuth = () => {
             Authorization: `Bearer ${token}`,
           },
         },
-      );
-
-      setToken(null);
-      dispatch(logoutSuccess());
-    } catch (error) {
-      throw new Error('Logout failed');
-    }
+      )
+      .then(res => {
+        console.log(res);
+        setToken(null);
+        dispatch(logoutSuccess());
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return {
     isAuthenticated,
     user,
-    error,
     register: registerHandler,
     login: loginHandler,
     logout: logoutHandler,

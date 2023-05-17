@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import Modal from './Modal';
+import Modal from '../modals/Modal';
 
 const AccountOrderDetailSection = () => {
   const { orderId } = useParams<{ orderId: string }>();
