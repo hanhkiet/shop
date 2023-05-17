@@ -3,14 +3,14 @@ type Props = {
   adText: string;
   buttonText: string;
   className?: string;
-  textSize?: Number;
   isCenter?: Boolean;
+  isSmallText?: Boolean;
 };
 
 export default function Advertisement(props: Props) {
   return (
     <div className={props.className ? props.className : ''}>
-      <div className="relative m-1">
+      <div className="relative">
         <img
           alt=""
           className="h-[32rem] w-full
@@ -24,10 +24,10 @@ export default function Advertisement(props: Props) {
         >
           <div className="flex justify-center">
             <h1
-              className={`pb-2 text-${
-                props.textSize || 2
-              }xl mb-5 font-light uppercase tracking-widest text-white ${
-                props.isCenter ? 'w-full md:w-[50%] lg:w-[50%]' : 'w-[50%]'
+              className={`mb-5 pb-2 ${
+                props.isSmallText ? `text-xs` : `text-2xl`
+              } font-light uppercase tracking-widest text-white ${
+                props.isCenter ? 'w-full md:w-[70%] lg:w-[50%]' : 'w-full'
               }`}
             >
               {props.adText}

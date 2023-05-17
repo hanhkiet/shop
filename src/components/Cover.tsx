@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import SkeletonProduct from './SkeletonProduct';
 import ProductCard from '../components/ProductCard';
 
 type Props = {
@@ -11,23 +10,21 @@ type Props = {
   subTitle: string;
   firstButton: string;
   secondButton?: string;
-  numberOfShowItems: Number;
+  lineOfShowItems: number;
 };
 
-function Cover(props: Props) {
+export default function Cover(props: Props) {
   const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
   const [products, setProducts] = useState<any>();
-  // console.log(products)
   useEffect(() => {
     axios.get(baseURL).then(response => {
       setProducts(response.data);
     });
   }, [products]);
-  const numberOfShowItems = props.numberOfShowItems;
   const listItems = products ? (
     <>
       <div className="mx-auto grid grid-cols-1 gap-x-24 gap-y-12 p-12 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-4">
-        {products.slice(0, numberOfShowItems).map((product: any) => (
+        {products.slice(0, props.lineOfShowItems * 4).map((product: any) => (
           <ProductCard
             key={product.productId}
             id={product.productId}
@@ -44,7 +41,7 @@ function Cover(props: Props) {
       </button>
     </>
   ) : (
-    <Skeleton count={5} />
+    <SkeletonProduct />
   );
   const renderSrc =
     props.src.split('.').pop() == 'mp4' ? (
@@ -97,5 +94,3 @@ function Cover(props: Props) {
     </>
   );
 }
-
-export default Cover;

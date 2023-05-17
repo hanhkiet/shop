@@ -17,17 +17,13 @@ function Category() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    // window.addEventListener('mouseover', handleHover)
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      // window.removeEventListener('mouseover', handleHover)
     };
   }, []);
-  // console.log(gridMode)
   const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
   const [post, setPost] = useState<any>();
-  // console.log(post)
   useEffect(() => {
     axios.get(baseURL).then(response => {
       setPost(response.data);
@@ -50,22 +46,18 @@ function Category() {
   const handleClickMode1 = () => {
     setClickMode(true);
     setGridMode('grid-cols-2');
-    // console.log(gridMode)
   };
   const handleClickMode2 = () => {
     setClickMode(false);
     setGridMode('grid-cols-3');
-    // console.log(gridMode)
   };
   const handleClickMode3 = () => {
     setClickMode2(true);
     setGridMode2('grid-cols-1');
-    // console.log(gridMode)
   };
   const handleClickMode4 = () => {
     setClickMode2(false);
     setGridMode2('grid-cols-2');
-    // console.log(gridMode)
   };
   return (
     <>
@@ -82,7 +74,6 @@ function Category() {
                     clickMode ? 'opacity-100' : 'opacity-50'
                   } hidden md:block lg:block`}
                 />
-                {/* https://cdn1.iconfinder.com/data/icons/griddler-layouts/100/layout-display-view-grid-4x4-512.png */}
                 <img
                   onClick={handleClickMode2}
                   src="https://cdn-icons-png.flaticon.com/512/3603/3603178.png"

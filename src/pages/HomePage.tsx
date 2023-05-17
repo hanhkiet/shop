@@ -9,29 +9,37 @@ function HomePage() {
     <>
       <Navbar />
       <Cover
+        src="https://asrv.com/cdn/shop/files/Banner_1800x.jpg"
+        mainTitle="BACK IN STOCK"
+        subTitle="OUR BESTSELLERS RETURN WITH ALL-NEW COLORWAYS"
+        firstButton="SHOP NEW ARRIVALS"
+        lineOfShowItems={4}
+      />
+      <Cover
         src="https://cdn.shopify.com/s/files/1/0297/6293/files/D2B_2000x.png?v=1681496790"
         srcSmallScreen="https://cdn.shopify.com/s/files/1/0297/6293/files/MobileDrop2_x800.heic?v=1681328045"
         mainTitle="SPRING DROP 2"
         subTitle="BUILT FOR THE HIGH-PERFORMANCE LIFESTYLE"
         firstButton="SHOP NOW"
         secondButton="MINDSET #10"
-        numberOfShowItems={8}
+        lineOfShowItems={1}
       />
       <Cover
         src="https://cdn.shopify.com/videos/c/o/v/a1e944e243cd4e06b50e5eebd96d0d2f.mp4"
-        srcSmallScreen="https://cdn.shopify.com/s/files/1/0297/6293/files/MobileDrop2_x800.heic?v=1681328045"
+        srcSmallScreen="https://asrv.com/cdn/shop/files/DSC00896.png"
         mainTitle="SPRING DROP 1"
         subTitle="THE ART OF ADAPTATION"
         firstButton="SHOP NOW"
         secondButton="TUTORIAL"
-        numberOfShowItems={4}
+        lineOfShowItems={1}
       />
       <Cover
-        src="https://cdn.shopify.com/s/files/1/0297/6293/files/Banners-6_b8945d8e-bccb-413f-96e1-843b9252e9bd_1800x.jpg?v=1676574589"
-        mainTitle="CORE COLLECTION"
-        subTitle="TECHNICAL. VERSATILE. DURABLE."
-        firstButton="SHOP BESTSELLERS"
-        numberOfShowItems={4}
+        src="https://asrv.com/cdn/shop/files/wide-boy-final.jpg"
+        mainTitle="WINTER '22 COLLECTION"
+        subTitle="EXPLORE NATURE IN ITS HARSHEST FORM"
+        firstButton="SHOP NOW"
+        secondButton="LOOKBOOK"
+        lineOfShowItems={1}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -54,24 +62,26 @@ function HomePage() {
         </div>
       </div>
 
-      <div className="container mx-auto mb-1">
+      <div className="mx-auto">
         <Advertisement
           srcImg="https://cdn.shopify.com/s/files/1/0297/6293/files/phil-4_1800x.png?v=1678912482"
           adText="“ASRV exists for the individual who relentlessly chases the next challenge, in search of that beautiful place between pressure and ability, where we find our deepest sense of purpose.”"
           buttonText="our philosophy"
-          isCenter={true}
-          textSize={1}
+          isCenter
+          isSmallText
         />
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <Advertisement
-            srcImg="https://cdn.shopify.com/s/files/1/0297/6293/files/omar_mindset_1500x.jpg"
+            srcImg="https://asrv.com/cdn/shop/files/zach_mindset_750x960_crop_center.png"
             adText="MINDSET NEWSLETTER"
             buttonText="explore"
+            className="mt-2 mb-2 lg:mx-1"
           />
           <Advertisement
-            srcImg="https://cdn.shopify.com/s/files/1/0297/6293/files/caleb-1_1500x.png"
-            adText="SPRING EDITORIAL"
+            srcImg="https://asrv.com/cdn/shop/files/omar_cycle.png"
+            adText="PRO TRAINING CLUB"
             buttonText="explore"
+            className="mb-2 lg:mx-1 lg:mt-2"
           />
         </div>
       </div>

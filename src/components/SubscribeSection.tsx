@@ -1,6 +1,7 @@
 export default function SubscribeSection() {
   return (
-    <>
+    <div className="mx-10 grid justify-items-center">
+      <h2 className="mb-5 font-bold uppercase">SUBSCRIBE</h2>
       <p>For early access to the latest releases.</p>
       <div className="sm:flex sm:justify-center">
         <form className="w-full">
@@ -20,6 +21,6 @@ export default function SubscribeSection() {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
