@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { RootState } from '../app/store';
 import { setHoverMenuId } from '../app/menuSlice';
 import NavbarLeft from './NavbarLeft';
 import NavbarRight from './NavbarRight';
 import ScrollToTop from './ScrollToTop';
+import { setPathName } from '../app/pathSlice';
 
 function Navbar() {
   const [hoverNavbar, setHoverNavbar] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
   const dispatch = useDispatch();
+  const pathName = useSelector((state: RootState) => state.path.pathName);
   const location = useLocation();
+  if (pathName != location.pathname) {
+    dispatch(setPathName(location.pathname));
+    window.scrollTo(0, 0);
+  }
   const handleAppearModal = () => {
     setShowModal(true);
     setHoverNavbar(false);

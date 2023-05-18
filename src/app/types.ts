@@ -43,3 +43,7 @@ export interface Address {
   district: string;
   city: string;
 }
+
+export interface PathState {
+  pathName: string;
+}
