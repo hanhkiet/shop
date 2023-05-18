@@ -13,6 +13,7 @@ function Footer() {
           </div>
           <div className="mt-10">
             <Link
+              onClick={() => window.scrollTo(0, 0)}
               to="/"
               className="font-[ASRV-Standard] font-bold uppercase text-gray-500 duration-300 hover:text-black"
             >
