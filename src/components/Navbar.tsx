@@ -45,13 +45,13 @@ function Navbar() {
       }}
     >
       <nav
-        className={`top-0 left-0 right-0 z-40 flex justify-between px-6 py-6 text-sm font-light duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-40 flex justify-between px-6 py-6 text-sm font-light duration-300 ${
           changeNavbarColor ||
           location.pathname != '/' ||
           (hoverNavbar && !showModal)
             ? 'bg-white'
             : ''
-        } ${location.pathname == '/' ? 'fixed' : 'sticky'}`}
+        }`}
         onMouseOver={() => {
           setHoverNavbar(true);
         }}
