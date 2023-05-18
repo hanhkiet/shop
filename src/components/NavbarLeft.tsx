@@ -24,6 +24,7 @@ export default function NavbarLeft(props: Props) {
   const dispatch = useDispatch();
   const API_MENUS_URL = import.meta.env.VITE_MENUS_API_URL;
   const API_MEGAMENUS_URL = import.meta.env.VITE_MEGAMENUS_API_URL;
+  const checkMenu = showShopMenu && hoverMenuId !== 0;
   const handleDisappearMenu = () => {
     setShowMenu(false);
     props.onClose();
@@ -90,11 +91,7 @@ export default function NavbarLeft(props: Props) {
       {
         <MegaMenu
           menuId={hoverMenuId}
-          className={
-            showShopMenu && hoverMenuId !== 0
-              ? `visible opacity-100`
-              : `collapse`
-          }
+          className={checkMenu ? `visible opacity-100` : `collapse`}
         />
       }
     </>

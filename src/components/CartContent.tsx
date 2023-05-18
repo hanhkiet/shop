@@ -48,7 +48,7 @@ function CartContent(props: Props) {
                 .map((item: any, index) => (
                   <li key={index}>
                     <ProductCart
-                      productId={item.product.id}
+                      productId={item.id}
                       quantity={item.quantity}
                       size={item.size}
                     />

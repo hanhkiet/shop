@@ -9,7 +9,7 @@ function CheckoutButtonContent({ products }: { products: any }) {
     return (
       total +
       item.quantity *
-        products.filter((p: any) => p.productId === item.product.id)[0].price
+        products.filter((p: any) => p.productId === item.id)[0].price
     );
   }, 0);
 
