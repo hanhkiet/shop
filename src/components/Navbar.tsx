@@ -38,6 +38,10 @@ function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  const checkNavbar =
+    changeNavbarColor ||
+    location.pathname != '/' ||
+    (hoverNavbar && !showModal);
   return (
     <header
       onMouseLeave={() => {
@@ -46,9 +50,7 @@ function Navbar() {
     >
       <nav
         className={`fixed top-0 left-0 right-0 z-40 flex justify-between px-6 text-sm font-light duration-300 ${
-          changeNavbarColor ||
-          location.pathname != '/' ||
-          (hoverNavbar && !showModal)
+          checkNavbar
             ? 'border-b border-gray-300 bg-white'
             : 'border-b-0 border-transparent bg-transparent'
         }`}
@@ -60,16 +62,12 @@ function Navbar() {
         }}
       >
         <NavbarLeft
-          changeColor={
-            changeNavbarColor ||
-            location.pathname != '/' ||
-            (hoverNavbar && !showModal)
-          }
+          changeColor={checkNavbar}
           onClick={handleAppearModal}
           onClose={handleDisappearModal}
         />
         <div className="flex w-2/12 items-center justify-center">
-          <Link to="/">
+          <Link to="/" onClick={() => window.scrollTo(0, 0)}>
             <img
               src="https://cdn.shopify.com/s/files/1/0297/6293/files/Wings_ASRV_NEW_d5bba963-30a6-4d73-ba2e-68d1a8ea69c4_120x@2x.png?v=1664577873"
               className={`mx-auto h-5 duration-300 ${
@@ -84,11 +82,7 @@ function Navbar() {
           </Link>
         </div>
         <NavbarRight
-          changeColor={
-            changeNavbarColor ||
-            location.pathname != '/' ||
-            (hoverNavbar && !showModal)
-          }
+          changeColor={checkNavbar}
           onClick={handleAppearModal}
           onClose={handleDisappearModal}
         />
