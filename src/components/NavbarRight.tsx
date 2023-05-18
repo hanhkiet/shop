@@ -55,7 +55,7 @@ function NavbarRight(props: Props) {
         </li>
       </ul>
       <ul
-        className={`hidden w-1/6 items-center justify-end gap-12 px-6 font-light md:hidden lg:flex ${
+        className={`hidden w-1/6 items-center justify-end gap-12 px-6 font-light duration-300 md:hidden lg:flex ${
           props.className
         } ${props.changeColor ? `text-neutral-600` : `text-white`}`}
       >

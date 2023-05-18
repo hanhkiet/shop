@@ -19,7 +19,7 @@ export default function MegaMenu(props: Props) {
   }, []);
   return (
     <div
-      className={`${props.className} fixed top-[68px] left-0 z-50 w-full border-t border-neutral-300 bg-white p-6 uppercase text-neutral-600 opacity-0 drop-shadow-xl transition-opacity`}
+      className={`${props.className} fixed top-[70px] left-0 z-30 w-full bg-white p-6 uppercase text-neutral-600 opacity-0 drop-shadow-xl transition-opacity`}
     >
       <ListAllMenu numOfCols={5}>
         <>

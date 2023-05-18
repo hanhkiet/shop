@@ -45,12 +45,12 @@ function Navbar() {
       }}
     >
       <nav
-        className={`fixed top-0 left-0 right-0 z-40 flex justify-between px-6 py-6 text-sm font-light duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-40 flex justify-between px-6 text-sm font-light duration-300 ${
           changeNavbarColor ||
           location.pathname != '/' ||
           (hoverNavbar && !showModal)
-            ? 'bg-white'
-            : ''
+            ? 'border-b border-gray-300 bg-white'
+            : 'border-b-0 border-transparent bg-transparent'
         }`}
         onMouseOver={() => {
           setHoverNavbar(true);
@@ -65,6 +65,7 @@ function Navbar() {
             location.pathname != '/' ||
             (hoverNavbar && !showModal)
           }
+          onClick={handleAppearModal}
           onClose={handleDisappearModal}
         />
         <div className="flex w-2/12 items-center justify-center">

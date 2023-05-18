@@ -11,6 +11,7 @@ import ModalNavbar from '../modals/ModalNavbar';
 type Props = {
   className?: string;
   changeColor: boolean;
+  onClick: () => void;
   onClose: () => void;
 };
 
@@ -40,12 +41,13 @@ export default function NavbarLeft(props: Props) {
   return (
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
-        <li>
+        <li className="navbar-list">
           <img
             alt=""
             src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
             onClick={() => {
               setShowMenu(true);
+              props.onClick();
             }}
             className={`mx-auto h-4 cursor-pointer duration-300 ${
               props.changeColor ? '' : 'grayscale invert'
@@ -54,24 +56,27 @@ export default function NavbarLeft(props: Props) {
         </li>
       </ul>
       <ul
-        className={`hidden w-1/6 items-center justify-start gap-12 px-6 uppercase md:hidden lg:flex ${
+        className={`hidden w-1/6 items-center justify-start gap-12 px-6 uppercase duration-300 md:hidden lg:flex ${
           props.changeColor ? `text-neutral-600` : `text-white`
         }`}
       >
         {menuData.map((item: any, index: any) => (
           <li
             key={index}
-            className="hover:cursor-pointer hover:underline"
-            onMouseOver={() => {
-              setShowShopMenu(
-                megaMenuData.some((obj: any) => obj.menuId === item.id),
-              );
-              dispatch(setHoverMenuId(item.id));
-            }}
+            className={`navbar-list z-50 ${
+              hoverMenuId === item.id
+                ? `border-b-2 border-black`
+                : `border-b-0 border-transparent`
+            }`}
           >
             <Link
+              onMouseOver={() => {
+                setShowShopMenu(
+                  megaMenuData.some((obj: any) => obj.menuId === item.id),
+                );
+                dispatch(setHoverMenuId(item.id));
+              }}
               to={item.url}
-              className="hover:cursor-pointer hover:underline"
             >
               {item.name}
             </Link>
