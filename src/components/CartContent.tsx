@@ -45,7 +45,7 @@ function CartContent(props: Props) {
               {items
                 .slice(0)
                 .reverse()
-                .map((item, index) => (
+                .map((item: any, index) => (
                   <li key={index}>
                     <ProductCart
                       productId={item.product.id}
