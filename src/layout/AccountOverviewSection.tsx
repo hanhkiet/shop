@@ -1,33 +1,37 @@
-import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { RootState } from '../app/store';
-import { useAuth } from '../hooks/useAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
+import { sendLogoutRequest } from '../app/authSlice';
+import { AppDispatch, RootState } from '../app/store';
 import data from '../static/data/orders.json';
 
 const AccountOverviewSection = () => {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
-  const name = useSelector((state: RootState) => state.auth.user?.name);
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  if (!isAuthenticated) return <Navigate to="/auth/login" replace={true} />;
 
-  const primaryAddress = useSelector((state: RootState) =>
-    state.addresses.find(address => address.isPrimary),
+  const dispatch: AppDispatch = useDispatch();
+
+  const { firstName, lastName } = useSelector(
+    (state: RootState) => state.auth.user!,
   );
 
-  const handleLogout = () => {
-    try {
-      logout();
-      navigate('/');
-    } catch (error) {
-      console.log(error);
-    }
+  const primaryAddress = {
+    recipientName: 'John Doe',
+    recipientPhone: '0123456789',
+    street: '123 Main St',
+    district: 'District 1',
+    city: 'Ho Chi Minh City',
   };
+
+  const handleLogout = () => dispatch(sendLogoutRequest());
 
   return (
     <div className="flex-1 justify-center p-12 md:p-24 lg:flex">
       <div className="w-9/12 space-y-9">
         <div className="space-y-3 text-neutral-700">
           <h2 className="text-3xl font-light">My account</h2>
-          <p className="text-md font-light">Welcome back, {name}!</p>
+          <p className="text-md font-light">
+            Welcome back, {firstName + ' ' + lastName}!
+          </p>
           <button
             className="text-md font-light text-neutral-400 transition-colors hover:text-neutral-600"
             onClick={handleLogout}
@@ -101,12 +105,7 @@ const AccountOverviewSection = () => {
                 </p>
               )}
             </div>
-            <button
-              className="button button-dark"
-              onClick={() => navigate('addresses')}
-            >
-              edit address
-            </button>
+            <button className="button button-dark">edit address</button>
           </div>
         </div>
       </div>

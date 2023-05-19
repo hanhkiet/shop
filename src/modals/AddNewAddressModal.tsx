@@ -1,12 +1,10 @@
 import axios from 'axios';
 import { FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addAddress } from '../app/addressSlice';
-import { RootState } from '../app/store';
+import { useDispatch } from 'react-redux';
 import { Address } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { cityRegex, nameRegex, phoneRegex, streetRegex } from '../utils/regex';
-import { api_url } from '../utils/url';
+import { account_url } from '../utils/url';
 import Modal from './Modal';
 
 type Props = {
@@ -14,7 +12,6 @@ type Props = {
 };
 
 const AddNewAddressModal = ({ onClose }: Props) => {
-  const uuid = useSelector((state: RootState) => state.auth.user?.uuid);
   const dispatch = useDispatch();
   const token = localStorage.getItem('accessToken');
 
@@ -79,32 +76,31 @@ const AddNewAddressModal = ({ onClose }: Props) => {
       isValidDistrict &&
       isValidCity
     ) {
-      axios
-        .post(
-          `${api_url}/account/addresses`,
-          {
-            userUuid: uuid,
-            recipientName: recipientNameRef.current?.value,
-            recipientPhone: recipientPhoneRef.current?.value,
-            street: streetRef.current?.value,
-            district: districtRef.current?.value,
-            city: cityRef.current?.value,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token?.substring(1, token.length - 1)}`,
-            },
-          },
-        )
+      const address = {
+        recipientName: recipientNameRef.current?.value,
+        recipientPhone: recipientPhoneRef.current?.value,
+        street: streetRef.current?.value,
+        district: districtRef.current?.value,
+        city: cityRef.current?.value,
+      } as Address;
+
+      add(address)
         .then(res => {
           const address = res.data as Address;
-          dispatch(addAddress(address));
           onClose();
         })
         .catch(err => {
           console.log(err);
         });
     }
+  };
+
+  const add = async (address: Address) => {
+    return axios.post(`${account_url}/addresses`, address, {
+      headers: {
+        Authorization: `Bearer ${token?.substring(1, token.length - 1)}`,
+      },
+    });
   };
 
   return (

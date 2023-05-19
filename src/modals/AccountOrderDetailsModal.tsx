@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import Modal from '../modals/Modal';
+import Modal from './Modal';
 
-const AccountOrderDetailSection = () => {
+const AccountOrderDetailModal = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const navigate = useNavigate();
 
@@ -74,4 +74,4 @@ const AccountOrderDetailSection = () => {
   );
 };
 
-export default AccountOrderDetailSection;
+export default AccountOrderDetailModal;

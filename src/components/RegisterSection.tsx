@@ -1,12 +1,13 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import { sendRegisterRequest } from '../app/authSlice';
+import { AppDispatch } from '../app/store';
+import { RegisterDataActionPayload } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { emailRegex, nameRegex, passwordRegex } from '../utils/regex';
 
 const RegisterSection = () => {
-  const { register } = useAuth();
-  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
   const {
     ref: firstNameRef,
@@ -52,14 +53,14 @@ const RegisterSection = () => {
       isValidEmail &&
       isValidPassword
     ) {
-      register(
-        firstNameRef.current?.value as string,
-        lastNameRef.current?.value as string,
-        emailRef.current?.value as string,
-        passwordRef.current?.value as string,
-      )
-        .then(() => navigate('/account'))
-        .catch(error => setMessage(error.message));
+      const payload = {
+        firstName: firstNameRef.current?.value,
+        lastName: lastNameRef.current?.value,
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      } as RegisterDataActionPayload;
+
+      dispatch(sendRegisterRequest(payload));
     }
   };
 

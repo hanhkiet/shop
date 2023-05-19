@@ -1,12 +1,16 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import AccountAdressSection from './components/AccountAdressSection';
-import AccountOrderDetailSection from './components/AccountOrderDetails';
-import AccountOrdersSection from './components/AccountOrdersSection';
-import AccountOverviewSection from './components/AccountOverviewSection';
+import { sendAuthenticateRequest } from './app/authSlice';
+import { AppDispatch } from './app/store';
 import CheckoutInformationSection from './components/CheckoutInformationSection';
 import LoginSection from './components/LoginSection';
 import PaymentSection from './components/PaymentSection';
 import RegisterSection from './components/RegisterSection';
+import AccountAddressSection from './layout/AccountAddressSection';
+import AccountOrdersSection from './layout/AccountOrdersSection';
+import AccountOverviewSection from './layout/AccountOverviewSection';
+import AccountOrderDetailSection from './modals/AccountOrderDetailsModal';
 import AccountPage from './pages/AccountPage';
 import AuthPage from './pages/AuthPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -27,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'addresses',
-        element: <AccountAdressSection />,
+        element: <AccountAddressSection />,
       },
       {
         path: 'orders',
@@ -80,6 +84,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(sendAuthenticateRequest());
+  }, []);
+
   return <RouterProvider router={router} />;
 }
 

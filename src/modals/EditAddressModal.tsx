@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { updateAddress } from '../app/addressSlice';
 import { Address } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { cityRegex, nameRegex, phoneRegex, streetRegex } from '../utils/regex';
-import { api_url } from '../utils/url';
+import { account_url } from '../utils/url';
 import Modal from './Modal';
 
 type Props = {
@@ -95,25 +94,25 @@ const EditAddressModal = ({ address, index, onClose }: Props) => {
         district: districtRef.current?.value,
         city: cityRef.current?.value,
       } as Address;
-
-      axios
-        .put(
-          `${api_url}/account/addresses`,
-          {
-            ...address,
-            addressId: uuid,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token?.substring(1, token.length - 1)}`,
-            },
-          },
-        )
-        .then(() => {
-          dispatch(updateAddress({ index, address }));
-          onClose();
-        });
+      update(address).then(() => {
+        onClose();
+      });
     }
+  };
+
+  const update = async (address: Address) => {
+    return axios.put(
+      `${account_url}/addresses`,
+      {
+        ...address,
+        addressId: uuid,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token?.substring(1, token.length - 1)}`,
+        },
+      },
+    );
   };
 
   return (

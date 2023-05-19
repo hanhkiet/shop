@@ -1,13 +1,14 @@
 import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { sendLoginRequest } from '../app/authSlice';
+import { AppDispatch } from '../app/store';
+import { LoginDataActionPayload } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { emailRegex, passwordRegex } from '../utils/regex';
 
 const LoginSection = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
+  const dispatch: AppDispatch = useDispatch();
   const {
     ref: emailRef,
     error: emailError,
@@ -16,6 +17,7 @@ const LoginSection = () => {
     emailRegex,
     'Please enter a valid email address (e.g. abcd@gmail.com)',
   );
+
   const {
     ref: passwordRef,
     error: passwordError,
@@ -34,14 +36,12 @@ const LoginSection = () => {
     const isValidPassword = validatePassword();
 
     if (isValidEmail && isValidPassword) {
-      login(
-        emailRef.current?.value as string,
-        passwordRef.current?.value as string,
-      )
-        .then(() => navigate('/account'))
-        .catch(error => {
-          console.log(error);
-        });
+      const payload = {
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      } as LoginDataActionPayload;
+
+      dispatch(sendLoginRequest(payload));
     }
   };
 
