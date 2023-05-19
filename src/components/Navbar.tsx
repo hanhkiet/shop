@@ -87,7 +87,11 @@ function Navbar() {
           onClose={handleDisappearModal}
         />
       </nav>
-      {changeNavbarColor && <ScrollToTop />}
+      <ScrollToTop
+        className={
+          changeNavbarColor ? `visible opacity-100` : `invisible opacity-0`
+        }
+      />
     </header>
   );
 }
