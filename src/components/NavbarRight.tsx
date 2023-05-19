@@ -62,7 +62,7 @@ function NavbarRight(props: Props) {
         <li className="capitalize">
           <Link to="/account">account</Link>
         </li>
-        <li className="capitalize hover:cursor-pointer">search</li>
+        <li className="navbar-list capitalize hover:cursor-pointer">search</li>
         <li>
           <button
             className="capitalize"
