@@ -1,9 +1,10 @@
-import axios from 'axios';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { updateAddress } from '../app/addressSlice';
+import { AppDispatch } from '../app/store';
 import { Address } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { cityRegex, nameRegex, phoneRegex, streetRegex } from '../utils/regex';
-import { account_url } from '../utils/url';
 import Modal from './Modal';
 
 type Props = {
@@ -12,7 +13,9 @@ type Props = {
   onClose: () => void;
 };
 
-const EditAddressModal = ({ address, index, onClose }: Props) => {
+const EditAddressModal = ({ address, onClose }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
+
   const {
     isPrimary,
     recipientName,
@@ -22,9 +25,6 @@ const EditAddressModal = ({ address, index, onClose }: Props) => {
     city,
     uuid,
   } = address;
-
-  const dispatch = useDispatch();
-  const token = localStorage.getItem('accessToken');
 
   const {
     ref: recipientNameRef,
@@ -71,6 +71,8 @@ const EditAddressModal = ({ address, index, onClose }: Props) => {
     'Please enter a valid city (e.g. Ho Chi Minh City)',
   );
 
+  const [isChecked, setIsChecked] = useState(isPrimary);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -88,31 +90,19 @@ const EditAddressModal = ({ address, index, onClose }: Props) => {
       isCityValid
     ) {
       const address = {
+        uuid,
+        isPrimary: isChecked,
         recipientName: recipientNameRef.current?.value,
         recipientPhone: recipientPhoneRef.current?.value,
         street: streetRef.current?.value,
         district: districtRef.current?.value,
         city: cityRef.current?.value,
       } as Address;
-      update(address).then(() => {
+
+      dispatch(updateAddress(address)).then(() => {
         onClose();
       });
     }
-  };
-
-  const update = async (address: Address) => {
-    return axios.put(
-      `${account_url}/addresses`,
-      {
-        ...address,
-        addressId: uuid,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token?.substring(1, token.length - 1)}`,
-        },
-      },
-    );
   };
 
   return (
@@ -194,6 +184,14 @@ const EditAddressModal = ({ address, index, onClose }: Props) => {
             <p className="mx-1 text-xs text-red-500">
               {cityError ?? <span></span>}
             </p>
+          </div>
+          <div className="flex w-full items-center gap-2">
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={e => setIsChecked(e.target.checked)}
+            />
+            <span>Set as primary address</span>
           </div>
           <div className="flex w-full justify-end gap-3">
             <button className="button button-dark">save</button>

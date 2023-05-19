@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { auth_url } from '../utils/url';
+import { clearAddresses, getAddressesData } from './addressSlice';
 import {
   AuthState,
   LoginDataActionPayload,
@@ -25,73 +26,69 @@ const authSlice = createSlice({
   initialState: persistedState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(sendRegisterRequest.pending, (state, action) => {
-      state.loading = true;
-    });
+    builder
+      .addCase(sendRegisterRequest.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(sendRegisterRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(sendRegisterRequest.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.message = action.error.message ?? null;
+        state.user = null;
+      });
 
-    builder.addCase(sendRegisterRequest.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = true;
-      state.user = action.payload;
-    });
+    builder
+      .addCase(sendLoginRequest.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(sendLoginRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(sendLoginRequest.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.message = action.error.message ?? null;
+        state.user = null;
+      });
 
-    builder.addCase(sendRegisterRequest.rejected, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = false;
-      state.message = action.error.message ?? null;
-      state.user = null;
-    });
+    builder
+      .addCase(sendLogoutRequest.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(sendLogoutRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+      .addCase(sendLogoutRequest.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.message = action.error.message ?? null;
+        state.user = null;
+      });
 
-    builder.addCase(sendLoginRequest.pending, (state, action) => {
-      state.loading = true;
-    });
-
-    builder.addCase(sendLoginRequest.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = true;
-      state.user = action.payload;
-    });
-
-    builder.addCase(sendLoginRequest.rejected, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = false;
-      state.message = action.error.message ?? null;
-      state.user = null;
-    });
-
-    builder.addCase(sendLogoutRequest.pending, (state, action) => {
-      state.loading = true;
-    });
-
-    builder.addCase(sendLogoutRequest.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = false;
-      state.user = null;
-    });
-
-    builder.addCase(sendLogoutRequest.rejected, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = false;
-      state.message = action.error.message ?? null;
-      state.user = null;
-    });
-
-    builder.addCase(sendAuthenticateRequest.pending, (state, action) => {
-      state.loading = true;
-    });
-
-    builder.addCase(sendAuthenticateRequest.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = true;
-      state.user = action.payload;
-    });
-
-    builder.addCase(sendAuthenticateRequest.rejected, (state, action) => {
-      state.loading = false;
-      state.isAuthenticated = false;
-      state.message = action.error.message ?? null;
-      state.user = null;
-    });
+    builder
+      .addCase(sendAuthenticateRequest.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(sendAuthenticateRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(sendAuthenticateRequest.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.message = action.error.message ?? null;
+        state.user = null;
+      });
   },
 });
 
@@ -115,7 +112,7 @@ const sendRegisterRequest = createAsyncThunk(
 
 const sendLoginRequest = createAsyncThunk(
   'auth/login',
-  async (payload: LoginDataActionPayload) => {
+  async (payload: LoginDataActionPayload, { dispatch }) => {
     const response = await axios.post(`${auth_url}/login`, payload, {
       headers: {
         'Content-Type': 'application/json',
@@ -126,34 +123,40 @@ const sendLoginRequest = createAsyncThunk(
     const token = response.data.jwt;
 
     localStorage.setItem('accessToken', JSON.stringify(token));
+    dispatch(getAddressesData());
 
     return user;
   },
 );
 
-const sendLogoutRequest = createAsyncThunk('auth/logout', async () => {
-  const accessToken = localStorage.getItem('accessToken');
+const sendLogoutRequest = createAsyncThunk(
+  'auth/logout',
+  async (_, { dispatch }) => {
+    const accessToken = localStorage.getItem('accessToken');
 
-  const response = await axios.post(
-    `${auth_url}/logout`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken?.substring(
-          1,
-          accessToken.length - 1,
-        )}`,
+    const response = await axios.post(
+      `${auth_url}/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken?.substring(
+            1,
+            accessToken.length - 1,
+          )}`,
+        },
       },
-    },
-  );
+    );
 
-  localStorage.removeItem('accessToken');
-  return response.data.message;
-});
+    localStorage.removeItem('accessToken');
+    dispatch(clearAddresses());
+
+    return response.data.message;
+  },
+);
 
 const sendAuthenticateRequest = createAsyncThunk(
   'auth/authenticate',
-  async () => {
+  async (_, { dispatch }) => {
     const accessToken = localStorage.getItem('accessToken');
 
     const response = await axios.get(`${auth_url}/authenticate`, {
@@ -166,6 +169,8 @@ const sendAuthenticateRequest = createAsyncThunk(
     });
 
     const user = response.data.userData as User;
+    dispatch(getAddressesData());
+
     return user;
   },
 );

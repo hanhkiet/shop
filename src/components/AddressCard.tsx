@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { deleteAddress } from '../app/addressSlice';
+import { AppDispatch } from '../app/store';
 import { Address } from '../app/types';
 import EditAddressModal from '../modals/EditAddressModal';
 import YesNoDialogModal from '../modals/YesNoDialogModal';
-import { account_url } from '../utils/url';
 
 type Props = {
   index: number;
@@ -12,38 +12,25 @@ type Props = {
 };
 
 const AddressCard = ({ index, address }: Props) => {
-  const { isPrimary, recipientName, recipientPhone, street, district, city } =
-    address;
-  const dispatch = useDispatch();
-
-  const token = localStorage.getItem('accessToken');
+  const {
+    isPrimary,
+    uuid,
+    recipientName,
+    recipientPhone,
+    street,
+    district,
+    city,
+  } = address;
+  const dispatch: AppDispatch = useDispatch();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  const handleDelete = () => {
-    axios
-      .delete(`${account_url}/addresses`, {
-        data: {
-          addressId: address.uuid,
-        },
-        headers: {
-          Authorization: `Bearer ${token?.substring(1, token.length - 1)}`,
-        },
-      })
-      .then(() => {
-        setIsDeleteModalOpen(false);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
 
   return (
     <>
       {isDeleteModalOpen && (
         <YesNoDialogModal
-          onYes={() => handleDelete()}
+          onYes={() => dispatch(deleteAddress(uuid))}
           onClose={() => setIsDeleteModalOpen(false)}
           title="Delete address"
           description="Are you sure you want to delete this address?"

@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import { addAddress } from '../app/addressSlice';
+import { AppDispatch } from '../app/store';
 import { Address } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import { cityRegex, nameRegex, phoneRegex, streetRegex } from '../utils/regex';
-import { account_url } from '../utils/url';
 import Modal from './Modal';
 
 type Props = {
@@ -12,8 +12,7 @@ type Props = {
 };
 
 const AddNewAddressModal = ({ onClose }: Props) => {
-  const dispatch = useDispatch();
-  const token = localStorage.getItem('accessToken');
+  const dispatch: AppDispatch = useDispatch();
 
   const {
     ref: recipientNameRef,
@@ -84,23 +83,10 @@ const AddNewAddressModal = ({ onClose }: Props) => {
         city: cityRef.current?.value,
       } as Address;
 
-      add(address)
-        .then(res => {
-          const address = res.data as Address;
-          onClose();
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      dispatch(addAddress(address)).then(() => {
+        onClose();
+      });
     }
-  };
-
-  const add = async (address: Address) => {
-    return axios.post(`${account_url}/addresses`, address, {
-      headers: {
-        Authorization: `Bearer ${token?.substring(1, token.length - 1)}`,
-      },
-    });
   };
 
   return (
