@@ -32,18 +32,17 @@ export default function ProductCart(props: Props) {
       }),
     );
   };
+  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
   const [products, setProducts] = useState<any>();
   useEffect(() => {
-    axios
-      .get('http://localhost:5500/src/static/data/productsData.json')
-      .then(response => {
-        setProducts(
-          response.data.filter(
-            (item: any) => item.productId === props.productId,
-          )[0],
-        );
-      });
-  }, [products]);
+    axios.get(baseURL).then(response => {
+      setProducts(
+        response.data.filter(
+          (item: any) => item.productId === props.productId,
+        )[0],
+      );
+    });
+  }, []);
   if (!products) return <></>;
   return (
     <div className="m-5 flex flex-row">

@@ -22,7 +22,7 @@ function Category() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
+  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
   const [post, setPost] = useState<any>();
   useEffect(() => {
     axios.get(baseURL).then(response => {

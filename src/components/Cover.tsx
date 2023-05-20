@@ -16,13 +16,13 @@ type Props = {
 };
 
 export default function Cover(props: Props) {
-  const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
+  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
   const [products, setProducts] = useState<any>();
   useEffect(() => {
     axios.get(baseURL).then(response => {
       setProducts(response.data);
     });
-  }, [products]);
+  }, []);
   return (
     <>
       <div className="relative h-screen">

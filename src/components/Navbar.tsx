@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { RootState } from '../app/store';
 import { setHoverMenuId } from '../app/menuSlice';
 import NavbarLeft from './NavbarLeft';
 import NavbarRight from './NavbarRight';
 import ScrollToTop from './ScrollToTop';
 import { setPathName } from '../app/pathSlice';
+import NavbarLogo from './NavbarLogo';
 
 function Navbar() {
   const [hoverNavbar, setHoverNavbar] = useState(false);
@@ -51,7 +52,7 @@ function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-40 flex justify-between px-6 text-sm font-light duration-300 ${
           checkNavbar
-            ? 'border-b border-gray-300 bg-white'
+            ? 'border-b-2 border-gray-300 bg-white'
             : 'border-b-0 border-transparent bg-transparent'
         }`}
         onMouseOver={() => {
@@ -66,21 +67,7 @@ function Navbar() {
           onClick={handleAppearModal}
           onClose={handleDisappearModal}
         />
-        <div className="flex w-2/12 items-center justify-center">
-          <Link to="/" onClick={() => window.scrollTo(0, 0)}>
-            <img
-              src="https://cdn.shopify.com/s/files/1/0297/6293/files/Wings_ASRV_NEW_d5bba963-30a6-4d73-ba2e-68d1a8ea69c4_120x@2x.png?v=1664577873"
-              className={`mx-auto h-5 duration-300 ${
-                changeNavbarColor ||
-                (hoverNavbar && !showModal) ||
-                location.pathname != '/'
-                  ? ''
-                  : 'brightness-200'
-              }`}
-              alt=""
-            />
-          </Link>
-        </div>
+        <NavbarLogo checkNavbar={checkNavbar} />
         <NavbarRight
           changeColor={checkNavbar}
           onClick={handleAppearModal}

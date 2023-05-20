@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { toggleVisibility } from '../app/cartSlice';
+import { setHoverMenuId } from '../app/menuSlice';
 import CartContent from './CartContent';
 import ModalNavbar from '../modals/ModalNavbar';
 
@@ -21,6 +22,7 @@ function NavbarRight(props: Props) {
   }, 0);
   function handleCartAppear() {
     dispatch(toggleVisibility());
+    dispatch(setHoverMenuId(0));
   }
   return (
     <>

@@ -61,25 +61,27 @@ export default function NavbarLeft(props: Props) {
         }`}
       >
         {menuData.map((item: any, index: any) => (
-          <li
-            key={index}
-            className={`navbar-list z-50 ${
-              hoverMenuId === item.id
-                ? `border-b-2 border-black`
-                : `border-b-0 border-transparent`
-            }`}
-          >
-            <Link
-              onMouseOver={() => {
-                setShowShopMenu(
-                  megaMenuData.some((obj: any) => obj.menuId === item.id),
-                );
-                dispatch(setHoverMenuId(item.id));
-              }}
-              to={item.url}
-            >
-              {item.name}
-            </Link>
+          <li key={index}>
+            <div className={`navbar-list z-50`}>
+              <Link
+                onMouseOver={() => {
+                  setShowShopMenu(
+                    megaMenuData.some((obj: any) => obj.menuId === item.id),
+                  );
+                  dispatch(setHoverMenuId(item.id));
+                }}
+                to={item.url}
+              >
+                {item.name}
+              </Link>
+            </div>
+            <div
+              className={`relative left-0 top-[1.5px] z-50 bg-black py-px duration-300 ${
+                hoverMenuId === item.id && props.changeColor
+                  ? `visible w-full`
+                  : `collapse w-0`
+              }`}
+            ></div>
           </li>
         ))}
       </ul>
@@ -91,7 +93,11 @@ export default function NavbarLeft(props: Props) {
       {
         <MegaMenu
           menuId={hoverMenuId}
-          className={checkMenu ? `visible opacity-100` : `collapse`}
+          className={
+            checkMenu && props.changeColor
+              ? `visible opacity-100`
+              : `collapse opacity-0`
+          }
         />
       }
     </>

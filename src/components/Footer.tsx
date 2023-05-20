@@ -3,6 +3,7 @@ import SubscribeSection from './SubscribeSection';
 import ConnectSection from './ConnectSection';
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
   const location = useLocation();
   const handleClickFooter = () => {
     if (location.pathname == '/') {
@@ -28,7 +29,7 @@ function Footer() {
               to="/"
               className="font-[ASRV-Standard] font-bold uppercase text-gray-500 duration-300 hover:text-black"
             >
-              COPYRIGHT © 2023 · (ASRV)
+              COPYRIGHT © {currentYear} · (ASRV)
             </Link>
           </div>
         </div>
