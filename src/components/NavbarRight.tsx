@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { toggleVisibility } from '../app/cartSlice';
+import { setHoverMenuId } from '../app/menuSlice';
 import CartContent from './CartContent';
-import Modal from '../modals/Modal';
+import ModalNavbar from '../modals/ModalNavbar';
 
 type Props = {
   className?: string;
@@ -15,8 +16,13 @@ type Props = {
 function NavbarRight(props: Props) {
   const visible = useSelector((state: RootState) => state.cart.visible);
   const dispatch = useDispatch();
+  const items = useSelector((state: RootState) => state.cart.items);
+  const totalQuantity = items.reduce((total, item) => {
+    return total + item.quantity;
+  }, 0);
   function handleCartAppear() {
     dispatch(toggleVisibility());
+    dispatch(setHoverMenuId(0));
   }
   return (
     <>
@@ -39,7 +45,11 @@ function NavbarRight(props: Props) {
               props.onClick();
             }}
             alt=""
-            src="https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png"
+            src={
+              totalQuantity
+                ? 'https://media.discordapp.net/attachments/1026660684739653674/1089228771149762690/cart_has_product.png'
+                : 'https://cdn-icons-png.flaticon.com/512/3144/3144456.png'
+            }
             className={`mx-auto h-4 cursor-pointer duration-300 ${
               props.changeColor ? `` : `grayscale invert`
             }`}
@@ -47,14 +57,14 @@ function NavbarRight(props: Props) {
         </li>
       </ul>
       <ul
-        className={`hidden w-1/6 items-center justify-end gap-12 px-6 font-light md:hidden lg:flex ${
+        className={`hidden w-1/6 items-center justify-end gap-12 px-6 font-light duration-300 md:hidden lg:flex ${
           props.className
         } ${props.changeColor ? `text-neutral-600` : `text-white`}`}
       >
         <li className="capitalize">
           <Link to="/account">account</Link>
         </li>
-        <li className="capitalize hover:cursor-pointer">search</li>
+        <li className="navbar-list capitalize hover:cursor-pointer">search</li>
         <li>
           <button
             className="capitalize"
@@ -63,12 +73,12 @@ function NavbarRight(props: Props) {
               props.onClick();
             }}
           >
-            cart
+            cart({totalQuantity})
           </button>
         </li>
       </ul>
       {visible && (
-        <Modal
+        <ModalNavbar
           className="flex justify-end"
           onClose={() => {
             handleCartAppear();
@@ -76,7 +86,7 @@ function NavbarRight(props: Props) {
           }}
         >
           <CartContent onClose={props.onClose} />
-        </Modal>
+        </ModalNavbar>
       )}
     </>
   );

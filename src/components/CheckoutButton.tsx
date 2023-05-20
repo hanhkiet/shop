@@ -9,7 +9,7 @@ function CheckoutButtonContent({ products }: { products: any }) {
     return (
       total +
       item.quantity *
-        products.filter((p: any) => p.productId === item.product.id)[0].price
+        products.filter((p: any) => p.productId === item.id)[0].price
     );
   }, 0);
 
@@ -27,7 +27,7 @@ function CheckoutButtonContent({ products }: { products: any }) {
 }
 
 function CheckoutButton() {
-  const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
+  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
   const [products, setProducts] = useState<any>();
   useEffect(() => {
     axios.get(baseURL).then(response => {

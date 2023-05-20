@@ -1,9 +1,5 @@
-export interface Product {
-  id: number;
-}
-
 export interface CartItem {
-  product: Product;
+  id: number;
   quantity: number;
   size: string;
 }
@@ -42,4 +38,8 @@ export interface Address {
   street: string;
   district: string;
   city: string;
+}
+
+export interface PathState {
+  pathName: string;
 }

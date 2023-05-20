@@ -4,6 +4,7 @@ import authSlice from './authSlice';
 import cartReducer from './cartSlice';
 import menuReducer from './menuSlice';
 import orderReducer from './orderSlice';
+import pathSlice from './pathSlice';
 
 const clearStorageMiddleware: Middleware = () => next => action => {
   if (action.type === 'auth/logoutSuccess') {
@@ -20,6 +21,7 @@ const store = configureStore({
     menu: menuReducer,
     auth: authSlice,
     addresses: addressSlice,
+    path: pathSlice,
   },
 
   middleware: getDefaultMiddleware =>

@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import SkeletonProduct from './SkeletonProduct';
 import ProductCard from '../components/ProductCard';
+import Banner from './Banner';
 
 type Props = {
   src: string;
   srcSmallScreen?: string;
   mainTitle: string;
+  productListTitle?: string;
   subTitle: string;
   firstButton: string;
   secondButton?: string;
@@ -14,59 +16,19 @@ type Props = {
 };
 
 export default function Cover(props: Props) {
-  const baseURL = 'http://localhost:5500/src/static/data/productsData.json';
+  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
   const [products, setProducts] = useState<any>();
   useEffect(() => {
     axios.get(baseURL).then(response => {
       setProducts(response.data);
     });
-  }, [products]);
-  const listItems = products ? (
-    <>
-      <div className="mx-auto grid grid-cols-1 gap-x-24 gap-y-12 p-12 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-4">
-        {products.slice(0, props.lineOfShowItems * 4).map((product: any) => (
-          <ProductCard
-            key={product.productId}
-            id={product.productId}
-            name={product.name}
-            price={product.price}
-            imageOne={product.image[0]}
-            imageTwo={product.image[1]}
-            size={product.size}
-          />
-        ))}
-      </div>
-      <button className="button button-dark mx-auto mb-10 grid place-content-center">
-        VIEW ALL
-      </button>
-    </>
-  ) : (
-    <SkeletonProduct />
-  );
-  const renderSrc =
-    props.src.split('.').pop() == 'mp4' ? (
-      <video
-        className="-z-10 hidden h-screen w-full object-cover brightness-[.80] md:block lg:block"
-        autoPlay
-        loop
-        muted
-        src={props.src}
-      ></video>
-    ) : (
-      <img
-        className="-z-10 hidden h-screen w-full object-cover brightness-[.80] md:block lg:block"
-        src={props.src}
-        alt=""
-      />
-    );
+  }, []);
   return (
     <>
       <div className="relative h-screen">
-        {renderSrc}
-        <img
-          className="-z-10 block h-screen w-full object-cover md:hidden lg:hidden"
-          src={props.srcSmallScreen ? props.srcSmallScreen : props.src}
-          alt=""
+        <Banner
+          src={props.src}
+          srcSmallScreen={props.srcSmallScreen || props.src}
         />
         <div className="absolute bottom-1/4 w-full text-center md:bottom-12 md:left-24 md:w-fit md:text-left lg:bottom-12">
           <h1 className="pb-2 text-2xl font-bold uppercase text-white md:text-3xl">
@@ -75,12 +37,12 @@ export default function Cover(props: Props) {
           <h3 className="pb-3 text-xs font-light uppercase tracking-widest text-white md:text-sm">
             {props.subTitle}
           </h3>
-          <div className="flex justify-center gap-6 md:justify-start lg:justify-start">
-            <button className="button button-light ">
+          <div className="grid justify-center gap-3 md:flex md:justify-start md:gap-6">
+            <button className="button button-light w-60">
               {props.firstButton}
             </button>
             {props.secondButton && (
-              <button className="button button-dark ">
+              <button className="button button-dark w-60">
                 {props.secondButton}
               </button>
             )}
@@ -88,9 +50,38 @@ export default function Cover(props: Props) {
         </div>
       </div>
       <h2 className="m-10 text-center text-3xl font-light">
-        {props.mainTitle}
+        {props.productListTitle ? props.productListTitle : props.mainTitle}
       </h2>
-      {listItems}
+      {products ? (
+        <>
+          <div className="mx-auto grid grid-cols-2 gap-x-24 gap-y-12 p-12 lg:max-w-screen-xl lg:grid-cols-4">
+            {products
+              .slice(
+                0,
+                products.length % 4 == 0 ||
+                  props.lineOfShowItems * 4 <= products.length
+                  ? props.lineOfShowItems * 4
+                  : products.length - Math.floor(products.length % 4),
+              )
+              .map((product: any) => (
+                <ProductCard
+                  key={product.productId}
+                  id={product.productId}
+                  name={product.name}
+                  price={product.price}
+                  imageOne={product.image[0]}
+                  imageTwo={product.image[1]}
+                  size={product.size}
+                />
+              ))}
+          </div>
+          <button className="button button-dark mx-auto mb-10 grid place-content-center">
+            VIEW ALL
+          </button>
+        </>
+      ) : (
+        <SkeletonProduct />
+      )}
     </>
   );
 }

@@ -32,18 +32,17 @@ export default function ProductCart(props: Props) {
       }),
     );
   };
+  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
   const [products, setProducts] = useState<any>();
   useEffect(() => {
-    axios
-      .get('http://localhost:5500/src/static/data/productsData.json')
-      .then(response => {
-        setProducts(
-          response.data.filter(
-            (item: any) => item.productId === props.productId,
-          )[0],
-        );
-      });
-  }, [products]);
+    axios.get(baseURL).then(response => {
+      setProducts(
+        response.data.filter(
+          (item: any) => item.productId === props.productId,
+        )[0],
+      );
+    });
+  }, []);
   if (!products) return <></>;
   return (
     <div className="m-5 flex flex-row">
@@ -59,7 +58,7 @@ export default function ProductCart(props: Props) {
         <p className="mt-2">Size: {props.size}</p>
         <p className="mt-2">Unit Price: ${products.price}</p>
         <div className="mt-5 flex flex-row">
-          <div className="m-auto basis-1/2 border-[1px] border-neutral-500 text-center">
+          <div className="m-auto basis-1/2 border border-neutral-500 text-center">
             <div className="flex flex-row">
               <div
                 className="basis-1/3 hover:cursor-pointer"

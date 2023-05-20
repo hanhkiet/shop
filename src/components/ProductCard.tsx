@@ -24,9 +24,7 @@ function ProductCard(props: Props) {
   const handleAddToCart = (size: string) => {
     dispatch(
       addItem({
-        product: {
-          id: props.id,
-        },
+        id: props.id,
         size: size,
       }),
     );
