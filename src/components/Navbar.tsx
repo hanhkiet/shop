@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { RootState } from '../app/store';
@@ -43,12 +43,17 @@ function Navbar() {
     changeNavbarColor ||
     location.pathname != '/' ||
     (hoverNavbar && !showModal);
+  const checkOut = useRef<any>(null);
+  const handleHeaderLeave = () => {
+    checkOut.current = setTimeout(() => {
+      dispatch(setHoverMenuId(0));
+    }, 300);
+  };
+  const handleHeaderEnter = () => {
+    clearTimeout(checkOut.current);
+  };
   return (
-    <header
-      onMouseLeave={() => {
-        dispatch(setHoverMenuId(0));
-      }}
-    >
+    <header onMouseEnter={handleHeaderEnter} onMouseLeave={handleHeaderLeave}>
       <nav
         className={`fixed top-0 left-0 right-0 z-40 flex justify-between px-6 text-sm font-light duration-300 ${
           checkNavbar
