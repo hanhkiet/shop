@@ -68,7 +68,14 @@ export default function NavbarLeft(props: Props) {
                   setShowShopMenu(
                     megaMenuData.some((obj: any) => obj.menuId === item.id),
                   );
-                  dispatch(setHoverMenuId(item.id));
+                  if (hoverMenuId != item.id) {
+                    dispatch(setHoverMenuId(0));
+                    setTimeout(() => {
+                      dispatch(setHoverMenuId(item.id));
+                    }, 100);
+                  } else {
+                    dispatch(setHoverMenuId(item.id));
+                  }
                 }}
                 to={item.url}
               >
