@@ -1,31 +1,20 @@
-import { Middleware, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import addressSlice from './addressSlice';
-import authSlice from './authSlice';
+import authReducer from './authSlice';
 import cartReducer from './cartSlice';
 import menuReducer from './menuSlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
-
-const clearStorageMiddleware: Middleware = () => next => action => {
-  if (action.type === 'auth/logoutSuccess') {
-    localStorage.removeItem('auth');
-    localStorage.removeItem('addresses');
-  }
-  next(action);
-};
 
 const store = configureStore({
   reducer: {
     cart: cartReducer,
     order: orderReducer,
     menu: menuReducer,
-    auth: authSlice,
+    auth: authReducer,
     addresses: addressSlice,
     path: pathSlice,
   },
-
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(clearStorageMiddleware),
 });
 
 store.subscribe(() => {

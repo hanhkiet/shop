@@ -1,11 +1,10 @@
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router-dom';
+import { RootState } from '../app/store';
 
 function AuthPage() {
-  const nagivate = useNavigate();
-  const { isAuthenticated } = useAuth();
-
-  if (isAuthenticated) nagivate('/account');
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  if (isAuthenticated) return <Navigate to="/" replace={true} />;
 
   return (
     <div className="relative lg:flex">
