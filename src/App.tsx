@@ -8,12 +8,15 @@ import { accountRouter } from './routers/accountRouter';
 import { authRouter } from './routers/authRouter';
 import { checkoutRouter } from './routers/checkoutRouter';
 import { homeRouter } from './routers/homeRouter';
+import { categoryRouter } from './routers/categoryRouter';
+import { getMenuData } from './app/menuSlice';
 
 const router = createBrowserRouter([
   homeRouter,
   accountRouter,
   authRouter,
   checkoutRouter,
+  categoryRouter,
 ]);
 
 function App() {
@@ -21,6 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(clearAddresses());
     dispatch(sendAuthenticateRequest());
+    dispatch(getMenuData());
   }, []);
 
   return <RouterProvider router={router} />;

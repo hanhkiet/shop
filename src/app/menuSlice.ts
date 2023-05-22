@@ -1,10 +1,13 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MenuState } from './types';
+import { Menu } from './types';
 
 const initialState: MenuState = {
   hoverMenuId: 0,
   activeMenu: null,
   activeMenuChild: [],
+  menus: [],
 };
 
 const menuSlice = createSlice({
@@ -26,6 +29,27 @@ const menuSlice = createSlice({
       );
     },
   },
+  extraReducers: builder => {
+    builder
+      .addCase(getMenuData.pending, (state, action) => {
+        state.menus = [];
+      })
+      .addCase(getMenuData.fulfilled, (state, action) => {
+        state.menus = action.payload;
+      })
+      .addCase(getMenuData.rejected, (state, action) => {
+        state.menus = [];
+      });
+  },
+});
+
+const getMenuData = createAsyncThunk('menu/getMenuData', async () => {
+  const response = await axios.get(`${import.meta.env.VITE_MENUS_URL}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data as Menu[];
 });
 
 export const {
@@ -34,5 +58,7 @@ export const {
   addActiveMenuChild,
   removeActiveMenuChild,
 } = menuSlice.actions;
+
+export { getMenuData };
 
 export default menuSlice.reducer;

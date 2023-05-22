@@ -58,7 +58,7 @@ function ProductCard(props: Props) {
         <div className="flex gap-2">
           {props.size.map((eachSize: any, index) => (
             <Link
-              to="/"
+              to=""
               key={index}
               onClick={() => {
                 handleAddToCart(eachSize);

@@ -3,6 +3,8 @@ import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 function Category() {
   const [scrollPercentageChange, setScrollPercentageChange] = useState(0);
@@ -61,6 +63,7 @@ function Category() {
   };
   return (
     <>
+      <Navbar />
       <div className="">
         <div className="sort fixed left-0 right-0 z-30 bg-white">
           <div className="flex flex-row-reverse md:flex-row lg:flex-row">
@@ -196,6 +199,7 @@ function Category() {
           </div>
         </>
       )}
+      <Footer />
     </>
   );
 }

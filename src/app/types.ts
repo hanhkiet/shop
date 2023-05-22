@@ -17,6 +17,25 @@ export interface MenuState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
+  menus: Menu[];
+}
+
+export interface MegaMenuItem {
+  id: number;
+  name: string;
+  url: string;
+}
+
+export interface MegaMenu {
+  id: number;
+  name: string;
+  megaMenu: MegaMenuItem[];
+}
+
+export interface Menu {
+  id: number;
+  name: string;
+  megaMenu: MegaMenu[];
 }
 
 export interface User {
