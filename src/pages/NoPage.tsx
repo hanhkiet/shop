@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 function NoPage() {
   useEffect(() => {
@@ -7,6 +9,7 @@ function NoPage() {
   }, []);
   return (
     <>
+      <Navbar />
       <div className="object-fit grid h-screen content-center">
         <div className="relative grid h-[300px] w-full content-center">
           <img
@@ -33,6 +36,7 @@ function NoPage() {
           </Link>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

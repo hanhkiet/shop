@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Cover from '../components/Cover';
 import Advertisement from '../components/Advertisement';
 import DownloadApp from '../components/DownloadApp';
+import ScrollToTop from '../components/ScrollToTop';
 
 function HomePage() {
   return (

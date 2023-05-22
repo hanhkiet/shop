@@ -52,39 +52,41 @@ function Navbar() {
     clearTimeout(checkOut.current);
   };
   return (
-    <header onMouseEnter={handleHeaderEnter} onMouseLeave={handleHeaderLeave}>
-      <nav
-        className={`fixed top-0 left-0 right-0 z-40 flex h-16 justify-between px-6 text-sm font-light duration-300 ${
-          checkNavbar
-            ? 'border-b-2 border-gray-300 bg-white'
-            : 'border-b-0 border-transparent bg-transparent'
-        }`}
-        onMouseOver={() => {
-          setHoverNavbar(true);
-        }}
-        onMouseLeave={() => {
-          setHoverNavbar(false);
-        }}
+    <>
+      <header
+        className="relative"
+        onMouseEnter={handleHeaderEnter}
+        onMouseLeave={handleHeaderLeave}
       >
-        <NavbarLeft
-          changeColorFirst={checkNavbarFirst}
-          changeColor={checkNavbar}
-          onClick={handleAppearModal}
-          onClose={handleDisappearModal}
-        />
-        <NavbarLogo checkNavbar={checkNavbar} />
-        <NavbarRight
-          changeColor={checkNavbar}
-          onClick={handleAppearModal}
-          onClose={handleDisappearModal}
-        />
-      </nav>
-      <ScrollToTop
-        className={
-          changeNavbarColor ? `visible opacity-100` : `invisible opacity-0`
-        }
-      />
-    </header>
+        <nav
+          className={`min-h-16 fixed top-0 left-0 right-0 z-40 flex justify-between px-6 text-sm font-light transition-colors duration-300 ${
+            checkNavbar
+              ? 'border-b-2 border-gray-300 bg-white'
+              : 'border-b-0 border-transparent bg-transparent'
+          }`}
+          onMouseOver={() => {
+            setHoverNavbar(true);
+          }}
+          onMouseLeave={() => {
+            setHoverNavbar(false);
+          }}
+        >
+          <NavbarLeft
+            changeColorFirst={checkNavbarFirst}
+            changeColor={checkNavbar}
+            onClick={handleAppearModal}
+            onClose={handleDisappearModal}
+          />
+          <NavbarLogo checkNavbar={checkNavbar} />
+          <NavbarRight
+            changeColor={checkNavbar}
+            onClick={handleAppearModal}
+            onClose={handleDisappearModal}
+          />
+        </nav>
+      </header>
+      <ScrollToTop />
+    </>
   );
 }
 export default Navbar;

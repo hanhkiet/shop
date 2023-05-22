@@ -81,11 +81,13 @@ export default function NavbarLeft(props: Props) {
           </li>
         ))}
       </ul>
-      {showMenu && (
-        <ModalNavbar onClose={handleDisappearMenu}>
-          <MenuDropDown onClickClose={handleDisappearMenu} />
-        </ModalNavbar>
-      )}
+      <ModalNavbar
+        isShown={showMenu}
+        className={`${showMenu ? `visible` : `collapse`} duration-500`}
+        onClose={handleDisappearMenu}
+      >
+        <MenuDropDown onClickClose={handleDisappearMenu} />
+      </ModalNavbar>
       {
         <MegaMenu
           menuId={hoverMenuId}

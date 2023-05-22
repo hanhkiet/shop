@@ -88,8 +88,8 @@ const cartSlice = createSlice({
         localStorage.setItem('cartItems', JSON.stringify(state.items)!);
       }
     },
-    toggleVisibility(state) {
-      state.visible = !state.visible;
+    toggleVisibility(state, action: PayloadAction<boolean>) {
+      state.visible = action.payload;
     },
   },
 });

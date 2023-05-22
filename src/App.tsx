@@ -9,6 +9,7 @@ import { authRouter } from './routers/authRouter';
 import { checkoutRouter } from './routers/checkoutRouter';
 import { homeRouter } from './routers/homeRouter';
 import { categoryRouter } from './routers/categoryRouter';
+import { errorRouter } from './routers/errorRouter';
 import { getMenuData } from './app/menuSlice';
 
 const router = createBrowserRouter([
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   authRouter,
   checkoutRouter,
   categoryRouter,
+  errorRouter,
 ]);
 
 function App() {

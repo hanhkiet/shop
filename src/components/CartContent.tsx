@@ -14,10 +14,10 @@ function CartContent(props: Props) {
   const items = useSelector((state: RootState) => state.cart.items);
   const notes = useSelector((state: RootState) => state.order.note);
   const dispatch = useDispatch();
-  function handleCartAppear() {
-    dispatch(toggleVisibility());
+  const handleCartAppear = () => {
+    dispatch(toggleVisibility(false));
     props.onClose();
-  }
+  };
   const [showNote, setShowNote] = useState(false);
   return (
     <>

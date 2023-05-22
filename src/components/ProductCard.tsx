@@ -19,7 +19,7 @@ function ProductCard(props: Props) {
   const [isShown, setIsShown] = useState(false);
   const dispatch = useDispatch();
   const handleCartAppear = () => {
-    dispatch(toggleVisibility());
+    dispatch(toggleVisibility(true));
   };
   const handleAddToCart = (size: string) => {
     dispatch(
