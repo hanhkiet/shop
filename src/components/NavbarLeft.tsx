@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
-import { setHoverMenuId } from '../app/menuSlice';
+import { AppDispatch, RootState } from '../app/store';
+import { getMenuData, setHoverMenuId } from '../app/menuSlice';
 import MenuDropDown from './MenuDropdown';
 import MegaMenu from './MegaMenu';
 import ModalNavbar from '../modals/ModalNavbar';
+import { Menu } from '../app/types';
 
 type Props = {
   className?: string;
+  changeColorFirst: boolean;
   changeColor: boolean;
   onClick: () => void;
   onClose: () => void;
@@ -17,28 +19,17 @@ type Props = {
 
 export default function NavbarLeft(props: Props) {
   const [showMenu, setShowMenu] = useState(false);
-  const [menuData, setMenuData] = useState([]);
-  const [megaMenuData, setMegaMenuData] = useState([]);
+  const menus = useSelector((state: RootState) => state.menu.menus);
   const [showShopMenu, setShowShopMenu] = useState(false);
   const hoverMenuId = useSelector((state: RootState) => state.menu.hoverMenuId);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const API_MENUS_URL = import.meta.env.VITE_MENUS_API_URL;
-  const API_MEGAMENUS_URL = import.meta.env.VITE_MEGAMENUS_API_URL;
   const checkMenu = showShopMenu && hoverMenuId !== 0;
   const handleDisappearMenu = () => {
     setShowMenu(false);
     props.onClose();
   };
-  useEffect(() => {
-    axios.get(API_MEGAMENUS_URL).then(response => {
-      setMegaMenuData(response.data);
-    });
-  }, []);
-  useEffect(() => {
-    axios.get(API_MENUS_URL).then(response => {
-      setMenuData(response.data);
-    });
-  }, []);
+  useEffect(() => {}, []);
   return (
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
@@ -60,14 +51,12 @@ export default function NavbarLeft(props: Props) {
           props.changeColor ? `text-neutral-600` : `text-white`
         }`}
       >
-        {menuData.map((item: any, index: any) => (
+        {menus.map((item: Menu, index: any) => (
           <li key={index}>
             <div className={`navbar-list z-50`}>
               <Link
                 onMouseOver={() => {
-                  setShowShopMenu(
-                    megaMenuData.some((obj: any) => obj.menuId === item.id),
-                  );
+                  setShowShopMenu(item.megaMenu.length > 0);
                   if (hoverMenuId != item.id) {
                     dispatch(setHoverMenuId(0));
                     setTimeout(() => {
@@ -77,14 +66,14 @@ export default function NavbarLeft(props: Props) {
                     dispatch(setHoverMenuId(item.id));
                   }
                 }}
-                to={item.url}
+                to="/"
               >
                 {item.name}
               </Link>
             </div>
             <div
-              className={`relative left-0 top-[1.5px] z-50 bg-black py-px duration-300 ${
-                hoverMenuId === item.id && props.changeColor
+              className={`relative left-0 bottom-0.5 z-50 bg-black py-px duration-300 ${
+                hoverMenuId === item.id && props.changeColorFirst
                   ? `visible w-full`
                   : `collapse w-0`
               }`}
@@ -101,7 +90,7 @@ export default function NavbarLeft(props: Props) {
         <MegaMenu
           menuId={hoverMenuId}
           className={
-            checkMenu && props.changeColor
+            checkMenu && props.changeColorFirst
               ? `visible opacity-100`
               : `collapse opacity-0`
           }

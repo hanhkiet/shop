@@ -34,7 +34,7 @@ export default function MegaMenu(props: Props) {
   }, [dataItem, props.menuId]);
   return (
     <div
-      className={`${props.className} fixed top-[71px] left-0 z-30 hidden w-full bg-white px-6 py-6 uppercase text-neutral-600 drop-shadow-xl duration-300 md:hidden lg:flex`}
+      className={`${props.className} fixed top-16 left-0 z-30 hidden w-full bg-white px-6 py-6 uppercase text-neutral-600 drop-shadow-xl duration-300 md:hidden lg:flex`}
     >
       <ListAllMenu numOfCols={5}>
         <>
