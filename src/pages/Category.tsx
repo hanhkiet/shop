@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -24,25 +25,19 @@ function Category() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
-  const [post, setPost] = useState<any>();
-  useEffect(() => {
-    axios.get(baseURL).then(response => {
-      setPost(response.data);
-    });
-  }, []);
+  const post = useSelector((state: RootState) => state.product.products);
+  const sizes = useSelector((state: RootState) => state.product.sizes);
 
   if (!post) return <Loading />;
   const products = post;
   const listItems = products.map((product: any) => (
     <ProductCard
-      key={product.productId}
-      id={product.productId}
+      key={product.uuid}
+      id={product.uuid}
       name={product.name}
       price={product.price}
-      imageOne={product.image[0]}
-      imageTwo={product.image[1]}
-      size={product.size}
+      imageOne={product.images[0]}
+      imageTwo={product.images[1]}
     />
   ));
   const handleClickMode1 = () => {

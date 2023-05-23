@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
@@ -22,13 +22,11 @@ export default function NavbarLeft(props: Props) {
   const [showShopMenu, setShowShopMenu] = useState(false);
   const hoverMenuId = useSelector((state: RootState) => state.menu.hoverMenuId);
   const dispatch: AppDispatch = useDispatch();
-  const API_MENUS_URL = import.meta.env.VITE_MENUS_API_URL;
   const checkMenu = showShopMenu && hoverMenuId !== 0;
   const handleDisappearMenu = () => {
     setShowMenu(false);
     props.onClose();
   };
-  useEffect(() => {}, []);
   return (
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
@@ -61,8 +59,6 @@ export default function NavbarLeft(props: Props) {
                     setTimeout(() => {
                       dispatch(setHoverMenuId(item.id));
                     }, 100);
-                  } else {
-                    dispatch(setHoverMenuId(item.id));
                   }
                 }}
                 to="/"

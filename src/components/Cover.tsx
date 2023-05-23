@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 import SkeletonProduct from './SkeletonProduct';
 import ProductCard from '../components/ProductCard';
 import Banner from './Banner';
@@ -16,13 +16,7 @@ type Props = {
 };
 
 export default function Cover(props: Props) {
-  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
-  const [products, setProducts] = useState<any>();
-  useEffect(() => {
-    axios.get(baseURL).then(response => {
-      setProducts(response.data);
-    });
-  }, []);
+  const products = useSelector((state: RootState) => state.product.products);
   return (
     <>
       <div className="relative h-screen">
@@ -65,13 +59,12 @@ export default function Cover(props: Props) {
               )
               .map((product: any) => (
                 <ProductCard
-                  key={product.productId}
-                  id={product.productId}
+                  key={product.uuid}
+                  id={product.uuid}
                   name={product.name}
                   price={product.price}
-                  imageOne={product.image[0]}
-                  imageTwo={product.image[1]}
-                  size={product.size}
+                  imageOne={product.images[0]}
+                  imageTwo={product.images[1]}
                 />
               ))}
           </div>

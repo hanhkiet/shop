@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 
-function CheckoutButtonContent({ products }: { products: any }) {
+function CheckoutButton() {
+  const products = useSelector((state: RootState) => state.product.products);
   const items = useSelector((state: RootState) => state.cart.items);
+
+  if (!products || !items) return <></>;
+
   const totalPrice = items.reduce((total, item) => {
-    return (
-      total +
-      item.quantity *
-        products.filter((p: any) => p.productId === item.id)[0].price
-    );
+    const product = products.find(p => p.uuid === item.id);
+
+    if (product && product.price) {
+      return total + item.quantity * product.price;
+    } else {
+      return total;
+    }
   }, 0);
 
   return (
@@ -24,19 +28,6 @@ function CheckoutButtonContent({ products }: { products: any }) {
       </div>
     </button>
   );
-}
-
-function CheckoutButton() {
-  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
-  const [products, setProducts] = useState<any>();
-  useEffect(() => {
-    axios.get(baseURL).then(response => {
-      setProducts(response.data);
-    });
-  }, []);
-  if (!products) return <></>;
-
-  return <CheckoutButtonContent products={products} />;
 }
 
 export default CheckoutButton;

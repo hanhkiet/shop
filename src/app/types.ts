@@ -1,5 +1,5 @@
 export interface CartItem {
-  id: number;
+  id: string;
   quantity: number;
   size: string;
 }
@@ -84,4 +84,17 @@ export interface Address {
 
 export interface PathState {
   pathName: string;
+}
+
+export interface Product {
+  uuid: string;
+  name: string;
+  price: number;
+  images: Array<string>;
+}
+
+export interface ProductState {
+  colors: Array<string>;
+  sizes: Array<string>;
+  products: Array<Product>;
 }

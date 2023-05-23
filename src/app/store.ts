@@ -3,6 +3,7 @@ import addressSlice from './addressSlice';
 import authReducer from './authSlice';
 import cartReducer from './cartSlice';
 import menuReducer from './menuSlice';
+import productReducer from './productSlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
 
@@ -12,6 +13,7 @@ const store = configureStore({
     order: orderReducer,
     menu: menuReducer,
     auth: authReducer,
+    product: productReducer,
     addresses: addressSlice,
     path: pathSlice,
   },

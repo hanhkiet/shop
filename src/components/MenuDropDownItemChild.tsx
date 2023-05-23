@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 import { Link } from 'react-router-dom';
 
 type Props = {
@@ -7,16 +7,17 @@ type Props = {
   parentMegamenuId: number;
   onMenuClick: (menu: string) => void;
   activeMenu: Array<string>;
+  menuParentId: number;
 };
 
 function MenuDropDownItemChild(props: Props) {
-  const [dataItem, setDataItem] = useState([]);
-  const API_MEGAMENUS_URL = import.meta.env.VITE_MEGAMENUS_API_URL;
-  useEffect(() => {
-    axios.get(API_MEGAMENUS_URL).then(response => {
-      setDataItem(response.data);
-    });
-  }, []);
+  const menus = useSelector((state: RootState) => state.menu.menus);
+  const filteredData = menus.filter(
+    (menu: any) => menu.id === props.menuParentId,
+  )[0];
+  const filteredDataChild = filteredData.megaMenus.filter(
+    (item: any) => item.id === props.parentMegamenuId,
+  )[0];
   return (
     <li className="cursor-pointer">
       <div
@@ -43,27 +44,19 @@ function MenuDropDownItemChild(props: Props) {
           <ul className="pl-5">
             <div
               className={`pl-5 ${
-                dataItem.filter(
-                  (item: any) =>
-                    item.parentMegamenuId == props.parentMegamenuId,
-                ).length > 1
+                filteredDataChild.megaMenuItems.length > 0
                   ? `border-l-2 border-gray-300`
                   : ``
               }`}
             >
-              {dataItem
-                .filter(
-                  (item: any) =>
-                    item.parentMegamenuId == props.parentMegamenuId,
-                )
-                .map((item: any, index) => (
-                  <li
-                    key={index}
-                    className="cursor-pointer text-xs hover:text-gray-500"
-                  >
-                    <Link to={item.url}>{item.name}</Link>
-                  </li>
-                ))}
+              {filteredDataChild.megaMenuItems.map((item: any, index) => (
+                <li
+                  key={index}
+                  className="cursor-pointer text-xs hover:text-gray-500"
+                >
+                  <Link to={item.url}>{item.name}</Link>
+                </li>
+              ))}
             </div>
           </ul>
         </>

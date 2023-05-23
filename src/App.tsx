@@ -13,6 +13,7 @@ import { homeRouter } from './routers/homeRouter';
 import { categoryRouter } from './routers/categoryRouter';
 import { errorRouter } from './routers/errorRouter';
 import { getMenuData } from './app/menuSlice';
+import { getProductData } from './app/productSlice';
 
 const router = createBrowserRouter([
   homeRouter,
@@ -31,6 +32,7 @@ function App() {
     dispatch(clearAddresses());
     dispatch(sendAuthenticateRequest());
     dispatch(getMenuData());
+    dispatch(getProductData());
   }, []);
 
   return <RouterProvider router={router} />;
