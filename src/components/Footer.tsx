@@ -23,6 +23,34 @@ function Footer() {
             <SubscribeSection />
             <ConnectSection />
           </div>
+          <div className="mt-10 flex justify-center gap-3">
+            <a
+              target="_blank"
+              href="https://www.trustpilot.com/review/asrv.com"
+            >
+              <span className="font-bold">Excellent</span>
+            </a>
+            <a
+              target="_blank"
+              href="https://www.trustpilot.com/review/asrv.com"
+            >
+              <img
+                alt=""
+                className="h-6"
+                src="https://media.discordapp.net/attachments/1026660684739653674/1110605447976718478/TruspilotStars.png"
+              />
+            </a>
+            <a
+              target="_blank"
+              href="https://www.trustpilot.com/review/asrv.com"
+            >
+              <img
+                alt=""
+                className="h-6"
+                src="https://media.discordapp.net/attachments/1026660684739653674/1110605525760102581/TruspilotLogo.png"
+              />
+            </a>
+          </div>
           <div className="mt-10">
             <Link
               onClick={handleClickFooter}
