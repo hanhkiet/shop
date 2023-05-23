@@ -1,13 +1,11 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import NavbarAdmin from '../components/NavbarAdmin';
 
 function AdminPage() {
   return (
     <>
-      <Navbar />
+      <NavbarAdmin />
       <Outlet />
-      <Footer />
     </>
   );
 }

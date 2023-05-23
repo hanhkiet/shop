@@ -21,7 +21,7 @@ function MenuDropDown(props: Props) {
         ...response.data,
         {
           name: 'account',
-          url: '/auth/login',
+          url: '/account',
         },
       ]);
     });

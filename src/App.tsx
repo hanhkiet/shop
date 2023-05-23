@@ -5,7 +5,9 @@ import { clearAddresses } from './app/addressSlice';
 import { sendAuthenticateRequest } from './app/authSlice';
 import { AppDispatch } from './app/store';
 import { accountRouter } from './routers/accountRouter';
+import { adminRouter } from './routers/adminRouter';
 import { authRouter } from './routers/authRouter';
+import { authAdminRouter } from './routers/authAdminRouter';
 import { checkoutRouter } from './routers/checkoutRouter';
 import { homeRouter } from './routers/homeRouter';
 import { categoryRouter } from './routers/categoryRouter';
@@ -15,7 +17,9 @@ import { getMenuData } from './app/menuSlice';
 const router = createBrowserRouter([
   homeRouter,
   accountRouter,
+  adminRouter,
   authRouter,
+  authAdminRouter,
   checkoutRouter,
   categoryRouter,
   errorRouter,
