@@ -101,6 +101,11 @@ const sendRegisterRequest = createAsyncThunk(
       },
     });
 
+    if (response.status !== 200) {
+      localStorage.removeItem('accessToken');
+      return null;
+    }
+
     const user = response.data.userData as User;
     const token = response.data.jwt;
 

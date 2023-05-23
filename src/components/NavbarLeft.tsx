@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { setHoverMenuId } from '../app/menuSlice';
 import { AppDispatch, RootState } from '../app/store';
-import { getMenuData, setHoverMenuId } from '../app/menuSlice';
-import MenuDropDown from './MenuDropdown';
-import MegaMenu from './MegaMenu';
+import { MenuData } from '../app/types';
 import ModalNavbar from '../modals/ModalNavbar';
-import { Menu } from '../app/types';
+import MegaMenu from './MegaMenu';
+import MenuDropDown from './MenuDropdown';
 
 type Props = {
   className?: string;
@@ -23,7 +22,6 @@ export default function NavbarLeft(props: Props) {
   const [showShopMenu, setShowShopMenu] = useState(false);
   const hoverMenuId = useSelector((state: RootState) => state.menu.hoverMenuId);
   const dispatch: AppDispatch = useDispatch();
-  const API_MENUS_URL = import.meta.env.VITE_MENUS_API_URL;
   const checkMenu = showShopMenu && hoverMenuId !== 0;
   const handleDisappearMenu = () => {
     setShowMenu(false);
@@ -51,12 +49,12 @@ export default function NavbarLeft(props: Props) {
           props.changeColor ? `text-neutral-600` : `text-white`
         }`}
       >
-        {menus.map((item: Menu, index: any) => (
+        {menus.map((item: MenuData, index: number) => (
           <li key={index}>
             <div className={`navbar-list z-50`}>
               <Link
                 onMouseOver={() => {
-                  setShowShopMenu(item.megaMenu.length > 0);
+                  setShowShopMenu(item.megaMenus.length > 0);
                   if (hoverMenuId != item.id) {
                     dispatch(setHoverMenuId(0));
                     setTimeout(() => {
@@ -88,7 +86,7 @@ export default function NavbarLeft(props: Props) {
       )}
       {
         <MegaMenu
-          menuId={hoverMenuId}
+          menu={menus.find(item => item.id === hoverMenuId)?.megaMenus || []}
           className={
             checkMenu && props.changeColorFirst
               ? `visible opacity-100`
