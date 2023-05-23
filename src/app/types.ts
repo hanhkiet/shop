@@ -29,13 +29,13 @@ export interface MegaMenuItem {
 export interface MegaMenu {
   id: number;
   name: string;
-  megaMenu: MegaMenuItem[];
+  megaMenuItems: MegaMenuItem[];
 }
 
 export interface Menu {
   id: number;
   name: string;
-  megaMenu: MegaMenu[];
+  megaMenus: MegaMenu[];
 }
 
 export interface User {

@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
-import { getMenuData, setHoverMenuId } from '../app/menuSlice';
+import { setHoverMenuId } from '../app/menuSlice';
 import MenuDropDown from './MenuDropdown';
 import MegaMenu from './MegaMenu';
 import ModalNavbar from '../modals/ModalNavbar';
@@ -56,7 +55,7 @@ export default function NavbarLeft(props: Props) {
             <div className={`navbar-list z-50`}>
               <Link
                 onMouseOver={() => {
-                  setShowShopMenu(item.megaMenu.length > 0);
+                  setShowShopMenu(item.megaMenus.length > 0);
                   if (hoverMenuId != item.id) {
                     dispatch(setHoverMenuId(0));
                     setTimeout(() => {

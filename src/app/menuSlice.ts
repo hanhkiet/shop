@@ -44,7 +44,7 @@ const menuSlice = createSlice({
 });
 
 const getMenuData = createAsyncThunk('menu/getMenuData', async () => {
-  const response = await axios.get(`${import.meta.env.VITE_MENUS_URL}`, {
+  const response = await axios.get(`${import.meta.env.VITE_MENUS_API_URL}`, {
     headers: {
       'Content-Type': 'application/json',
     },
