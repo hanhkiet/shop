@@ -11,20 +11,16 @@ function CategoryPage() {
   const div1Ref = useRef<HTMLDivElement>(null);
   const div2Ref = useRef<HTMLDivElement>(null);
   const div3Ref = useRef<HTMLDivElement>(null);
-  const div4Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const div1 = div1Ref.current;
       const div2 = div2Ref.current;
       const div3 = div3Ref.current;
-      const div4 = div4Ref.current;
 
-      if (div1 && div2 && div3 && div4) {
+      if (div1 && div2 && div3) {
         const rect = div1.getBoundingClientRect();
         const shouldFixDiv2 = rect.top <= 0;
-        const rect3 = div4.getBoundingClientRect();
-        const shouldFixDiv3 = rect3.top > 0;
 
         div2.classList.toggle('fixed', shouldFixDiv2);
         div3.classList.toggle('fixed', shouldFixDiv2);
@@ -110,8 +106,12 @@ function CategoryPage() {
         </div>
         <div className="flex flex-row">
           <div className="basis-2/12">
-            <div ref={div3Ref} className="w-2/12">
-              ss
+            <div ref={div3Ref} className="sticky left-0 top-36 h-16 w-2/12">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aperiam
+              quam perferendis dolore, nesciunt suscipit veniam assumenda natus
+              ab culpa recusandae voluptatem numquam architecto rerum excepturi
+              blanditiis nihil deserunt repellat officiis.repellat
+              officiis.repellat officiis.repellat officiis.repellat officiis.
             </div>
           </div>
           <div className="basis-10/12">
@@ -121,11 +121,81 @@ function CategoryPage() {
             quaerat amet voluptatum. Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Id excepturi, ullam hic vero tempore voluptas
             autem iste numquam impedit qui perferendis quo! Libero quis quo
-            provident similique tempore voluptates reiciendis? Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Debitis, repellendus
-            officiis. Quos aspernatur recusandae nesciunt, quas quam qui
-            dignissimos officiis unde animi nisi sunt dolor reprehenderit quidem
-            porro, eaque eius! Lorem ipsum dolor sit amet consectetur
+            provident similique tempore voluptates reicLorem ipsum dolor sit
+            amet consectetur, adipisicing elit. Maxime voluptate officiis
+            laboriosam, soluta ea, est libero eius accusantium temporibus nulla
+            perferendis nesciunt deleniti molestiae eum quam doloribus explicabo
+            quos magnam. asdasdkasjdaklasjasdkldjskldsadasdasdasdasLorem ipsum
+            dolor sit amet consectetur, adipisicing elit. Maxime voluptate
+            officiis laboriosam, soluta ea, est libero eius accusantium
+            temporibus nulla perferendis nesciunt deleniti molestiae eum quam
+            doloribus explicabo quos magnam.
+            asdasdkasjdaklasjasdkldjskldsadasdasdasdasiendis? Lorem rem ipsum
+            dolor sit amet consectetur adipisicing elit. Provident illo nobis
+            vel dignissimos cum ullam molestiae minima reiciendis ratione sed
+            asperiores tempora atque odit aliquam, eligendi esse quaerat amet
+            voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Id excepturi, ullam hic vero tempore voluptas autem iste numquam
+            impedit qui perferendis quo! Libero quis quo provident similique
+            tempore voluptates reicLorem ipsum dolor sit amet consectetur,
+            adipisicing elit. Maxime voluptate officiis laboriosam, soluta ea,
+            est libero eius accusantium temporibus nulla perferendis nesciunt
+            deleniti molestiae eum quam doloribus explicabo quos magnam.
+            asdasdkasjdaklasjasdkldjskldsadasdasdasdasLorem ipsum dolor sit amet
+            consectetur, adipisicing elit. Maxime voluptate officiis laboriosam,
+            soluta ea, est libero eius accusantium temporibus nulla perferendis
+            nesciunt deleniti molestiae eum quam doloribus explicabo quos
+            magnam. asdasdkasjdaklasjasdkldjskldsadasdasdasdasiendis? Lorem rem
+            ipsum dolor sit amet consectetur adipisicing elit. Provident illo
+            nobis vel dignissimos cum ullam molestiae minima reiciendis ratione
+            sed asperiores tempora atque odit aliquam, eligendi esse quaerat
+            amet voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing
+            elit. Id excepturi, ullam hic vero tempore voluptas autem iste
+            numquam impedit qui perferendis quo! Libero quis quo provident
+            similique tempore voluptates reicLorem ipsum dolor sit amet
+            consectetur, adipisicing elit. Maxime voluptate officiis laboriosam,
+            soluta ea, est libero eius accusantium temporibus nulla perferendis
+            nesciunt deleniti molestiae eum quam doloribus explicabo quos
+            magnam. asdasdkasjdaklasjasdkldjskldsadasdasdasdasLorem ipsum dolor
+            sit amet consectetur, adipisicing elit. Maxime voluptate officiis
+            laboriosam, soluta ea, est libero eius accusantium temporibus nulla
+            perferendis nesciunt deleniti molestiae eum quam doloribus explicabo
+            quos magnam. asdasdkasjdaklasjasdkldjskldsadasdasdasdasiendis? Lorem
+            rem ipsum dolor sit amet consectetur adipisicing elit. Provident
+            illo nobis vel dignissimos cum ullam molestiae minima reiciendis
+            ratione sed asperiores tempora atque odit aliquam, eligendi esse
+            quaerat amet voluptatum. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Id excepturi, ullam hic vero tempore voluptas
+            autem iste numquam impedit qui perferendis quo! Libero quis quo
+            provident similique tempore voluptates reicLorem ipsum dolor sit
+            amet consectetur, adipisicing elit. Maxime voluptate officiis
+            laboriosam, soluta ea, est libero eius accusantium temporibus nulla
+            perferendis nesciunt deleniti molestiae eum quam doloribus explicabo
+            quos magnam. asdasdkasjdaklasjasdkldjskldsadasdasdasdasLorem ipsum
+            dolor sit amet consectetur, adipisicing elit. Maxime voluptate
+            officiis laboriosam, soluta ea, est libero eius accusantium
+            temporibus nulla perferendis nesciunt deleniti molestiae eum quam
+            doloribus explicabo quos magnam.
+            asdasdkasjdaklasjasdkldjskldsadasdasdasdasiendis? Lorem rem ipsum
+            dolor sit amet consectetur adipisicing elit. Provident illo nobis
+            vel dignissimos cum ullam molestiae minima reiciendis ratione sed
+            asperiores tempora atque odit aliquam, eligendi esse quaerat amet
+            voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Id excepturi, ullam hic vero tempore voluptas autem iste numquam
+            impedit qui perferendis quo! Libero quis quo provident similique
+            tempore voluptates reicLorem ipsum dolor sit amet consectetur,
+            adipisicing elit. Maxime voluptate officiis laboriosam, soluta ea,
+            est libero eius accusantium temporibus nulla perferendis nesciunt
+            deleniti molestiae eum quam doloribus explicabo quos magnam.
+            asdasdkasjdaklasjasdkldjskldsadasdasdasdasLorem ipsum dolor sit amet
+            consectetur, adipisicing elit. Maxime voluptate officiis laboriosam,
+            soluta ea, est libero eius accusantium temporibus nulla perferendis
+            nesciunt deleniti molestiae eum quam doloribus explicabo quos
+            magnam. asdasdkasjdaklasjasdkldjskldsadasdasdasdasiendis? Lorem
+            ipsum dolor sit amet consectetur adipisicing elit. Debitis,
+            repellendus officiis. Quos aspernatur recusandae nesciunt, quas quam
+            qui dignissimos officiis unde animi nisi sunt dolor reprehenderit
+            quidem porro, eaque eius! Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Provident illo nobis vel dignissimos cum ullam
             molestiae minima reiciendis ratione sed asperiores tempora atque
             odit aliquam, eligendi esse quaerat amet voluptatum. Lorem ipsum
@@ -180,9 +250,7 @@ function CategoryPage() {
           </div>
         </div>
       </div>
-      <div ref={div4Ref}>
-        <Footer />
-      </div>
+      <Footer />
     </>
   );
 }

@@ -65,7 +65,7 @@ function MenuDropDownItem(props: Props) {
       </div>
       {props.activeMenu === props.menuTitle && (
         <ul className="pl-5 uppercase">
-          {filteredData.megaMenus.map((item: any, index: any) => (
+          {filteredData.collectionTypes.map((item: any, index: any) => (
             <MenuDropDownItemChild
               key={index}
               onMenuClick={() =>

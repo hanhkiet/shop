@@ -20,22 +20,19 @@ export interface MenuState {
   menus: Menu[];
 }
 
-export interface MegaMenuItem {
-  id: number;
-  name: string;
-  url: string;
-}
-
-export interface MegaMenu {
-  id: number;
-  name: string;
-  megaMenuItems: MegaMenuItem[];
-}
-
 export interface Menu {
   id: number;
   name: string;
-  megaMenus: MegaMenu[];
+  collectionTypes: CollectionType[];
+}
+
+export interface CollectionType {
+  name: string;
+  collections: Array<Collection>;
+}
+
+export interface Collection {
+  name: string;
 }
 
 export interface User {

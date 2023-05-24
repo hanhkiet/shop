@@ -53,7 +53,7 @@ export default function NavbarLeft(props: Props) {
             <div className={`navbar-list z-50`}>
               <Link
                 onMouseOver={() => {
-                  setShowShopMenu(item.megaMenus.length > 0);
+                  setShowShopMenu(item.collectionTypes.length > 0);
                   if (hoverMenuId != item.id) {
                     dispatch(setHoverMenuId(0));
                     setTimeout(() => {

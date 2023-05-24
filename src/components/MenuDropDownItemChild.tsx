@@ -15,7 +15,7 @@ function MenuDropDownItemChild(props: Props) {
   const filteredData = menus.filter(
     (menu: any) => menu.id === props.menuParentId,
   )[0];
-  const filteredDataChild = filteredData.megaMenus.filter(
+  const filteredDataChild = filteredData.collectionTypes.filter(
     (item: any) => item.id === props.parentMegamenuId,
   )[0];
   return (
@@ -44,12 +44,12 @@ function MenuDropDownItemChild(props: Props) {
           <ul className="pl-5">
             <div
               className={`pl-5 ${
-                filteredDataChild.megaMenuItems.length > 0
+                filteredDataChild.collections.length > 0
                   ? `border-l-2 border-gray-300`
                   : ``
               }`}
             >
-              {filteredDataChild.megaMenuItems.map((item: any, index) => (
+              {filteredDataChild.collections.map((item: any, index) => (
                 <li
                   key={index}
                   className="cursor-pointer text-xs hover:text-gray-500"

@@ -17,15 +17,15 @@ export default function MegaMenu(props: Props) {
     >
       <ListAllMenu numOfCols={5}>
         <>
-          {filteredData?.megaMenus.map((item: any, index: any) => (
+          {filteredData?.collectionTypes.map((item: any, index: any) => (
             <div key={index}>
               <div className="mb-5 font-bold">
                 <Link to={item.url}>{item.name}</Link>
               </div>
               <ul>
-                {filteredData?.megaMenus
+                {filteredData?.collectionTypes
                   .filter((items: any) => items.id == item.id)[0]
-                  .megaMenuItems.map((items: any, indexs) => (
+                  .collections.map((items: any, indexs) => (
                     <li key={indexs}>
                       <Link
                         to={items.url}

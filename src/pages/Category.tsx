@@ -62,7 +62,7 @@ function Category() {
       <div className="">
         <div className="sort fixed left-0 right-0 z-30 bg-white">
           <div className="flex flex-row-reverse md:flex-row lg:flex-row">
-            <div className="flex grid basis-1/3 content-center justify-center border-2 lg:basis-1/6">
+            <div className="flex basis-1/3 content-center justify-center border-2 lg:basis-1/6">
               <div className="flex justify-between">
                 <img
                   onClick={handleClickMode1}
@@ -98,7 +98,7 @@ function Category() {
                 />
               </div>
             </div>
-            <div className="flex grid basis-0 content-center justify-center border-t-2 border-b-2 md:block md:basis-full lg:block lg:basis-full"></div>
+            <div className="flex basis-0 content-center justify-center border-t-2 border-b-2 md:block md:basis-full lg:block lg:basis-full"></div>
             <div className="flex basis-1/3 justify-center border-2 lg:basis-1/6">
               <p className="font-light">Sort</p>{' '}
               <img
