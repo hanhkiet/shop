@@ -30,11 +30,11 @@ export default function NavbarLeftAdmin(props: Props) {
   const dataItem = [
     {
       name: 'BUSINESS',
-      url: '/admin',
+      url: '/admin/business',
     },
     {
       name: 'DESIGN',
-      url: '/admin',
+      url: '/admin/design',
     },
   ];
   return (

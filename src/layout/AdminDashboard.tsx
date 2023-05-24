@@ -6,7 +6,11 @@ function AdminDashboard() {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   if (!isAuthenticated)
     return <Navigate to="/auth/admin/login" replace={true} />;
-  return <></>;
+  return (
+    <div>
+      <p>This is admin dashboard</p>
+    </div>
+  );
 }
 
 export default AdminDashboard;
