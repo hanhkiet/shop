@@ -31,7 +31,6 @@ function ProductDetail() {
       prod.name.slice(0, prod.name.lastIndexOf('-')).trim() ===
       thisProduct.name.slice(0, thisProduct.name.lastIndexOf('-')).trim(),
   );
-  console.log(thisProductColor);
   const handleCartAppear = () => {
     dispatch(toggleVisibility(true));
   };
@@ -53,6 +52,7 @@ function ProductDetail() {
               <div className="sticky top-16 left-0 py-3">
                 {thisProduct.images.map((item: string, index) => (
                   <img
+                    key={index}
                     onClick={() => {
                       setPictureIndex(index);
                       scrollToElement(index.toString());
@@ -68,7 +68,7 @@ function ProductDetail() {
             </div>
             <div className="basis-1/2 md:basis-6/12">
               {thisProduct.images.map((item: string, index) => (
-                <div className="pt-20" id={index.toString()}>
+                <div className="pt-20" id={index.toString()} key={index}>
                   <img
                     alt={item}
                     src={item}
@@ -89,6 +89,11 @@ function ProductDetail() {
                 <div className="grid grid-cols-5">
                   {thisProductColor.map((item: Product) => (
                     <Link
+                      key={item.uuid}
+                      onClick={() => {
+                        setPictureIndex(0);
+                        setSizeValue(sizes[0]);
+                      }}
                       to={`/products/${item.name
                         .replace(/\W+/gi, '-')
                         .toLowerCase()}`}
@@ -107,7 +112,7 @@ function ProductDetail() {
                 </div>
                 <p>Size: </p>
                 <div className={`flex gap-2`}>
-                  {sizes.map((eachSize: string, index) => (
+                  {sizes.map((eachSize: string) => (
                     <div
                       key={eachSize}
                       onClick={() => setSizeValue(eachSize)}
