@@ -10,6 +10,15 @@ function HomePage() {
     <>
       <Navbar />
       <Cover
+        src="https://asrv.com/cdn/shop/files/BF-Banner-Desktop_3f36479b-ef35-40df-9b4e-7770efeb8c56.jpg"
+        srcSmallScreen="https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg"
+        mainTitle="END OF SEASON SALE"
+        productListTitle="END OF SEASON SALE"
+        subTitle="UP TO 50% OFF - SALE ENDS 5.31.23"
+        firstButton="SHOP SALE"
+        lineOfShowItems={4}
+      />
+      <Cover
         src="https://asrv.com/cdn/shop/files/Banner_1800x.jpg"
         srcSmallScreen="https://asrv.com/cdn/shop/files/Banner_mobile.png"
         mainTitle="BACK IN STOCK"

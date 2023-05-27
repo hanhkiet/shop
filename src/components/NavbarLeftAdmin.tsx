@@ -58,7 +58,7 @@ export default function NavbarLeftAdmin(props: Props) {
           props.changeColor ? `text-neutral-600` : `text-white`
         }`}
       >
-        {dataItem.map((item: any, index: any) => (
+        {dataItem.map((item: any, index) => (
           <li key={index}>
             <div className={`navbar-list z-50`}>
               <Link

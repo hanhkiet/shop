@@ -48,7 +48,7 @@ export default function NavbarLeft(props: Props) {
           props.changeColor ? `text-neutral-600` : `text-white`
         }`}
       >
-        {menus.map((item: Menu, index: any) => (
+        {menus.map((item: Menu, index) => (
           <li key={index}>
             <div className={`navbar-list z-50`}>
               <Link

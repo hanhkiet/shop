@@ -4,19 +4,14 @@
 
 @font-face {
   font-family: 'ASRV-Standard';
-  src: url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Standard.woff2')
-      format('woff2'),
-    url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Standard.woff')
-      format('woff');
-  font-weight: 400;
+  src: url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Light.woff2')
+    format('woff2');
 }
 
 @font-face {
-  font-family: 'ASRV-Standard';
-  src: url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Light.woff2')
-      format('woff2'),
-    url('https://asrv.com/cdn/shop/t/220/assets/ASRV-Light.woff') format('woff');
-  font-weight: 300;
+  font-family: 'avenir-next';
+  src: url('https://raw.githubusercontent.com/vai0/stockmarketchart/master/src/fonts/avenir-next-ultralight.woff2')
+    format('woff2');
 }
 
 @layer base {

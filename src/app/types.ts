@@ -27,11 +27,13 @@ export interface Menu {
 }
 
 export interface CollectionType {
+  id: number;
   name: string;
   collections: Array<Collection>;
 }
 
 export interface Collection {
+  id: number;
   name: string;
 }
 

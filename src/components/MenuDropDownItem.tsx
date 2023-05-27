@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { addActiveMenuChild, removeActiveMenuChild } from '../app/menuSlice';
 import MenuDropDownItemChild from './MenuDropDownItemChild';
+import { CollectionType, Menu } from '../app/types';
 
 type Props = {
   menuTitle: string;
@@ -12,7 +13,9 @@ type Props = {
 
 function MenuDropDownItem(props: Props) {
   const menus = useSelector((state: RootState) => state.menu.menus);
-  const filteredData = menus.filter((menu: any) => menu.id === props.menuId)[0];
+  const filteredData = menus.filter(
+    (menu: Menu) => menu.id === props.menuId,
+  )[0];
   const activeMenuChildStore = useSelector(
     (state: RootState) => state.menu.activeMenuChild,
   );
@@ -65,7 +68,7 @@ function MenuDropDownItem(props: Props) {
       </div>
       {props.activeMenu === props.menuTitle && (
         <ul className="pl-5 uppercase">
-          {filteredData.collectionTypes.map((item: any, index: any) => (
+          {filteredData.collectionTypes.map((item: CollectionType, index) => (
             <MenuDropDownItemChild
               key={index}
               onMenuClick={() =>

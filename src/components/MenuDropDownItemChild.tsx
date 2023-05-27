@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { Link } from 'react-router-dom';
+import { Collection, CollectionType, Menu } from '../app/types';
 
 type Props = {
   menuTitle: string;
@@ -13,10 +14,10 @@ type Props = {
 function MenuDropDownItemChild(props: Props) {
   const menus = useSelector((state: RootState) => state.menu.menus);
   const filteredData = menus.filter(
-    (menu: any) => menu.id === props.menuParentId,
+    (menu: Menu) => menu.id === props.menuParentId,
   )[0];
   const filteredDataChild = filteredData.collectionTypes.filter(
-    (item: any) => item.id === props.parentMegamenuId,
+    (item: CollectionType) => item.id === props.parentMegamenuId,
   )[0];
   return (
     <li className="cursor-pointer">
@@ -42,19 +43,13 @@ function MenuDropDownItemChild(props: Props) {
       {props.activeMenu.includes(props.menuTitle) && (
         <>
           <ul className="pl-5">
-            <div
-              className={`pl-5 ${
-                filteredDataChild.collections.length > 0
-                  ? `border-l-2 border-gray-300`
-                  : ``
-              }`}
-            >
-              {filteredDataChild.collections.map((item: any, index) => (
+            <div className="border-l-2 border-gray-300 pl-5">
+              {filteredDataChild.collections.map((item: Collection, index) => (
                 <li
                   key={index}
                   className="cursor-pointer text-xs hover:text-gray-500"
                 >
-                  <Link to={item.url}>{item.name}</Link>
+                  <Link to="/">{item.name}</Link>
                 </li>
               ))}
             </div>

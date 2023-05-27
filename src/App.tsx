@@ -5,6 +5,7 @@ import { clearAddresses } from './app/addressSlice';
 import { sendAuthenticateRequest } from './app/authSlice';
 import { AppDispatch } from './app/store';
 import { accountRouter } from './routers/accountRouter';
+import { productRouter } from './routers/productRouter';
 import { adminRouter } from './routers/adminRouter';
 import { authRouter } from './routers/authRouter';
 import { authAdminRouter } from './routers/authAdminRouter';
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
   checkoutRouter,
   categoryRouter,
   errorRouter,
+  productRouter,
 ]);
 
 function App() {

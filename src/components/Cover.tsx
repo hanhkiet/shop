@@ -3,6 +3,7 @@ import { RootState } from '../app/store';
 import SkeletonProduct from './SkeletonProduct';
 import ProductCard from '../components/ProductCard';
 import Banner from './Banner';
+import { Product } from '../app/types';
 
 type Props = {
   src: string;
@@ -49,24 +50,16 @@ export default function Cover(props: Props) {
       {products ? (
         <>
           <div className="mx-auto grid grid-cols-2 gap-x-24 gap-y-12 p-12 lg:max-w-screen-xl lg:grid-cols-4">
-            {products
-              .slice(
-                0,
-                products.length % 4 == 0 ||
-                  props.lineOfShowItems * 4 <= products.length
-                  ? props.lineOfShowItems * 4
-                  : products.length - Math.floor(products.length % 4),
-              )
-              .map((product: any) => (
-                <ProductCard
-                  key={product.uuid}
-                  id={product.uuid}
-                  name={product.name}
-                  price={product.price}
-                  imageOne={product.images[0]}
-                  imageTwo={product.images[1]}
-                />
-              ))}
+            {products.map((product: Product) => (
+              <ProductCard
+                key={product.uuid}
+                id={product.uuid}
+                name={product.name}
+                price={product.price}
+                imageOne={product.images[0]}
+                imageTwo={product.images[1]}
+              />
+            ))}
           </div>
           <button className="button button-dark mx-auto mb-10 grid place-content-center">
             VIEW ALL

@@ -6,11 +6,21 @@ import MenuDropDownItem from './MenuDropDownItem';
 import { Menu } from '../app/types';
 
 type Props = {
-  onClickClose: () => void;
+  onClickClose?: () => void;
+  className?: string;
 };
 
 function MenuDropDown(props: Props) {
-  const menus = useSelector((state: RootState) => state.menu.menus);
+  const menusData = useSelector((state: RootState) => state.menu.menus);
+  const menus = [
+    ...menusData,
+    {
+      id: 0,
+      name: 'Account',
+      url: '/account',
+      collectionTypes: [],
+    },
+  ];
 
   const activeMenuStore = useSelector(
     (state: RootState) => state.menu.activeMenu,
@@ -20,15 +30,15 @@ function MenuDropDown(props: Props) {
     dispatch(setActiveMenu(menu === activeMenuStore ? null : menu));
   };
   return (
-    <div className="z-50 m-5">
+    <div className={`z-50 m-5 ${props.className}`}>
       <img
         onClick={props.onClickClose}
-        className="mb-5 h-3 hover:cursor-pointer"
+        className="mb-5 block h-3 hover:cursor-pointer lg:hidden"
         src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png"
         alt=""
       />
       <ul>
-        {menus.map((item: Menu, index: any) => (
+        {menus.map((item: Menu, index) => (
           <li key={index}>
             {item.collectionTypes.length > 0 ? (
               <MenuDropDownItem

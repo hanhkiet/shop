@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { addItem } from '../app/cartSlice';
-import { RootState } from '../app/store';
-import { toggleVisibility } from '../app/cartSlice';
+import Size from './Size';
 
 type Props = {
   id: string;
@@ -11,24 +8,11 @@ type Props = {
   imageTwo: string;
   name: string;
   price: number;
-  onClick?: any;
+  onClick?: () => void;
 };
 
 function ProductCard(props: Props) {
-  const sizes = useSelector((state: RootState) => state.product.sizes);
   const [isShown, setIsShown] = useState(false);
-  const dispatch = useDispatch();
-  const handleCartAppear = () => {
-    dispatch(toggleVisibility(true));
-  };
-  const handleAddToCart = (size: string) => {
-    dispatch(
-      addItem({
-        id: props.id,
-        size: size,
-      }),
-    );
-  };
   return (
     <div
       onMouseEnter={() => setIsShown(true)}
@@ -54,27 +38,7 @@ function ProductCard(props: Props) {
           ${props.price} usd
         </p>
       )}
-      {isShown && (
-        <div className="flex gap-2">
-          {sizes.map((eachSize: string, index) => (
-            <Link
-              to=""
-              key={index}
-              onClick={() => {
-                handleAddToCart(eachSize);
-                handleCartAppear();
-              }}
-            >
-              <span
-                key={eachSize}
-                className="border border-solid border-neutral-300 px-3 text-xs transition-colors hover:border-neutral-600"
-              >
-                {eachSize}
-              </span>
-            </Link>
-          ))}
-        </div>
-      )}
+      {isShown && <Size id={props.id} />}
     </div>
   );
 }
