@@ -44,7 +44,6 @@
   .button {
     @apply rounded px-6 py-3 text-sm uppercase tracking-widest text-gray-500;
     @apply bg-neutral-200;
-    /* @apply hover:bg-neutral-600 hover:text-neutral-100; */
   }
 
   .button-dark {

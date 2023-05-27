@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { useParams } from 'react-router-dom';
@@ -24,7 +25,13 @@ function ProductDetail() {
   const thisProduct = products.find(
     (prod: Product) => prod.name.replace(/\W+/gi, '-').toLowerCase() === name,
   );
-  if (!thisProduct) return <></>;
+  if (!thisProduct || !name) return <></>;
+  const thisProductColor = products.filter(
+    (prod: Product) =>
+      prod.name.slice(0, prod.name.lastIndexOf('-')).trim() ===
+      thisProduct.name.slice(0, thisProduct.name.lastIndexOf('-')).trim(),
+  );
+  console.log(thisProductColor);
   const handleCartAppear = () => {
     dispatch(toggleVisibility(true));
   };
@@ -62,11 +69,15 @@ function ProductDetail() {
             <div className="basis-1/2 md:basis-6/12">
               {thisProduct.images.map((item: string, index) => (
                 <div className="pt-20" id={index.toString()}>
-                  <img alt={item} src={item} className="mx-auto lg:w-5/6" />
+                  <img
+                    alt={item}
+                    src={item}
+                    className="mx-auto px-3 lg:w-5/6"
+                  />
                 </div>
               ))}
             </div>
-            <div className="mr-5 basis-1/2 md:basis-5/12">
+            <div className="mx-5 basis-1/2 md:basis-5/12">
               <div className="sticky top-16 right-0 grid gap-6 pt-16">
                 <p className="text-xl text-gray-700">
                   {thisProduct.name.toUpperCase()}
@@ -74,14 +85,36 @@ function ProductDetail() {
                 <p className="font-bold text-gray-500">
                   ${thisProduct.price} USD
                 </p>
+                <p>Color: </p>
+                <div className="grid grid-cols-5">
+                  {thisProductColor.map((item: Product) => (
+                    <Link
+                      to={`/products/${item.name
+                        .replace(/\W+/gi, '-')
+                        .toLowerCase()}`}
+                    >
+                      <img
+                        alt=""
+                        src={item.images[0]}
+                        className={`mx-auto ${
+                          thisProduct.uuid === item.uuid
+                            ? `border-2 border-gray-500`
+                            : ``
+                        }`}
+                      />
+                    </Link>
+                  ))}
+                </div>
                 <p>Size: </p>
                 <div className={`flex gap-2`}>
                   {sizes.map((eachSize: string, index) => (
                     <div
                       key={eachSize}
                       onClick={() => setSizeValue(eachSize)}
-                      className={`w-full cursor-pointer border border-solid border-neutral-300 px-6 py-2 text-center transition-colors hover:border-neutral-400 ${
-                        eachSize === sizeValue ? `border-neutral-600` : ``
+                      className={`w-full cursor-pointer border border-solid border-neutral-300 px-6 py-2 text-center transition-colors ${
+                        eachSize === sizeValue
+                          ? `border-neutral-600`
+                          : `hover:border-neutral-400`
                       }`}
                     >
                       {eachSize}
@@ -93,7 +126,7 @@ function ProductDetail() {
                     handleAddToCart();
                     handleCartAppear();
                   }}
-                  className="h-12 w-full bg-gray-800 text-white duration-300 hover:bg-black"
+                  className="h-12 w-full bg-neutral-700 text-white duration-300 hover:bg-black"
                 >
                   ADD TO CART
                 </button>
