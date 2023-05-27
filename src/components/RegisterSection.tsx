@@ -56,7 +56,7 @@ const RegisterSection = () => {
       const payload = {
         firstName: firstNameRef.current?.value,
         lastName: lastNameRef.current?.value,
-        email: emailRef.current?.value,
+        username: emailRef.current?.value,
         password: passwordRef.current?.value,
       } as RegisterDataActionPayload;
 

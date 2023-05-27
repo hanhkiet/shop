@@ -1,5 +1,5 @@
 function AdminBusiness() {
-    return <p>This is admin business!</p>;
+  return <p>This is admin business!</p>;
 }
 
 export default AdminBusiness;

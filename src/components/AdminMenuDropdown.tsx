@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { toggleVisibility } from '../app/cartSlice';
 
 type Props = {
-    dataItem: any;
-}
+  dataItem: any;
+};
 
 function AdminMenuDropDown(props: Props) {
   const dispatch = useDispatch();

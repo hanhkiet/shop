@@ -1,13 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { sendLogoutRequest } from '../app/authSlice';
 import { AppDispatch, RootState } from '../app/store';
 import OrderOverviewSection from '../components/OrderOverviewSection';
 
 const AccountOverviewSection = () => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  if (!isAuthenticated) return <Navigate to="/auth/login" replace={true} />;
-
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,12 +26,26 @@ const AccountOverviewSection = () => {
           <p className="text-md font-light">
             Welcome back, {firstName + ' ' + lastName}!
           </p>
-          <button
-            className="text-md font-light text-neutral-400 transition-colors hover:text-neutral-600"
-            onClick={handleLogout}
-          >
-            Log out
-          </button>
+          <div className="flex gap-6">
+            <button
+              className="text-md font-light text-neutral-400 transition-colors hover:text-neutral-600"
+              onClick={handleLogout}
+            >
+              Log out
+            </button>
+            <button
+              className="text-md font-light text-neutral-400 transition-colors hover:text-neutral-600"
+              onClick={handleLogout}
+            >
+              Update profile
+            </button>
+            <button
+              className="text-md font-light text-neutral-400 transition-colors hover:text-neutral-600"
+              onClick={handleLogout}
+            >
+              Change password
+            </button>
+          </div>
         </div>
         <div className="flex flex-col justify-between gap-12 lg:flex-row lg:gap-20">
           <OrderOverviewSection />

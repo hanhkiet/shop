@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import addressSlice from './addressSlice';
 import authReducer from './authSlice';
 import cartReducer from './cartSlice';
+import managerReducer from './managerSlice';
 import menuReducer from './menuSlice';
-import productReducer from './productSlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
+import productReducer from './productSlice';
 
 const store = configureStore({
   reducer: {
+    manager: managerReducer,
     cart: cartReducer,
     order: orderReducer,
     menu: menuReducer,

@@ -1,5 +1,5 @@
 function AdminDesign() {
-    return <div>This is admin design</div>;
+  return <div>This is admin design</div>;
 }
 
 export default AdminDesign;
