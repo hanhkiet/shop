@@ -91,6 +91,9 @@ const sendRegisterRequest = createAsyncThunk(
     const response = await axios.post(
       `${import.meta.env.VITE_CUSTOMER_AUTH_API_URL}/register`,
       payload,
+      {
+        withCredentials: true,
+      },
     );
 
     const user = response.data as User;
@@ -102,8 +105,11 @@ const sendLoginRequest = createAsyncThunk(
   'auth/login',
   async (payload: LoginDataActionPayload, { dispatch }) => {
     const response = await axios.post(
-      `${import.meta.env.VITE_CUSTOMER_AUTH_URL}/login`,
+      `${import.meta.env.VITE_CUSTOMER_AUTH_API_URL}/login`,
       payload,
+      {
+        withCredentials: true,
+      },
     );
 
     const user = response.data as User;
@@ -118,6 +124,10 @@ const sendLogoutRequest = createAsyncThunk(
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_CUSTOMER_AUTH_URL}/logout`,
+        {},
+        {
+          withCredentials: true,
+        },
       );
 
       dispatch(clearAddresses());

@@ -1,11 +1,50 @@
-import { useSelector } from 'react-redux';
+import { FormEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { RootState } from '../app/store';
+import { sendLoginRequest } from '../app/managerSlice';
+import { AppDispatch, RootState } from '../app/store';
+import { LoginDataActionPayload } from '../app/types';
 import ManagerNavbar from '../components/ManagerNavbar';
+import { useRefWithValidator } from '../hooks/useRefWithValidator';
 import Modal from '../modals/Modal';
+import { nameRegex, passwordRegex } from '../utils/regex';
 
 function ManagerPage() {
   const { isAuthenticated } = useSelector((state: RootState) => state.manager);
+  const dispatch: AppDispatch = useDispatch();
+
+  const {
+    ref: usernameRef,
+    error: usernameError,
+    validate: validateUsername,
+  } = useRefWithValidator(
+    nameRegex,
+    'Please enter a valid username (e.g. john_doe)',
+  );
+
+  const {
+    ref: passwordRef,
+    error: passwordError,
+    validate: validatePassword,
+  } = useRefWithValidator(
+    passwordRegex,
+    'Please enter a valid password (min 6 characters)',
+  );
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const username = validateUsername();
+    const password = validatePassword();
+
+    if (username && password) {
+      const payload = {
+        username: usernameRef.current?.value,
+        password: passwordRef.current?.value,
+      } as LoginDataActionPayload;
+
+      dispatch(sendLoginRequest(payload));
+    }
+  };
 
   if (!isAuthenticated) {
     return (
@@ -20,23 +59,32 @@ function ManagerPage() {
                 Please enter your username and password
               </p>
             </div>
-            <form className="flex flex-col gap-3 space-y-2 lg:gap-3">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-3 space-y-2 lg:gap-3"
+            >
               <div className="w-full space-y-1 text-left">
                 <input
+                  ref={usernameRef}
                   className={`input-field w-full lg:text-base `}
                   type="text"
                   placeholder="Username"
                 />
-                <p className="mx-1 text-xs text-red-500"></p>
+                <p className="mx-1 text-xs text-red-500">
+                  {usernameError ?? <span></span>}
+                </p>
               </div>
               <div className="w-full space-y-1 text-left">
                 <input
+                  ref={passwordRef}
                   className={`input-field 'border-red-500' } w-full
                   lg:text-base`}
                   type="password"
                   placeholder="Password"
                 />
-                <p className="mx-1 text-xs text-red-500"></p>
+                <p className="mx-1 text-xs text-red-500">
+                  {passwordError ?? <span></span>}
+                </p>
               </div>
               <button className="button button-dark" type="submit">
                 login

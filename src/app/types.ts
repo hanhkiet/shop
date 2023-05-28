@@ -104,7 +104,6 @@ export interface Manager {
   firstName: string;
   lastName: string;
   username: string;
-  role: Role;
 }
 
 export interface ManagerState {
