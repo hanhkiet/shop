@@ -12,6 +12,8 @@ import { addItem } from '../app/cartSlice';
 import { toggleVisibility } from '../app/cartSlice';
 
 function ProductDetail() {
+  const sales = false;
+  const salesMessage = 'FINAL SALE // NO RETURNS';
   const dispatch: AppDispatch = useDispatch();
   const { name } = useParams<{ name: string }>();
   const [pictureIndex, setPictureIndex] = useState(0);
@@ -42,6 +44,16 @@ function ProductDetail() {
       }),
     );
   };
+  const handleDecreasePictureIndex = () => {
+    if (pictureIndex > 0) {
+      setPictureIndex(pictureIndex - 1);
+    }
+  };
+  const handleIncreasePictureIndex = () => {
+    if (pictureIndex < thisProduct.images.length - 1) {
+      setPictureIndex(pictureIndex + 1);
+    }
+  };
   return (
     <>
       <div className="flex min-h-screen flex-col">
@@ -50,23 +62,43 @@ function ProductDetail() {
           <div className="grid flex-row md:flex">
             <div className="hidden basis-0 md:block md:basis-1/12">
               <div className="sticky top-16 left-0 py-3">
-                {thisProduct.images.map((item: string, index) => (
-                  <img
-                    key={index}
-                    onClick={() => {
-                      setPictureIndex(index);
-                      scrollToElement(index.toString());
-                    }}
-                    alt={item}
-                    src={item}
-                    className={`m-5 mx-auto h-20 cursor-pointer ${
-                      pictureIndex === index ? `border-2 border-gray-500` : ``
-                    }`}
-                  />
-                ))}
+                <div className="hidden lg:block">
+                  {thisProduct.images.map((item: string, index) => (
+                    <img
+                      key={index}
+                      onClick={() => {
+                        setPictureIndex(index);
+                        scrollToElement(index.toString());
+                      }}
+                      alt={item}
+                      src={item}
+                      className={`m-5 mx-auto h-20 cursor-pointer ${
+                        pictureIndex === index ? `border-2 border-gray-500` : ``
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="hidden h-0 place-items-center gap-3 md:grid md:h-[calc(100vh-4rem)] lg:hidden lg:h-0">
+                  <div className="hidden gap-3 md:grid lg:hidden">
+                    {thisProduct.images.map((_, index) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          setPictureIndex(index);
+                          scrollToElement(index.toString());
+                        }}
+                        className={`m-auto h-3 w-3 cursor-pointer rounded-full border-2 duration-300  ${
+                          pictureIndex === index
+                            ? `border-black bg-black`
+                            : `border-gray-500 bg-white`
+                        }`}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="basis-1/2 md:basis-6/12">
+            <div className="hidden basis-0 md:block md:basis-1/2">
               {thisProduct.images.map((item: string, index) => (
                 <div className="pt-20" id={index.toString()} key={index}>
                   <img
@@ -77,14 +109,66 @@ function ProductDetail() {
                 </div>
               ))}
             </div>
+            <div className="m-5 basis-1/2 justify-center pt-20 md:hidden md:basis-0">
+              <img
+                alt=""
+                src={thisProduct.images[pictureIndex]}
+                className={`mx-auto my-5`}
+              />
+              <div className="flex flex-row justify-center">
+                <svg
+                  onClick={handleDecreasePictureIndex}
+                  className="h-3 w-3 cursor-pointer"
+                  role="presentation"
+                  viewBox="0 0 6 9"
+                >
+                  <path
+                    d="M5 8.5l-4-4 4-4"
+                    stroke="currentColor"
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke-linecap="square"
+                  ></path>
+                </svg>
+                {thisProduct.images.map((_, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setPictureIndex(index);
+                      scrollToElement(index.toString());
+                    }}
+                    className={`m-auto h-3 w-3 cursor-pointer rounded-full border-2 duration-300  ${
+                      pictureIndex === index
+                        ? `border-black bg-black`
+                        : `border-gray-500 bg-white`
+                    }`}
+                  ></div>
+                ))}
+                <svg
+                  onClick={handleIncreasePictureIndex}
+                  className="h-3 w-3 cursor-pointer"
+                  role="presentation"
+                  viewBox="0 0 6 9"
+                >
+                  <path
+                    d="M1 8.5l4-4-4-4"
+                    stroke="currentColor"
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke-linecap="square"
+                  ></path>
+                </svg>
+              </div>
+            </div>
             <div className="mx-5 basis-1/2 md:basis-5/12">
               <div className="sticky top-16 right-0 grid gap-6 pt-16">
-                <p className="text-xl text-gray-700">
+                <p className="text-center text-xl text-gray-700 md:text-left">
                   {thisProduct.name.toUpperCase()}
                 </p>
-                <p className="font-bold text-gray-500">
-                  ${thisProduct.price} USD
-                </p>
+                <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
+                  <p>${thisProduct.price} USD</p>
+                  <p className='line-through'>${thisProduct.price} USD</p>
+                </div>
                 <p>Color: </p>
                 <div className="grid grid-cols-5">
                   {thisProductColor.map((item: Product) => (
@@ -135,6 +219,11 @@ function ProductDetail() {
                 >
                   ADD TO CART
                 </button>
+                {sales && (
+                  <p className="text-md text-center font-[ASRV-Standard] font-bold uppercase text-red-600">
+                    {salesMessage}
+                  </p>
+                )}
               </div>
             </div>
           </div>

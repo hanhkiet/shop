@@ -80,7 +80,7 @@ function MenuDropDownItem(props: Props) {
           props.activeMenu === props.menuTitle
             ? `visible h-full py-5 opacity-100`
             : `collapse h-0 py-0 opacity-0`
-        } duration-200`}
+        } duration-100`}
       >
         {filteredData.collectionTypes.map((item: CollectionType, index) => (
           <MenuDropDownItemChild
