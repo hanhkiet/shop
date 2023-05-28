@@ -267,7 +267,7 @@ function ProductDetail() {
         <div className="m-3 rounded-lg">
           <div className="flex flex-row justify-center">
             <p className="absolute text-center font-[ASRV-Standard] text-2xl text-gray-500">
-              SIZE GUIDE 0714
+              SIZE GUIDE {thisProduct.name.split('.')[0]}
             </p>
             <svg
               onClick={() => setClickModal(false)}
@@ -285,7 +285,9 @@ function ProductDetail() {
           </div>
           <img
             alt=""
-            src="https://cdn.shopify.com/s/files/1/0297/6293/files/0714.png"
+            src={`https://cdn.shopify.com/s/files/1/0297/6293/files/${
+              thisProduct.name.split('.')[0]
+            }.png`}
             className="mx-auto h-96"
           />
         </div>
