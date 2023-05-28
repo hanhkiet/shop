@@ -10,6 +10,8 @@ import { AppDispatch } from '../app/store';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../app/cartSlice';
 import { toggleVisibility } from '../app/cartSlice';
+import Modal from '../modals/Modal';
+import { RemoveScrollBar } from 'react-remove-scroll-bar';
 
 function ProductDetail() {
   const sales = false;
@@ -17,6 +19,8 @@ function ProductDetail() {
   const dispatch: AppDispatch = useDispatch();
   const { name } = useParams<{ name: string }>();
   const [pictureIndex, setPictureIndex] = useState(0);
+  const [clickModal, setClickModal] = useState(false);
+  const [hoverMeasure, setHoverMeasure] = useState(false);
   const products = useSelector((state: RootState) => state.product.products);
   const sizes = useSelector((state: RootState) => state.product.sizes);
   const [sizeValue, setSizeValue] = useState(sizes[0]);
@@ -109,13 +113,21 @@ function ProductDetail() {
                 </div>
               ))}
             </div>
-            <div className="m-5 basis-1/2 justify-center pt-20 md:hidden md:basis-0">
-              <img
-                alt=""
-                src={thisProduct.images[pictureIndex]}
-                className={`mx-auto my-5`}
-              />
-              <div className="flex flex-row justify-center">
+            <div className="mt-10 basis-1/2 justify-center md:hidden md:basis-0">
+              <div className="flex overflow-x-hidden">
+                {thisProduct.images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`Image ${index}`}
+                    className={`my-5 transform transition-all duration-500 ${
+                      index === pictureIndex ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    style={{ transform: `translateX(-${pictureIndex * 100}%)` }}
+                  />
+                ))}
+              </div>
+              <div className="mx-28 flex flex-row justify-center">
                 <svg
                   onClick={handleDecreasePictureIndex}
                   className="h-3 w-3 cursor-pointer"
@@ -167,7 +179,7 @@ function ProductDetail() {
                 </p>
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
                   <p>${thisProduct.price} USD</p>
-                  <p className='line-through'>${thisProduct.price} USD</p>
+                  <p className="line-through">${thisProduct.price} USD</p>
                 </div>
                 <p>Color: </p>
                 <div className="grid grid-cols-5">
@@ -210,6 +222,21 @@ function ProductDetail() {
                     </div>
                   ))}
                 </div>
+                <div>
+                  <p
+                    onMouseEnter={() => setHoverMeasure(true)}
+                    onMouseLeave={() => setHoverMeasure(false)}
+                    onClick={() => setClickModal(true)}
+                    className="absolute cursor-pointer"
+                  >
+                    Measurements
+                  </p>
+                  <div
+                    className={`relative top-6 left-0 mb-5 h-px bg-black duration-300 ${
+                      hoverMeasure ? `w-24` : `w-12`
+                    }`}
+                  ></div>
+                </div>
                 <button
                   onClick={() => {
                     handleAddToCart();
@@ -230,6 +257,39 @@ function ProductDetail() {
         </div>
         <Footer />
       </div>
+      {clickModal && <RemoveScrollBar />}
+      <Modal
+        className={`flex items-center justify-center duration-300 ${
+          clickModal ? `visible opacity-100` : `collapse opacity-0`
+        }`}
+        onClose={() => setClickModal(false)}
+      >
+        <div className="m-3 rounded-lg">
+          <div className="flex flex-row justify-center">
+            <p className="absolute text-center font-[ASRV-Standard] text-2xl text-gray-500">
+              SIZE GUIDE 0714
+            </p>
+            <svg
+              onClick={() => setClickModal(false)}
+              className="relative left-[45%] top-4 h-3 w-3 cursor-pointer text-gray-500"
+              role="presentation"
+              viewBox="0 0 16 14"
+            >
+              <path
+                d="M15 0L1 14m14 0L1 0"
+                stroke="currentColor"
+                fill="none"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <img
+            alt=""
+            src="https://cdn.shopify.com/s/files/1/0297/6293/files/0714.png"
+            className="mx-auto h-96"
+          />
+        </div>
+      </Modal>
     </>
   );
 }

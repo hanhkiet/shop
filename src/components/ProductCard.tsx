@@ -20,13 +20,29 @@ function ProductCard(props: Props) {
       className="relative flex flex-col items-center text-center"
     >
       <Link to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
-        <img src={props.imageOne} className={`absolute block w-60 ${!isShown ? `visible opacity-100` : `collapse opacity-0`} duration-300`} alt="" />
-        <img
-          src={props.imageTwo}
-          className={`relative top-0 block w-60 ${isShown ? `visible opacity-100` : `collapse opacity-0`} duration-300`}
-          alt=""
-        />
+        <div className="relative">
+          <img
+            src={props.imageOne}
+            className={`absolute block w-60 ${
+              !isShown ? `visible opacity-100` : `collapse opacity-0`
+            } duration-300`}
+            alt=""
+          />
+          <img
+            src={props.imageTwo}
+            className={`relative top-0 block w-60 ${
+              isShown ? `visible opacity-100` : `collapse opacity-0`
+            } duration-300`}
+            alt=""
+          />
+          <div
+            className={`absolute top-0 left-0 mt-2 ml-2 rounded-md bg-gray-100 px-4 py-1 font-[ASRV-Standard] text-xs text-gray-500`}
+          >
+            SALE
+          </div>
+        </div>
       </Link>
+
       <Link
         className="mb-5 text-sm font-light uppercase text-neutral-800"
         to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
