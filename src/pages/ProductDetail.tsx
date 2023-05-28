@@ -51,18 +51,22 @@ function ProductDetail() {
   const handleDecreasePictureIndex = () => {
     if (pictureIndex > 0) {
       setPictureIndex(pictureIndex - 1);
+    } else {
+      setPictureIndex(thisProduct.images.length - 1);
     }
   };
   const handleIncreasePictureIndex = () => {
     if (pictureIndex < thisProduct.images.length - 1) {
       setPictureIndex(pictureIndex + 1);
+    } else {
+      setPictureIndex(0);
     }
   };
   return (
     <>
       <div className="flex min-h-screen flex-col">
         <Navbar />
-        <div className="flex-grow font-[avenir-next] font-bold">
+        <div className="mt-16 flex-grow font-[avenir-next] font-bold">
           <div className="grid flex-row md:flex">
             <div className="hidden basis-0 md:block md:basis-1/12">
               <div className="sticky top-16 left-0 py-3">
@@ -266,12 +270,12 @@ function ProductDetail() {
       >
         <div className="m-3 rounded-lg">
           <div className="flex flex-row justify-center">
-            <p className="absolute text-center font-[ASRV-Standard] text-2xl text-gray-500">
+            <p className=" text-center font-[ASRV-Standard] text-2xl text-gray-500">
               SIZE GUIDE {thisProduct.name.split('.')[0]}
             </p>
             <svg
               onClick={() => setClickModal(false)}
-              className="relative left-[45%] top-4 h-3 w-3 cursor-pointer text-gray-500"
+              className="relative left-[20%] top-3 h-3 w-3 cursor-pointer text-gray-500 md:left-[35%]"
               role="presentation"
               viewBox="0 0 16 14"
             >
@@ -283,13 +287,15 @@ function ProductDetail() {
               ></path>
             </svg>
           </div>
-          <img
-            alt=""
-            src={`https://cdn.shopify.com/s/files/1/0297/6293/files/${
-              thisProduct.name.split('.')[0]
-            }.png`}
-            className="mx-auto h-96"
-          />
+          <div>
+            <img
+              alt=""
+              src={`https://cdn.shopify.com/s/files/1/0297/6293/files/${
+                thisProduct.name.split('.')[0]
+              }.png`}
+              className="mx-auto h-72 md:h-[calc(100vh-150px)]"
+            />
+          </div>
         </div>
       </Modal>
     </>

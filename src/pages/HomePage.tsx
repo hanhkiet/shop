@@ -3,56 +3,77 @@ import Navbar from '../components/Navbar';
 import Cover from '../components/Cover';
 import Advertisement from '../components/Advertisement';
 import DownloadApp from '../components/DownloadApp';
-import ScrollToTop from '../components/ScrollToTop';
 
 function HomePage() {
+  const data = [
+    {
+      id: 1,
+      src: 'https://asrv.com/cdn/shop/files/BF-Banner-Desktop_3f36479b-ef35-40df-9b4e-7770efeb8c56.jpg',
+      srcSmallScreen: 'https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg',
+      mainTitle: 'END OF SEASON SALE',
+      productListTitle: 'END OF SEASON SALE',
+      subTitle: 'UP TO 50% OFF - SALE ENDS 5.31.23',
+      firstButton: 'SHOP SALE',
+      secondButton: 'MINDSET TRAINING #10',
+    },
+    {
+      id: 2,
+      src: 'https://asrv.com/cdn/shop/files/Banner_1800x.jpg',
+      srcSmallScreen: 'https://asrv.com/cdn/shop/files/Banner_mobile.png',
+      mainTitle: 'BACK IN STOCK',
+      productListTitle: 'CORE COLLECTION',
+      subTitle: 'OUR BESTSELLERS RETURN WITH ALL-NEW COLORWAYS',
+      firstButton: 'SHOP NEW ARRIVALS',
+      secondButton: null,
+    },
+    {
+      id: 3,
+      src: 'https://cdn.shopify.com/s/files/1/0297/6293/files/D2B_2000x.png?v=1681496790',
+      srcSmallScreen:
+        'https://cdn.shopify.com/s/files/1/0297/6293/files/MobileDrop2_x800.heic?v=1681328045',
+      mainTitle: 'SPRING DROP 2',
+      productListTitle: null,
+      subTitle: 'BUILT FOR THE HIGH-PERFORMANCE LIFESTYLE',
+      firstButton: 'SHOP NOW',
+      secondButton: 'MINDSET TRAINING #10',
+    },
+    {
+      id: 4,
+      src: 'https://cdn.shopify.com/videos/c/o/v/a1e944e243cd4e06b50e5eebd96d0d2f.mp4',
+      srcSmallScreen: 'https://asrv.com/cdn/shop/files/DSC00896.png',
+      mainTitle: 'SPRING DROP 1',
+      productListTitle: null,
+      subTitle: 'THE ART OF ADAPTATION',
+      firstButton: 'SHOP NOW',
+      secondButton: 'TUTORIAL',
+    },
+    {
+      id: 5,
+      src: 'https://asrv.com/cdn/shop/files/wide-boy-final.jpg',
+      srcSmallScreen: 'https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg',
+      mainTitle: "WINTER '22 COLLECTION",
+      productListTitle: null,
+      subTitle: 'EXPLORE NATURE IN ITS HARSHEST FORM',
+      firstButton: 'SHOP NOW',
+      secondButton: 'LOOKBOOK',
+    },
+  ];
   return (
     <>
       <Navbar />
-      <Cover
-        src="https://asrv.com/cdn/shop/files/BF-Banner-Desktop_3f36479b-ef35-40df-9b4e-7770efeb8c56.jpg"
-        srcSmallScreen="https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg"
-        mainTitle="END OF SEASON SALE"
-        productListTitle="END OF SEASON SALE"
-        subTitle="UP TO 50% OFF - SALE ENDS 5.31.23"
-        firstButton="SHOP SALE"
-        lineOfShowItems={4}
-      />
-      <Cover
-        src="https://asrv.com/cdn/shop/files/Banner_1800x.jpg"
-        srcSmallScreen="https://asrv.com/cdn/shop/files/Banner_mobile.png"
-        mainTitle="BACK IN STOCK"
-        productListTitle="CORE COLLECTION"
-        subTitle="OUR BESTSELLERS RETURN WITH ALL-NEW COLORWAYS"
-        firstButton="SHOP NEW ARRIVALS"
-        lineOfShowItems={4}
-      />
-      <Cover
-        src="https://cdn.shopify.com/s/files/1/0297/6293/files/D2B_2000x.png?v=1681496790"
-        srcSmallScreen="https://cdn.shopify.com/s/files/1/0297/6293/files/MobileDrop2_x800.heic?v=1681328045"
-        mainTitle="SPRING DROP 2"
-        subTitle="BUILT FOR THE HIGH-PERFORMANCE LIFESTYLE"
-        firstButton="SHOP NOW"
-        secondButton="MINDSET TRAINING #10"
-        lineOfShowItems={1}
-      />
-      <Cover
-        src="https://cdn.shopify.com/videos/c/o/v/a1e944e243cd4e06b50e5eebd96d0d2f.mp4"
-        srcSmallScreen="https://asrv.com/cdn/shop/files/DSC00896.png"
-        mainTitle="SPRING DROP 1"
-        subTitle="THE ART OF ADAPTATION"
-        firstButton="SHOP NOW"
-        secondButton="TUTORIAL"
-        lineOfShowItems={1}
-      />
-      <Cover
-        src="https://asrv.com/cdn/shop/files/wide-boy-final.jpg"
-        mainTitle="WINTER '22 COLLECTION"
-        subTitle="EXPLORE NATURE IN ITS HARSHEST FORM"
-        firstButton="SHOP NOW"
-        secondButton="LOOKBOOK"
-        lineOfShowItems={1}
-      />
+      {data.map((item: any, index) => (
+        <Cover
+          key={index}
+          coverKey={index}
+          src={item.src}
+          srcSmallScreen={item.srcSmallScreen || item.src}
+          mainTitle={item.mainTitle}
+          productListTitle={item.productListTitle || item.mainTitle}
+          subTitle={item.subTitle}
+          firstButton={item.firstButton}
+          secondButton={item.secondButton || null}
+        />
+      ))}
 
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="order-last md:order-last lg:order-first">

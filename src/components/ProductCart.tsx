@@ -43,6 +43,7 @@ export default function ProductCart(props: Props) {
       </div>
       <div className="my-auto ml-5 basis-3/4">
         <Link
+          onClick={() => dispatch(cartSlice.toggleVisibility(false))}
           to={`/products/${products.name.replace(/\W+/gi, '-').toLowerCase()}`}
         >
           {products.name}

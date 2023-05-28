@@ -30,15 +30,26 @@ function MenuDropDownItemChild(props: Props) {
         <div className="text-1xl grid content-center font-light">
           {props.menuTitle}
         </div>
-        <img
-          className="my-auto h-3 hover:cursor-pointer"
-          src={
-            props.activeMenu.includes(props.menuTitle)
-              ? `https://cdn-icons-png.flaticon.com/512/43/43625.png`
-              : `https://cdn-icons-png.flaticon.com/512/748/748113.png`
-          }
-          alt=""
-        />
+        <div className="grid content-center">
+          <img
+            className={`relative left-0 top-3 h-3 duration-300 hover:cursor-pointer ${
+              props.activeMenu.includes(props.menuTitle)
+                ? `collapse rotate-90 opacity-0`
+                : `visible -rotate-0 opacity-100`
+            }`}
+            src={`https://cdn-icons-png.flaticon.com/512/43/43625.png`}
+            alt=""
+          />
+          <img
+            className={`h-3 duration-300 ${
+              props.activeMenu.includes(props.menuTitle)
+                ? `rotate-0`
+                : `-rotate-90`
+            } hover:cursor-pointer`}
+            src={`https://cdn-icons-png.flaticon.com/512/43/43625.png`}
+            alt=""
+          />
+        </div>
       </div>
       {props.activeMenu.includes(props.menuTitle) && (
         <>

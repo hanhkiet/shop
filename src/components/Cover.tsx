@@ -13,7 +13,7 @@ type Props = {
   subTitle: string;
   firstButton: string;
   secondButton?: string;
-  lineOfShowItems: number;
+  coverKey: number;
 };
 
 export default function Cover(props: Props) {
@@ -22,10 +22,11 @@ export default function Cover(props: Props) {
     <>
       <div className="relative h-screen">
         <Banner
+          bannerKey={props.coverKey}
           src={props.src}
           srcSmallScreen={props.srcSmallScreen || props.src}
         />
-        <div className="absolute bottom-1/4 w-full text-center md:bottom-12 md:left-24 md:w-fit md:text-left lg:bottom-12">
+        <div className="absolute bottom-1/4 w-full text-center md:left-24 md:bottom-24 md:w-fit md:text-left">
           <h1 className="pb-2 text-2xl font-bold uppercase text-white md:text-3xl">
             {props.mainTitle}
           </h1>

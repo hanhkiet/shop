@@ -14,6 +14,7 @@ type Props = {
   changeColor: boolean;
   onClick: () => void;
   onClose: () => void;
+  saleAppear: boolean;
 };
 
 export default function NavbarLeft(props: Props) {
@@ -86,6 +87,7 @@ export default function NavbarLeft(props: Props) {
       {
         <MegaMenu
           menuId={hoverMenuId}
+          saleAppear={props.saleAppear}
           className={
             checkMenu && props.changeColorFirst
               ? `visible opacity-100`

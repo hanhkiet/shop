@@ -10,6 +10,8 @@ import { setPathName } from '../app/pathSlice';
 import NavbarLogo from './NavbarLogo';
 
 function Navbar() {
+  const hasSale = true;
+  const [showSale, setShowSale] = useState(true);
   const [hoverNavbar, setHoverNavbar] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
@@ -35,6 +37,9 @@ function Navbar() {
       } else {
         setChangeNavbarColor(false);
       }
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      setShowSale(scrollTop === 0);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -53,13 +58,18 @@ function Navbar() {
   };
   return (
     <>
+      {hasSale && (
+        <div className="relative flex h-16 items-center justify-center bg-red-800 px-4 text-xs font-bold uppercase text-white">
+          <span>END OF SEASON SALE - ENDS 5.31.23</span>
+        </div>
+      )}
       <header
-        className="relative"
+        className="sticky top-0 left-0 right-0 z-40 h-0"
         onMouseEnter={handleHeaderEnter}
         onMouseLeave={handleHeaderLeave}
       >
         <nav
-          className={`fixed top-0 left-0 right-0 z-40 flex h-16 justify-between border-b-2 px-6 text-sm font-light transition-colors duration-300 ${
+          className={`flex h-16 justify-between border-b-2 px-6 text-sm font-light transition-colors duration-300 ${
             checkNavbar
               ? 'border-gray-300 bg-white'
               : 'border-transparent bg-transparent'
@@ -74,6 +84,7 @@ function Navbar() {
           <NavbarLeft
             changeColorFirst={checkNavbarFirst}
             changeColor={checkNavbar}
+            saleAppear={hasSale && showSale}
             onClick={handleAppearModal}
             onClose={handleDisappearModal}
           />
