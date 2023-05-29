@@ -123,14 +123,14 @@ function ProductDetail() {
                 </div>
               ))}
             </div>
-            <div className="mt-10 basis-1/2 justify-center md:hidden md:basis-0">
+            <div className="basis-1/2 justify-center md:hidden md:basis-0">
               <div className="flex overflow-x-hidden">
                 {thisProduct.images.map((image, index) => (
                   <img
                     key={index}
                     src={image}
                     alt={`Image ${index}`}
-                    className={`my-5 transform transition-all duration-500 ${
+                    className={`mb-5 transform transition-all duration-500 ${
                       index === pictureIndex ? 'opacity-100' : 'opacity-0'
                     }`}
                     style={{ transform: `translateX(-${pictureIndex * 100}%)` }}
@@ -182,6 +182,7 @@ function ProductDetail() {
               <div className="sticky top-16 right-0 grid gap-6 pt-16">
                 <p className="text-center text-xl text-gray-700 md:text-left">
                   {thisProduct.name.toUpperCase()}
+                  <p dangerouslySetInnerHTML={{ __html: '<i>asd</i>' }}></p>
                 </p>
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
                   <p>${thisProduct.price} USD</p>

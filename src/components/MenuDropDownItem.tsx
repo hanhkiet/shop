@@ -48,7 +48,7 @@ function MenuDropDownItem(props: Props) {
   return (
     <div className="cursor-pointer">
       <div
-        className="flex h-16 justify-between border-b-2 border-gray-300 uppercase hover:text-gray-500"
+        className="flex h-16 justify-between uppercase hover:text-gray-500"
         onClick={() => {
           props.onMenuClick(props.menuTitle);
         }}
@@ -95,6 +95,7 @@ function MenuDropDownItem(props: Props) {
           />
         ))}
       </ul>
+      <div className="h-0.5 w-full bg-gray-300"></div>
     </div>
   );
 }

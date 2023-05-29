@@ -54,16 +54,18 @@ function MenuDropDownItemChild(props: Props) {
       {props.activeMenu.includes(props.menuTitle) && (
         <>
           <ul className="pl-5">
-            <div className="border-l-2 border-gray-300 pl-5">
-              {filteredDataChild.collections.map((item: Collection, index) => (
-                <li
-                  key={index}
-                  className="cursor-pointer text-xs hover:text-gray-500"
-                >
-                  <Link to="/">{item.name}</Link>
-                </li>
-              ))}
-            </div>
+            {filteredDataChild.collections.map((item: Collection, index) => (
+              <li
+                key={index}
+                className={`cursor-pointer ${
+                  filteredDataChild.collections.length > 1
+                    ? `border-l-2 border-gray-300`
+                    : ``
+                } pl-5 text-xs hover:text-gray-500`}
+              >
+                <Link to="/">{item.name}</Link>
+              </li>
+            ))}
           </ul>
         </>
       )}
