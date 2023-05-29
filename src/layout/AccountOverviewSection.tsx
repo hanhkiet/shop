@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { sendLogoutRequest } from '../app/authSlice';
 import { AppDispatch, RootState } from '../app/store';
+import { Address } from '../app/types';
 import OrderOverviewSection from '../components/OrderOverviewSection';
 
 const AccountOverviewSection = () => {
@@ -12,9 +13,7 @@ const AccountOverviewSection = () => {
     (state: RootState) => state.auth.user!,
   );
 
-  const primaryAddress = useSelector((state: RootState) =>
-    state.addresses.find(address => address.isPrimary),
-  );
+  const primaryAddress = null as Address | null;
 
   const handleLogout = () => dispatch(sendLogoutRequest());
 

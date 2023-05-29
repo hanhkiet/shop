@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { clearAddresses } from './addressSlice';
 import {
   AuthState,
   LoginDataActionPayload,
@@ -116,7 +115,6 @@ const sendLogoutRequest = createAsyncThunk(
         },
       );
 
-      dispatch(clearAddresses());
     } catch (error) {
       console.log(error);
     }

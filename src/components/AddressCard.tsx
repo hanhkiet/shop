@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteAddress } from '../app/addressSlice';
 import { AppDispatch } from '../app/store';
 import { Address } from '../app/types';
 import EditAddressModal from '../modals/EditAddressModal';
@@ -30,7 +29,7 @@ const AddressCard = ({ index, address }: Props) => {
     <>
       {isDeleteModalOpen && (
         <YesNoDialogModal
-          onYes={() => dispatch(deleteAddress(uuid))}
+          onYes={() => {}}
           onClose={() => setIsDeleteModalOpen(false)}
           title="Delete address"
           description="Are you sure you want to delete this address?"

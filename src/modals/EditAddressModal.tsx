@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateAddress } from '../app/addressSlice';
 import { AppDispatch } from '../app/store';
 import { Address } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
@@ -98,10 +97,6 @@ const EditAddressModal = ({ address, onClose }: Props) => {
         district: districtRef.current?.value,
         city: cityRef.current?.value,
       } as Address;
-
-      dispatch(updateAddress(address)).then(() => {
-        onClose();
-      });
     }
   };
 

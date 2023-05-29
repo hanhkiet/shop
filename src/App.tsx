@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { clearAddresses } from './app/addressSlice';
 import { getMenuData } from './app/menuSlice';
 import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
@@ -26,7 +25,6 @@ const router = createBrowserRouter([
 function App() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    dispatch(clearAddresses());
     dispatch(getMenuData());
     dispatch(getProductData());
   }, []);
