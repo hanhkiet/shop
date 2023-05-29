@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { clearAddresses, getAddressesData } from './addressSlice';
+import { clearAddresses } from './addressSlice';
 import {
   AuthState,
   LoginDataActionPayload,
@@ -68,20 +68,6 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.user = null;
       });
-
-    builder
-      .addCase(sendRefreshRequest.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(sendRefreshRequest.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = true;
-      })
-      .addCase(sendRefreshRequest.rejected, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = false;
-        state.user = null;
-      });
   },
 });
 
@@ -137,21 +123,5 @@ const sendLogoutRequest = createAsyncThunk(
   },
 );
 
-const sendRefreshRequest = createAsyncThunk(
-  'auth/refresh',
-  async (_, { dispatch }) => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_CUSTOMER_AUTH_URL}/refresh`,
-    );
-
-    dispatch(getAddressesData());
-  },
-);
-
-export {
-  sendLoginRequest,
-  sendLogoutRequest,
-  sendRefreshRequest,
-  sendRegisterRequest,
-};
+export { sendLoginRequest, sendLogoutRequest, sendRegisterRequest };
 export default authSlice.reducer;

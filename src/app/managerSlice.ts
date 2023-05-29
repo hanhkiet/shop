@@ -3,7 +3,7 @@ import axios from 'axios';
 import { LoginDataActionPayload, Manager, ManagerState } from './types';
 
 const initialState: ManagerState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   loading: false,
   manager: null,
 };
