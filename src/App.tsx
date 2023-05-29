@@ -15,6 +15,7 @@ import { categoryRouter } from './routers/categoryRouter';
 import { errorRouter } from './routers/errorRouter';
 import { getMenuData } from './app/menuSlice';
 import { getProductData } from './app/productSlice';
+import { getProductQuantityData } from './app/productQuantitySlice';
 
 const router = createBrowserRouter([
   homeRouter,
@@ -35,6 +36,7 @@ function App() {
     dispatch(sendAuthenticateRequest());
     dispatch(getMenuData());
     dispatch(getProductData());
+    dispatch(getProductQuantityData());
   }, []);
 
   return <RouterProvider router={router} />;

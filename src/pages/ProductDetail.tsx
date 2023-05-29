@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { useParams } from 'react-router-dom';
-import { Product } from '../app/types';
+import { ItemsInStore, Product } from '../app/types';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useState } from 'react';
@@ -17,6 +17,9 @@ function ProductDetail() {
   const sales = false;
   const salesMessage = 'FINAL SALE // NO RETURNS';
   const dispatch: AppDispatch = useDispatch();
+  const productQuantity = useSelector(
+    (state: RootState) => state.productQuantity.productQuantity,
+  );
   const { name } = useParams<{ name: string }>();
   const [pictureIndex, setPictureIndex] = useState(0);
   const [clickModal, setClickModal] = useState(false);
@@ -31,15 +34,18 @@ function ProductDetail() {
   const thisProduct = products.find(
     (prod: Product) => prod.name.replace(/\W+/gi, '-').toLowerCase() === name,
   );
-  if (!thisProduct || !name) return <></>;
+  const thisProductQuantity = productQuantity.filter(
+    (prod: ItemsInStore) => prod.productUuid === thisProduct?.uuid,
+  );
+  const isAddToCartButtonDisabled = thisProductQuantity.every(
+    (product: ItemsInStore) => product.quantity === 0,
+  );
+  if (!thisProduct || !name || !thisProductQuantity) return <></>;
   const thisProductColor = products.filter(
     (prod: Product) =>
       prod.name.slice(0, prod.name.lastIndexOf('-')).trim() ===
       thisProduct.name.slice(0, thisProduct.name.lastIndexOf('-')).trim(),
   );
-  const handleCartAppear = () => {
-    dispatch(toggleVisibility(true));
-  };
   const handleAddToCart = () => {
     dispatch(
       addItem({
@@ -142,8 +148,6 @@ function ProductDetail() {
                     d="M5 8.5l-4-4 4-4"
                     stroke="currentColor"
                     fill="none"
-                    fill-rule="evenodd"
-                    stroke-linecap="square"
                   ></path>
                 </svg>
                 {thisProduct.images.map((_, index) => (
@@ -170,8 +174,6 @@ function ProductDetail() {
                     d="M1 8.5l4-4-4-4"
                     stroke="currentColor"
                     fill="none"
-                    fill-rule="evenodd"
-                    stroke-linecap="square"
                   ></path>
                 </svg>
               </div>
@@ -183,7 +185,7 @@ function ProductDetail() {
                 </p>
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
                   <p>${thisProduct.price} USD</p>
-                  <p className="line-through">${thisProduct.price} USD</p>
+                  <p className="line-through">${thisProduct.price + 1} USD</p>
                 </div>
                 <p>Color: </p>
                 <div className="grid grid-cols-5">
@@ -212,18 +214,23 @@ function ProductDetail() {
                 </div>
                 <p>Size: </p>
                 <div className={`flex gap-2`}>
-                  {sizes.map((eachSize: string) => (
-                    <div
-                      key={eachSize}
-                      onClick={() => setSizeValue(eachSize)}
-                      className={`w-full cursor-pointer border border-solid border-neutral-300 px-6 py-2 text-center transition-colors ${
-                        eachSize === sizeValue
-                          ? `border-neutral-600`
-                          : `hover:border-neutral-400`
+                  {thisProductQuantity.map((item: ItemsInStore, index) => (
+                    <button
+                      disabled={item.quantity <= 0}
+                      key={index}
+                      onClick={() => setSizeValue(item.size)}
+                      className={`w-full ${
+                        item.quantity > 0
+                          ? `cursor-pointer opacity-100`
+                          : `cursor-not-allowed opacity-50`
+                      } border border-solid border-neutral-400 px-6 py-2 text-center transition-colors ${
+                        item.size === sizeValue
+                          ? `border-neutral-700`
+                          : `hover:border-neutral-600`
                       }`}
                     >
-                      {eachSize}
-                    </div>
+                      {item.size}
+                    </button>
                   ))}
                 </div>
                 <div>
@@ -243,12 +250,18 @@ function ProductDetail() {
                 </div>
                 <button
                   onClick={() => {
-                    handleAddToCart();
-                    handleCartAppear();
+                    if (!isAddToCartButtonDisabled) {
+                      handleAddToCart();
+                      dispatch(toggleVisibility(true));
+                    }
                   }}
-                  className="h-12 w-full bg-neutral-700 text-white duration-300 hover:bg-black"
+                  className={`h-12 ${
+                    isAddToCartButtonDisabled
+                      ? `cursor-not-allowed opacity-50`
+                      : `cursor-pointer opacity-100 hover:bg-black`
+                  } w-full bg-neutral-700 uppercase text-white duration-300`}
                 >
-                  ADD TO CART
+                  {isAddToCartButtonDisabled ? 'NOT AVAILABLE' : 'ADD TO CART'}
                 </button>
                 {sales && (
                   <p className="text-md text-center font-[ASRV-Standard] font-bold uppercase text-red-600">
@@ -283,7 +296,6 @@ function ProductDetail() {
                 d="M15 0L1 14m14 0L1 0"
                 stroke="currentColor"
                 fill="none"
-                fill-rule="evenodd"
               ></path>
             </svg>
           </div>

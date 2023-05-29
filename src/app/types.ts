@@ -93,7 +93,17 @@ export interface Product {
 }
 
 export interface ProductState {
-  colors: Array<string>;
   sizes: Array<string>;
   products: Array<Product>;
+}
+
+export interface ItemsInStore {
+  id: number;
+  productUuid: string;
+  size: string;
+  quantity: number;
+}
+
+export interface ProductQuantityState {
+  productQuantity: Array<ItemsInStore>;
 }

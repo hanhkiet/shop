@@ -117,7 +117,6 @@ function CategoryPage() {
                   points="17 2 9.5 10 2 2"
                   fill-rule="evenodd"
                   stroke-width="2"
-                  stroke-linecap="square"
                 ></polyline>
               </svg>
             </div>

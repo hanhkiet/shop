@@ -4,6 +4,7 @@ import authReducer from './authSlice';
 import cartReducer from './cartSlice';
 import menuReducer from './menuSlice';
 import productReducer from './productSlice';
+import productQuantityReducer from './productQuantitySlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
 
@@ -14,6 +15,7 @@ const store = configureStore({
     menu: menuReducer,
     auth: authReducer,
     product: productReducer,
+    productQuantity: productQuantityReducer,
     addresses: addressSlice,
     path: pathSlice,
   },
