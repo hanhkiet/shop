@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import addressSlice from './addressSlice';
 import authReducer from './authSlice';
 import cartReducer from './cartSlice';
 import managerReducer from './managerSlice';
@@ -16,14 +15,12 @@ const store = configureStore({
     menu: menuReducer,
     auth: authReducer,
     product: productReducer,
-    addresses: addressSlice,
     path: pathSlice,
   },
 });
 
 store.subscribe(() => {
   localStorage.setItem('auth', JSON.stringify(store.getState().auth));
-  localStorage.setItem('addresses', JSON.stringify(store.getState().addresses));
 });
 
 export type RootState = ReturnType<typeof store.getState>;
