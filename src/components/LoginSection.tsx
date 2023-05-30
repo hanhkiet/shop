@@ -37,7 +37,7 @@ const LoginSection = () => {
 
     if (isValidEmail && isValidPassword) {
       const payload = {
-        email: emailRef.current?.value,
+        username: emailRef.current?.value,
         password: passwordRef.current?.value,
       } as LoginDataActionPayload;
 

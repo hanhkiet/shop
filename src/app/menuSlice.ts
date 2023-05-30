@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { api_url } from '../utils/url';
 import { MenuData, MenuState } from './types';
 
 const initialState: MenuState = {
@@ -44,7 +43,7 @@ const menuSlice = createSlice({
 });
 
 const getMenuData = createAsyncThunk('menu/getMenuData', async () => {
-  const response = await axios.get(`${api_url}/menus`, {
+  const response = await axios.get(`${import.meta.env.VITE_MENUS_API_URL}`, {
     headers: {
       'Content-Type': 'application/json',
     },

@@ -1,24 +1,24 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as cartSlice from '../app/cartSlice';
 
 type Props = {
-  productId: number;
+  productId: string;
   size: string;
   quantity: number;
 };
 
 export default function ProductCart(props: Props) {
   const dispatch = useDispatch();
-  const handleRemove = (productId: number, size: string) => {
+  const handleRemove = (productId: string, size: string) => {
     dispatch(cartSlice.removeItem({ productId, size }));
   };
-  const handleIncrement = (productId: number, size: string) => {
+  const handleIncrement = (productId: string, size: string) => {
     dispatch(cartSlice.incrementQuantity({ productId, size }));
   };
-  const handleDecrement = (productId: number, size: string) => {
+  const handleDecrement = (productId: string, size: string) => {
     dispatch(cartSlice.decrementQuantity({ productId, size }));
   };
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,22 +32,14 @@ export default function ProductCart(props: Props) {
       }),
     );
   };
-  const baseURL = import.meta.env.VITE_PRODUCTS_API_URL;
-  const [products, setProducts] = useState<any>();
-  useEffect(() => {
-    axios.get(baseURL).then(response => {
-      setProducts(
-        response.data.filter(
-          (item: any) => item.productId === props.productId,
-        )[0],
-      );
-    });
-  }, []);
+  const products = useSelector(
+    (state: RootState) => state.product.products,
+  ).filter(item => item.uuid == props.productId)[0];
   if (!products) return <></>;
   return (
     <div className="m-5 flex flex-row">
       <div className="my-auto basis-1/4">
-        <img className="mx-auto w-40" src={products.image[0]} alt="" />
+        <img className="mx-auto w-40" src={products.images[0]} alt="" />
       </div>
       <div className="my-auto ml-5 basis-3/4">
         <Link

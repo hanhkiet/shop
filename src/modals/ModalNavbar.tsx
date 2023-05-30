@@ -5,6 +5,8 @@ type Props = {
   className?: string;
   onClose: Function;
   children: ReactNode;
+  isShown: boolean;
+  isRight?: boolean;
 };
 
 function ModalNavbar(props: Props) {
@@ -22,18 +24,32 @@ function ModalNavbar(props: Props) {
       document.removeEventListener('mouseup', handleClickOutside);
     };
   }, []);
-
   return (
     <div
-      className={`fixed left-0 top-0 z-50 flex h-screen w-full items-center bg-neutral-900 bg-opacity-75 ${props.className}`}
+      className={`fixed right-0 top-0 z-50 flex h-screen w-full items-center bg-neutral-900 bg-opacity-75 ${props.className}`}
     >
-      <div
-        className={`fixed top-0 z-50 h-screen w-[85%] overflow-y-auto bg-white md:w-[50%] lg:w-[50%]`}
-        ref={modalRef}
-      >
-        <RemoveScrollBar />
-        {props.children}
-      </div>
+      {!props.isRight && (
+        <div
+          className={`fixed top-0 z-50 h-screen w-[85%] overflow-y-auto bg-white duration-500 ${
+            props.isShown ? `translate-x-0` : `-translate-x-full`
+          } md:w-[50%] lg:w-[50%]`}
+          ref={modalRef}
+        >
+          {props.isShown && <RemoveScrollBar />}
+          {props.children}
+        </div>
+      )}
+      {props.isRight && (
+        <div
+          className={`fixed top-0 z-50 h-screen w-[85%] overflow-y-auto bg-white duration-500 ${
+            props.isShown ? `translate-x-0` : `translate-x-full`
+          } md:w-[50%] lg:w-[50%]`}
+          ref={modalRef}
+        >
+          {props.isShown && <RemoveScrollBar />}
+          {props.children}
+        </div>
+      )}
     </div>
   );
 }

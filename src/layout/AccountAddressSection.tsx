@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
-import { RootState } from '../app/store';
+import { Address } from '../app/types';
 import AddressCard from '../components/AddressCard';
 import AddNewAddressModal from '../modals/AddNewAddressModal';
 
 const AccountAddressSection = () => {
-  const addresses = useSelector((state: RootState) => state.addresses);
+  const addresses = [] as Address[];
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

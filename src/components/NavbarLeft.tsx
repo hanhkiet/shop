@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setHoverMenuId } from '../app/menuSlice';
@@ -27,7 +27,6 @@ export default function NavbarLeft(props: Props) {
     setShowMenu(false);
     props.onClose();
   };
-  useEffect(() => {}, []);
   return (
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
@@ -60,8 +59,6 @@ export default function NavbarLeft(props: Props) {
                     setTimeout(() => {
                       dispatch(setHoverMenuId(item.id));
                     }, 100);
-                  } else {
-                    dispatch(setHoverMenuId(item.id));
                   }
                 }}
                 to="/"
@@ -79,11 +76,13 @@ export default function NavbarLeft(props: Props) {
           </li>
         ))}
       </ul>
-      {showMenu && (
-        <ModalNavbar onClose={handleDisappearMenu}>
-          <MenuDropDown onClickClose={handleDisappearMenu} />
-        </ModalNavbar>
-      )}
+      <ModalNavbar
+        isShown={showMenu}
+        className={`${showMenu ? `visible` : `collapse`} duration-500`}
+        onClose={handleDisappearMenu}
+      >
+        <MenuDropDown onClickClose={handleDisappearMenu} />
+      </ModalNavbar>
       {
         <MegaMenu
           menu={menus.find(item => item.id === hoverMenuId)?.megaMenus || []}

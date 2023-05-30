@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { addActiveMenuChild, removeActiveMenuChild } from '../app/menuSlice';
@@ -13,13 +11,8 @@ type Props = {
 };
 
 function MenuDropDownItem(props: Props) {
-  const [dataItem, setDataItem] = useState([]);
-  const API_MEGAMENUS_URL = import.meta.env.VITE_MEGAMENUS_API_URL;
-  useEffect(() => {
-    axios.get(API_MEGAMENUS_URL).then(response => {
-      setDataItem(response.data);
-    });
-  }, []);
+  const menus = useSelector((state: RootState) => state.menu.menus);
+  const filteredData = menus.filter((menu: any) => menu.id === props.menuId)[0];
   const activeMenuChildStore = useSelector(
     (state: RootState) => state.menu.activeMenuChild,
   );
@@ -72,22 +65,18 @@ function MenuDropDownItem(props: Props) {
       </div>
       {props.activeMenu === props.menuTitle && (
         <ul className="pl-5 uppercase">
-          {dataItem
-            .filter(
-              (item: any) =>
-                item.menuId == props.menuId && item.parentMegamenuId == null,
-            )
-            .map((item: any, index) => (
-              <MenuDropDownItemChild
-                key={index}
-                onMenuClick={() =>
-                  handleMenuClick(item.menuId.toString(), item.name)
-                }
-                activeMenu={activeMenuChildStore}
-                menuTitle={item.name}
-                parentMegamenuId={item.id}
-              />
-            ))}
+          {filteredData.megaMenus.map((item: any, index: any) => (
+            <MenuDropDownItemChild
+              key={index}
+              onMenuClick={() =>
+                handleMenuClick(filteredData.id.toString(), item.name)
+              }
+              activeMenu={activeMenuChildStore}
+              menuTitle={item.name}
+              menuParentId={props.menuId}
+              parentMegamenuId={item.id}
+            />
+          ))}
         </ul>
       )}
     </div>

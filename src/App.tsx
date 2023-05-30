@@ -1,30 +1,32 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { clearAddresses } from './app/addressSlice';
-import { sendAuthenticateRequest } from './app/authSlice';
+import { getMenuData } from './app/menuSlice';
+import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
 import { accountRouter } from './routers/accountRouter';
 import { authRouter } from './routers/authRouter';
-import { checkoutRouter } from './routers/checkoutRouter';
-import { homeRouter } from './routers/homeRouter';
 import { categoryRouter } from './routers/categoryRouter';
-import { getMenuData } from './app/menuSlice';
+import { checkoutRouter } from './routers/checkoutRouter';
+import { errorRouter } from './routers/errorRouter';
+import { homeRouter } from './routers/homeRouter';
+import { managerRouter } from './routers/managerRouter';
 
 const router = createBrowserRouter([
   homeRouter,
   accountRouter,
+  managerRouter,
   authRouter,
   checkoutRouter,
   categoryRouter,
+  errorRouter,
 ]);
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    dispatch(clearAddresses());
-    dispatch(sendAuthenticateRequest());
     dispatch(getMenuData());
+    dispatch(getProductData());
   }, []);
 
   return <RouterProvider router={router} />;

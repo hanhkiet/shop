@@ -12,7 +12,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addItem(state, action: PayloadAction<{ id: number; size: string }>) {
+    addItem(state, action: PayloadAction<{ id: string; size: string }>) {
       const { id, size } = action.payload;
       const existingItem = state.items.find(
         item => item.id === id && item.size === size,
@@ -26,7 +26,7 @@ const cartSlice = createSlice({
     },
     removeItem(
       state,
-      action: PayloadAction<{ productId: number; size: string }>,
+      action: PayloadAction<{ productId: string; size: string }>,
     ) {
       const { productId, size } = action.payload;
       const existingItem = state.items.find(
@@ -41,7 +41,7 @@ const cartSlice = createSlice({
     },
     incrementQuantity(
       state,
-      action: PayloadAction<{ productId: number; size: string }>,
+      action: PayloadAction<{ productId: string; size: string }>,
     ) {
       const { productId, size } = action.payload;
       const existingItem = state.items.find(
@@ -54,7 +54,7 @@ const cartSlice = createSlice({
     },
     decrementQuantity(
       state,
-      action: PayloadAction<{ productId: number; size: string }>,
+      action: PayloadAction<{ productId: string; size: string }>,
     ) {
       const { productId, size } = action.payload;
       const existingItem = state.items.find(
@@ -74,7 +74,7 @@ const cartSlice = createSlice({
     setQuantity(
       state,
       action: PayloadAction<{
-        productId: number;
+        productId: string;
         size: string;
         quantity: number;
       }>,
@@ -88,8 +88,8 @@ const cartSlice = createSlice({
         localStorage.setItem('cartItems', JSON.stringify(state.items)!);
       }
     },
-    toggleVisibility(state) {
-      state.visible = !state.visible;
+    toggleVisibility(state, action: PayloadAction<boolean>) {
+      state.visible = action.payload;
     },
   },
 });

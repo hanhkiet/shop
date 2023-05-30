@@ -20,10 +20,10 @@ function NavbarRight(props: Props) {
   const totalQuantity = items.reduce((total, item) => {
     return total + item.quantity;
   }, 0);
-  function handleCartAppear() {
-    dispatch(toggleVisibility());
+  const handleCartAppear = () => {
+    dispatch(toggleVisibility(true));
     dispatch(setHoverMenuId(0));
-  }
+  };
   return (
     <>
       <ul
@@ -77,17 +77,20 @@ function NavbarRight(props: Props) {
           </button>
         </li>
       </ul>
-      {visible && (
-        <ModalNavbar
-          className="flex justify-end"
-          onClose={() => {
-            handleCartAppear();
-            props.onClose();
-          }}
-        >
-          <CartContent onClose={props.onClose} />
-        </ModalNavbar>
-      )}
+      <ModalNavbar
+        isRight
+        isShown={visible}
+        className={`flex justify-end ${
+          visible ? `visible` : `collapse`
+        } duration-500`}
+        onClose={() => {
+          dispatch(toggleVisibility(false));
+          dispatch(setHoverMenuId(0));
+          props.onClose();
+        }}
+      >
+        <CartContent onClose={props.onClose} />
+      </ModalNavbar>
     </>
   );
 }

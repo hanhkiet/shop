@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
@@ -11,26 +9,11 @@ type Props = {
 };
 
 function MenuDropDown(props: Props) {
-  const [dataItem, setDataItem] = useState<any>([]);
-  const [megaMenuData, setMegaMenuData] = useState<any>([]);
-  const API_MENUS_URL = import.meta.env.VITE_MENUS_API_URL;
-  const API_MEGAMENUS_URL = import.meta.env.VITE_MEGAMENUS_API_URL;
-  useEffect(() => {
-    axios.get(API_MENUS_URL).then(response => {
-      setDataItem([
-        ...response.data,
-        {
-          name: 'account',
-          url: '/auth/login',
-        },
-      ]);
-    });
-  }, []);
-  useEffect(() => {
-    axios.get(API_MEGAMENUS_URL).then(response => {
-      setMegaMenuData(response.data);
-    });
-  }, []);
+  const menus = useSelector((state: RootState) => state.menu.menus);
+  const menusMobile = [
+    ...menus,
+    { name: 'account', url: '/account', megaMenus: [] },
+  ];
   const activeMenuStore = useSelector(
     (state: RootState) => state.menu.activeMenu,
   );
@@ -47,9 +30,9 @@ function MenuDropDown(props: Props) {
         alt=""
       />
       <ul>
-        {dataItem.map((item: any, index: any) => (
+        {menusMobile.map((item: any, index: any) => (
           <li key={index}>
-            {megaMenuData.some((obj: any) => obj.menuId === item.id) ? (
+            {item.megaMenus.length > 0 ? (
               <MenuDropDownItem
                 onMenuClick={() => handleMenuClick(item.name)}
                 activeMenu={activeMenuStore}

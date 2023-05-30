@@ -6,20 +6,20 @@ import { RootState } from '../app/store';
 import { toggleVisibility } from '../app/cartSlice';
 
 type Props = {
-  id: number;
+  id: string;
   imageOne: string;
   imageTwo: string;
   name: string;
-  size: [];
   price: number;
   onClick?: any;
 };
 
 function ProductCard(props: Props) {
+  const sizes = useSelector((state: RootState) => state.product.sizes);
   const [isShown, setIsShown] = useState(false);
   const dispatch = useDispatch();
   const handleCartAppear = () => {
-    dispatch(toggleVisibility());
+    dispatch(toggleVisibility(true));
   };
   const handleAddToCart = (size: string) => {
     dispatch(
@@ -56,7 +56,7 @@ function ProductCard(props: Props) {
       )}
       {isShown && (
         <div className="flex gap-2">
-          {props.size.map((eachSize: any, index) => (
+          {sizes.map((eachSize: string, index) => (
             <Link
               to=""
               key={index}
