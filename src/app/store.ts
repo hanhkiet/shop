@@ -8,7 +8,6 @@ import productQuantityReducer from './productQuantitySlice';
 import categoryProductReducer from './categoryProductSlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
-import productReducer from './productSlice';
 
 const store = configureStore({
   reducer: {
@@ -20,7 +19,6 @@ const store = configureStore({
     product: productReducer,
     productQuantity: productQuantityReducer,
     categoryProduct: categoryProductReducer,
-    addresses: addressSlice,
     path: pathSlice,
   },
 });

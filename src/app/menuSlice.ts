@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { MenuData, MenuState } from './types';
+import { Menu, MenuState } from './types';
 
 const initialState: MenuState = {
   hoverMenuId: 0,
@@ -48,7 +48,7 @@ const getMenuData = createAsyncThunk('menu/getMenuData', async () => {
       'Content-Type': 'application/json',
     },
   });
-  return response.data as MenuData[];
+  return response.data as Menu[];
 });
 
 export const {

@@ -6,7 +6,6 @@ import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
 import { accountRouter } from './routers/accountRouter';
 import { productRouter } from './routers/productRouter';
-import { adminRouter } from './routers/adminRouter';
 import { authRouter } from './routers/authRouter';
 import { categoryRouter } from './routers/categoryRouter';
 import { checkoutRouter } from './routers/checkoutRouter';
