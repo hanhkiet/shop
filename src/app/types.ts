@@ -17,7 +17,7 @@ export interface MenuState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
-  menus: MenuData[];
+  menus: Menu[];
 }
 
 export interface Menu {
@@ -123,8 +123,6 @@ export interface ProductQuantityState {
 
 export interface CategoryProduct {
   id: number;
-  // productUuid: string;
-  // productCollectionId: number;
   product: Product;
   productCollection: Collection;
 }
