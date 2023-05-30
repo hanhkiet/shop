@@ -17,20 +17,20 @@ function ProductCard(props: Props) {
     <div
       onMouseEnter={() => setIsShown(true)}
       onMouseLeave={() => setIsShown(false)}
-      className="relative flex flex-col items-center text-center"
+      className="relative m-5 flex flex-col items-center text-center"
     >
       <Link to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
         <div className="relative">
           <img
             src={props.imageOne}
-            className={`absolute block w-60 ${
+            className={`absolute block ${
               !isShown ? `visible opacity-100` : `collapse opacity-0`
             } duration-300`}
             alt=""
           />
           <img
             src={props.imageTwo}
-            className={`relative top-0 block w-60 ${
+            className={`relative top-0 block ${
               isShown ? `visible opacity-100` : `collapse opacity-0`
             } duration-300`}
             alt=""

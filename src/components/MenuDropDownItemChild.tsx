@@ -55,22 +55,22 @@ function MenuDropDownItemChild(props: Props) {
         <>
           <ul className="pl-5">
             {filteredDataChild.collections.map((item: Collection, index) => (
-              <li
+              <Link
                 key={index}
-                className={`cursor-pointer ${
-                  filteredDataChild.collections.length > 1
-                    ? `border-l-2 border-gray-300`
-                    : ``
-                } pl-5 text-xs hover:text-gray-500`}
+                to={`/collections/${item.name
+                  .replace(/\W+/gi, '-')
+                  .toLowerCase()}`}
               >
-                <Link
-                  to={`/collections/${item.name
-                    .replace(/\W+/gi, '-')
-                    .toLowerCase()}`}
+                <li
+                  className={`cursor-pointer ${
+                    filteredDataChild.collections.length > 1
+                      ? `border-l-2 border-gray-300`
+                      : ``
+                  } pl-5 text-xs hover:text-gray-500`}
                 >
                   {item.name}
-                </Link>
-              </li>
+                </li>
+              </Link>
             ))}
           </ul>
         </>
