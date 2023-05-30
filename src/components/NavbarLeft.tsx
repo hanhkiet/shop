@@ -62,7 +62,9 @@ export default function NavbarLeft(props: Props) {
                     }, 100);
                   }
                 }}
-                to="/"
+                to={`/collections/${item.collectionTypes[0].collections[0].name
+                  .replace(/\W+/gi, '-')
+                  .toLowerCase()}`}
               >
                 {item.name}
               </Link>

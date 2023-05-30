@@ -182,7 +182,6 @@ function ProductDetail() {
               <div className="sticky top-16 right-0 grid gap-6 pt-16">
                 <p className="text-center text-xl text-gray-700 md:text-left">
                   {thisProduct.name.toUpperCase()}
-                  <p dangerouslySetInnerHTML={{ __html: '<i>asd</i>' }}></p>
                 </p>
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
                   <p>${thisProduct.price} USD</p>

@@ -63,7 +63,13 @@ function MenuDropDownItemChild(props: Props) {
                     : ``
                 } pl-5 text-xs hover:text-gray-500`}
               >
-                <Link to="/">{item.name}</Link>
+                <Link
+                  to={`/collections/${item.name
+                    .replace(/\W+/gi, '-')
+                    .toLowerCase()}`}
+                >
+                  {item.name}
+                </Link>
               </li>
             ))}
           </ul>

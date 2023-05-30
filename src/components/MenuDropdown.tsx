@@ -12,15 +12,16 @@ type Props = {
 
 function MenuDropDown(props: Props) {
   const menusData = useSelector((state: RootState) => state.menu.menus);
-  const menus = [
-    ...menusData,
-    {
-      id: 0,
-      name: 'Account',
-      url: '/account',
-      collectionTypes: [],
-    },
-  ];
+  // const menus = [
+  //   ...menusData,
+  //   {
+  //     id: 0,
+  //     name: 'Account',
+  //     url: '/account',
+  //     collectionTypes: [],
+  //   },
+  // ];
+  const menus = menusData;
 
   const activeMenuStore = useSelector(
     (state: RootState) => state.menu.activeMenu,

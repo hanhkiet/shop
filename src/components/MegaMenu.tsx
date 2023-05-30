@@ -26,7 +26,13 @@ export default function MegaMenu(props: Props) {
           {filteredData?.collectionTypes.map((item: CollectionType, index) => (
             <div key={index}>
               <div className="mb-5 font-bold">
-                <Link to="/">{item.name}</Link>
+                <Link
+                  to={`/collections/${item.collections[0].name
+                    .replace(/\W+/gi, '-')
+                    .toLowerCase()}`}
+                >
+                  {item.name}
+                </Link>
               </div>
               <ul>
                 {filteredData?.collectionTypes
@@ -34,7 +40,9 @@ export default function MegaMenu(props: Props) {
                   .collections.map((items: Collection, indexs) => (
                     <li key={indexs}>
                       <Link
-                        to="/"
+                        to={`/collections/${items.name
+                          .replace(/\W+/gi, '-')
+                          .toLowerCase()}`}
                         className="text-xs font-light hover:opacity-80"
                       >
                         {items.name}

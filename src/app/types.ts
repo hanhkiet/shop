@@ -107,3 +107,15 @@ export interface ItemsInStore {
 export interface ProductQuantityState {
   productQuantity: Array<ItemsInStore>;
 }
+
+export interface CategoryProduct {
+  id: number;
+  // productUuid: string;
+  // productCollectionId: number;
+  product: Product;
+  productCollection: Collection;
+}
+
+export interface CategoryProductState {
+  categoryProduct: Array<CategoryProduct>;
+}

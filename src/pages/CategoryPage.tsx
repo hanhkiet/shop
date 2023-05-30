@@ -1,14 +1,24 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MenuDropDown from '../components/MenuDropdown';
+import { useParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { Product } from '../app/types';
+import { CategoryProduct } from '../app/types';
 import { useState } from 'react';
 import ModalNavbar from '../modals/ModalNavbar';
 
 function CategoryPage() {
+  const { name } = useParams<{ name: string }>();
+  const categoryProducts = useSelector(
+    (state: RootState) => state.categoryProduct.categoryProduct,
+  );
+  const categoryProduct = categoryProducts.filter(
+    (prod: CategoryProduct) =>
+      prod.productCollection.name.replace(/\W+/gi, '-').toLowerCase() === name,
+  );
+  if (!categoryProduct || !categoryProducts) return <></>;
   const filterMode = [
     'Featured',
     'Best selling',
@@ -22,15 +32,11 @@ function CategoryPage() {
   const [gridLarge, setGridLarge] = useState(3);
   const [gridSmall, setGridSmall] = useState(2);
   const [filterAppear, setFilterAppear] = useState(false);
-  const [sortAppearLarge, setSortAppearLarge] = useState(false);
   const [sortAppearSmall, setSortAppearSmall] = useState(false);
   const text = "SPRING '23 COLLECTION";
   const words = text.split(' ');
   const lastWord = words.pop();
   const remainingText = words.join(' ');
-  const products = useSelector((state: RootState) => state.product.products);
-  const visible = useSelector((state: RootState) => state.cart.visible);
-  const dispatch = useDispatch();
   return (
     <>
       <Navbar />
@@ -115,8 +121,6 @@ function CategoryPage() {
                   fill="none"
                   stroke="currentColor"
                   points="17 2 9.5 10 2 2"
-                  fill-rule="evenodd"
-                  stroke-width="2"
                 ></polyline>
               </svg>
             </div>
@@ -137,14 +141,14 @@ function CategoryPage() {
           <div
             className={`grid basis-full grid-cols-${gridSmall} lg:ml-5 lg:basis-10/12 md:grid-cols-${gridLarge}`}
           >
-            {products.map((product: Product) => (
+            {categoryProduct.map((item: CategoryProduct) => (
               <ProductCard
-                key={product.uuid}
-                id={product.uuid}
-                name={product.name}
-                price={product.price}
-                imageOne={product.images[0]}
-                imageTwo={product.images[1]}
+                key={item.product.uuid}
+                id={item.product.uuid}
+                name={item.product.name}
+                price={item.product.price}
+                imageOne={item.product.images[0]}
+                imageTwo={item.product.images[1]}
               />
             ))}
           </div>
