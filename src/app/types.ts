@@ -17,7 +17,7 @@ export interface MenuState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
-  menus: Menu[];
+  menus: MenuData[];
 }
 
 export interface Menu {
@@ -41,32 +41,31 @@ export interface User {
   uuid: string;
   firstName: string;
   lastName: string;
-  email: string;
+  username: string;
 }
 
 export interface RegisterDataActionPayload {
   firstName: string;
   lastName: string;
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface LoginDataActionPayload {
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface UserRegisterData {
   firstName: string;
   lastName: string;
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
-  message: string | null;
   status: number | null;
   user: User | null;
 }
@@ -95,6 +94,20 @@ export interface Product {
 export interface ProductState {
   sizes: Array<string>;
   products: Array<Product>;
+}
+
+type Role = 'ADMIN';
+export interface Manager {
+  uuid: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+}
+
+export interface ManagerState {
+  isAuthenticated: boolean;
+  loading: boolean;
+  manager: Manager | null;
 }
 
 export interface ItemsInStore {

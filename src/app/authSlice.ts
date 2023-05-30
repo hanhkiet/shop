@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { auth_url } from '../utils/url';
-import { clearAddresses, getAddressesData } from './addressSlice';
 import {
   AuthState,
   LoginDataActionPayload,
@@ -12,7 +10,6 @@ import {
 const initialState: AuthState = {
   isAuthenticated: false,
   loading: false,
-  message: null,
   status: null,
   user: null,
 };
@@ -38,7 +35,6 @@ const authSlice = createSlice({
       .addCase(sendRegisterRequest.rejected, (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
-        state.message = action.error.message ?? null;
         state.user = null;
       });
 
@@ -54,7 +50,6 @@ const authSlice = createSlice({
       .addCase(sendLoginRequest.rejected, (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
-        state.message = action.error.message ?? null;
         state.user = null;
       });
 
@@ -70,23 +65,6 @@ const authSlice = createSlice({
       .addCase(sendLogoutRequest.rejected, (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
-        state.message = action.error.message ?? null;
-        state.user = null;
-      });
-
-    builder
-      .addCase(sendAuthenticateRequest.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(sendAuthenticateRequest.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload;
-      })
-      .addCase(sendAuthenticateRequest.rejected, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = false;
-        state.message = action.error.message ?? null;
         state.user = null;
       });
   },
@@ -95,17 +73,15 @@ const authSlice = createSlice({
 const sendRegisterRequest = createAsyncThunk(
   'auth/register',
   async (payload: RegisterDataActionPayload) => {
-    const response = await axios.post(`${auth_url}/register`, payload, {
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await axios.post(
+      `${import.meta.env.VITE_CUSTOMER_AUTH_API_URL}/register`,
+      payload,
+      {
+        withCredentials: true,
       },
-    });
+    );
 
-    const user = response.data.userData as User;
-    const token = response.data.jwt;
-
-    localStorage.setItem('accessToken', JSON.stringify(token));
-
+    const user = response.data as User;
     return user;
   },
 );
@@ -113,17 +89,15 @@ const sendRegisterRequest = createAsyncThunk(
 const sendLoginRequest = createAsyncThunk(
   'auth/login',
   async (payload: LoginDataActionPayload, { dispatch }) => {
-    const response = await axios.post(`${auth_url}/login`, payload, {
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await axios.post(
+      `${import.meta.env.VITE_CUSTOMER_AUTH_API_URL}/login`,
+      payload,
+      {
+        withCredentials: true,
       },
-    });
+    );
 
-    const user = response.data.userData as User;
-    const token = response.data.jwt;
-
-    localStorage.setItem('accessToken', JSON.stringify(token));
-    dispatch(getAddressesData());
+    const user = response.data as User;
 
     return user;
   },
@@ -132,53 +106,20 @@ const sendLoginRequest = createAsyncThunk(
 const sendLogoutRequest = createAsyncThunk(
   'auth/logout',
   async (_, { dispatch }) => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    const response = await axios.post(
-      `${auth_url}/logout`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken?.substring(
-            1,
-            accessToken.length - 1,
-          )}`,
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_CUSTOMER_AUTH_URL}/logout`,
+        {},
+        {
+          withCredentials: true,
         },
-      },
-    );
+      );
 
-    localStorage.removeItem('accessToken');
-    dispatch(clearAddresses());
-
-    return response.data.message;
+    } catch (error) {
+      console.log(error);
+    }
   },
 );
 
-const sendAuthenticateRequest = createAsyncThunk(
-  'auth/authenticate',
-  async (_, { dispatch }) => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    const response = await axios.get(`${auth_url}/authenticate`, {
-      headers: {
-        Authorization: `Bearer ${accessToken?.substring(
-          1,
-          accessToken.length - 1,
-        )}`,
-      },
-    });
-
-    const user = response.data.userData as User;
-    dispatch(getAddressesData());
-
-    return user;
-  },
-);
-
-export {
-  sendAuthenticateRequest,
-  sendLoginRequest,
-  sendLogoutRequest,
-  sendRegisterRequest,
-};
+export { sendLoginRequest, sendLogoutRequest, sendRegisterRequest };
 export default authSlice.reducer;

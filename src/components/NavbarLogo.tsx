@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
 type Props = {
-  checkNavbar?: boolean;
+  checkNavbar: boolean;
 };
 
 function NavbarLogo(props: Props) {

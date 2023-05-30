@@ -1,11 +1,16 @@
 import { useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { RootState } from '../app/store';
+import { Address } from '../app/types';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
 function AccountPage() {
-  const addresses = useSelector((state: RootState) => state.addresses);
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+
+  if (!isAuthenticated) return <Navigate to="/auth/login" replace={true} />;
+  const addresses = [] as Address[];
 
   return (
     <div className="flex min-h-screen flex-col justify-between">

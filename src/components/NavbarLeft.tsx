@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch, RootState } from '../app/store';
 import { setHoverMenuId } from '../app/menuSlice';
-import MenuDropDown from './MenuDropdown';
-import MegaMenu from './MegaMenu';
-import ModalNavbar from '../modals/ModalNavbar';
+import { AppDispatch, RootState } from '../app/store';
 import { Menu } from '../app/types';
+import ModalNavbar from '../modals/ModalNavbar';
+import MegaMenu from './MegaMenu';
+import MenuDropDown from './MenuDropdown';
 
 type Props = {
   className?: string;

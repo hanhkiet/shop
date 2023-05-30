@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
+import ListAllMenu from './ListAllMenu';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
-import ListAllMenu from './ListAllMenu';
 import { Collection, CollectionType, Menu } from '../app/types';
 
 type Props = {
