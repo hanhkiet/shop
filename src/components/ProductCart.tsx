@@ -3,6 +3,7 @@ import { RootState } from '../app/store';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as cartSlice from '../app/cartSlice';
+import { ItemsInStore } from '../app/types';
 
 type Props = {
   productId: string;
@@ -11,19 +12,38 @@ type Props = {
 };
 
 export default function ProductCart(props: Props) {
+  const products = useSelector(
+    (state: RootState) => state.product.products,
+  ).filter(item => item.uuid == props.productId)[0];
+  const productQuantity = useSelector(
+    (state: RootState) => state.productQuantity.productQuantity,
+  );
+  const thisProductQuantity = productQuantity.filter(
+    (prod: ItemsInStore) => prod.productUuid === props.productId,
+  );
+  const thisProductQuantitySize = thisProductQuantity.find(
+    (prod: ItemsInStore) => prod.size === props.size,
+  )!;
   const dispatch = useDispatch();
   const handleRemove = (productId: string, size: string) => {
     dispatch(cartSlice.removeItem({ productId, size }));
   };
   const handleIncrement = (productId: string, size: string) => {
-    dispatch(cartSlice.incrementQuantity({ productId, size }));
+    if (thisProductQuantitySize.quantity > props.quantity) {
+      dispatch(cartSlice.incrementQuantity({ productId, size }));
+    }
   };
   const handleDecrement = (productId: string, size: string) => {
     dispatch(cartSlice.decrementQuantity({ productId, size }));
   };
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let newQuantity = parseInt(event.target.value);
-    newQuantity = !newQuantity || newQuantity <= 0 ? 1 : newQuantity;
+    if (!newQuantity || newQuantity <= 0) {
+      newQuantity = 1;
+    }
+    if (thisProductQuantitySize.quantity < newQuantity) {
+      newQuantity = thisProductQuantitySize.quantity;
+    }
     dispatch(
       cartSlice.setQuantity({
         productId: props.productId,
@@ -32,9 +52,6 @@ export default function ProductCart(props: Props) {
       }),
     );
   };
-  const products = useSelector(
-    (state: RootState) => state.product.products,
-  ).filter(item => item.uuid == props.productId)[0];
   if (!products) return <></>;
   return (
     <div className="m-5 flex flex-row">

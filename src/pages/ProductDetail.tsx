@@ -185,7 +185,6 @@ function ProductDetail() {
                 </p>
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
                   <p>${thisProduct.price} USD</p>
-                  <p className="line-through">${thisProduct.price + 1} USD</p>
                 </div>
                 <p>Color: </p>
                 <div className="grid grid-cols-5">

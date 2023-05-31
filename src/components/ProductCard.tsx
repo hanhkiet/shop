@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
+import { ItemsInStore } from '../app/types';
 import Size from './Size';
 
 type Props = {
@@ -13,6 +16,16 @@ type Props = {
 
 function ProductCard(props: Props) {
   const [isShown, setIsShown] = useState(false);
+  const productQuantity = useSelector(
+    (state: RootState) => state.productQuantity.productQuantity,
+  );
+  const thisProductQuantity = productQuantity.filter(
+    (prod: ItemsInStore) => prod.productUuid === props.id,
+  );
+  const hasSale = true;
+  const isSoldOut = thisProductQuantity.every(
+    (product: ItemsInStore) => product.quantity === 0,
+  );
   return (
     <div
       onMouseEnter={() => setIsShown(true)}
@@ -35,11 +48,13 @@ function ProductCard(props: Props) {
             } duration-300`}
             alt=""
           />
-          <div
-            className={`absolute top-0 left-0 mt-2 ml-2 rounded-md bg-gray-100 px-4 py-1 font-[ASRV-Standard] text-xs text-gray-500`}
-          >
-            SALE
-          </div>
+          {(hasSale || isSoldOut) && (
+            <div
+              className={`absolute top-0 left-0 mt-2 ml-2 rounded-md bg-gray-100 px-4 py-1 font-[ASRV-Standard] text-xs text-gray-500`}
+            >
+              {isSoldOut ? 'SOLD OUT' : 'SALE'}
+            </div>
+          )}
         </div>
       </Link>
 

@@ -14,46 +14,69 @@ function CategoryPage() {
   const categoryProducts = useSelector(
     (state: RootState) => state.categoryProduct.categoryProduct,
   );
-  const categoryProduct = categoryProducts.filter(
-    (prod: CategoryProduct) =>
-      prod.productCollection.name.replace(/\W+/gi, '-').toLowerCase() === name,
-  );
+  const categoryProduct =
+    name === 'all'
+      ? categoryProducts
+      : categoryProducts.filter(
+          (prod: CategoryProduct) =>
+            prod.productCollection.name.replace(/\W+/gi, '-').toLowerCase() ===
+            name,
+        );
   if (!categoryProduct || !categoryProducts) return <></>;
   const filterMode = [
-    'Featured',
-    'Best selling',
+    'Default',
     'Alphabetically, A-Z',
     'Alphabetically, Z-A',
     'Price, low to high',
     'Price, high to low',
-    'Date, old to new',
-    'Date, new to old',
   ];
+  const [filterChosen, setFilterChosen] = useState(0);
   const [gridLarge, setGridLarge] = useState(3);
   const [gridSmall, setGridSmall] = useState(2);
   const [filterAppear, setFilterAppear] = useState(false);
   const [sortAppearSmall, setSortAppearSmall] = useState(false);
-  const text = "SPRING '23 COLLECTION";
-  const words = text.split(' ');
-  const lastWord = words.pop();
-  const remainingText = words.join(' ');
+  const [ourProducts, setOurProducts] = useState(categoryProduct);
+  const sortProductsAtoZ = () => {
+    const sortedProducts = [...ourProducts].sort((a, b) =>
+      a.product.name.localeCompare(b.product.name),
+    );
+    setOurProducts(sortedProducts);
+  };
+  const sortProductsZtoA = () => {
+    const sortedProducts = [...ourProducts].sort((a, b) =>
+      b.product.name.localeCompare(a.product.name),
+    );
+    setOurProducts(sortedProducts);
+  };
+  const sortLowToHighPrice = () => {
+    const sortedProducts = [...ourProducts].sort(
+      (a, b) => a.product.price - b.product.price,
+    );
+    setOurProducts(sortedProducts);
+  };
+  const sortHighToLowPrice = () => {
+    const sortedProducts = [...ourProducts].sort(
+      (a, b) => b.product.price - a.product.price,
+    );
+    setOurProducts(sortedProducts);
+  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 2;
+  const totalPages = Math.ceil(ourProducts.length / productsPerPage);
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = ourProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct,
+  );
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
   return (
     <>
       <Navbar />
       <div className="mt-16 min-h-screen">
-        <div className="relative">
-          <img
-            alt=""
-            src="https://asrv.com/cdn/shop/files/Collection_banner_1800x.jpg"
-            className="w-full"
-          />
-          <div className="absolute left-0 top-0 grid h-full w-full content-center">
-            <p className="text-center text-3xl text-white">
-              <span className="font-bold">{remainingText}</span>{' '}
-              <span className="font-light">{lastWord}</span>
-            </p>
-          </div>
-        </div>
         <div className="sticky left-0 top-16 z-20 flex flex-row-reverse border-b-2 border-gray-300 bg-white md:flex-row">
           <div className="basis-1/3 p-6 md:basis-1/12">
             <div className="flex justify-center gap-3 md:hidden">
@@ -138,19 +161,72 @@ function CategoryPage() {
               <MenuDropDown />
             </div>
           </div>
-          <div
-            className={`grid basis-full grid-cols-${gridSmall} lg:ml-5 lg:basis-10/12 md:grid-cols-${gridLarge}`}
-          >
-            {categoryProduct.map((item: CategoryProduct) => (
-              <ProductCard
-                key={item.product.uuid}
-                id={item.product.uuid}
-                name={item.product.name}
-                price={item.product.price}
-                imageOne={item.product.images[0]}
-                imageTwo={item.product.images[1]}
-              />
-            ))}
+          <div className={`basis-full lg:ml-5 lg:basis-10/12`}>
+            <div
+              className={`grid grid-cols-${gridSmall} md:grid-cols-${gridLarge}`}
+            >
+              {currentProducts.map((item: CategoryProduct) => (
+                <ProductCard
+                  key={item.product.uuid}
+                  id={item.product.uuid}
+                  name={item.product.name}
+                  price={item.product.price}
+                  imageOne={item.product.images[0]}
+                  imageTwo={item.product.images[1]}
+                />
+              ))}
+            </div>
+            <div className="flex flex-row justify-center">
+              {currentPage > 1 && (
+                <svg
+                  onClick={() => {
+                    setCurrentPage(currentPage - 1);
+                    window.scrollTo(0, 0);
+                  }}
+                  className={`m-5 h-3 w-3 cursor-pointer`}
+                  role="presentation"
+                  viewBox="0 0 11 18"
+                >
+                  <path
+                    d="M9.5 1.5L1.5 9l8 7.5"
+                    stroke="currentColor"
+                    fill="none"
+                  ></path>
+                </svg>
+              )}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                pageNumber => (
+                  <button
+                    className={`${
+                      pageNumber === currentPage ? `font-bold` : `font-light`
+                    }`}
+                    key={pageNumber}
+                    onClick={() => handlePageChange(pageNumber)}
+                    style={{ margin: '0.5rem' }}
+                    disabled={pageNumber === currentPage}
+                  >
+                    {pageNumber}
+                  </button>
+                ),
+              )}
+              {currentPage <= currentProducts.length && (
+                <svg
+                  onClick={() => {
+                    setCurrentPage(currentPage + 1);
+                    window.scrollTo(0, 0);
+                  }}
+                  className={`m-5 h-3 w-3 cursor-pointer`}
+                  role="presentation"
+                  viewBox="0 0 11 18"
+                >
+                  <path
+                    d="M1.5 1.5l8 7.5-8 7.5"
+                    stroke="currentColor"
+                    fill="none"
+                  ></path>
+                </svg>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -204,9 +280,23 @@ function CategoryPage() {
         </div>
         <div className="m-auto flex h-[85%] w-max items-center text-center">
           <ul className="grid gap-3">
-            {filterMode.map((item: string) => (
-              <li key={item} className="text-gray-500">
-                <div>{item}</div>
+            {filterMode.map((item: string, index) => (
+              <li
+                onClick={() => {
+                  setFilterChosen(index);
+                  setSortAppearSmall(false);
+                  if (index === 0) setOurProducts(categoryProduct);
+                  if (index === 1) sortProductsAtoZ();
+                  if (index === 2) sortProductsZtoA();
+                  if (index === 3) sortLowToHighPrice();
+                  if (index === 4) sortHighToLowPrice();
+                }}
+                key={item}
+                className={`cursor-pointer text-gray-700 ${
+                  index === filterChosen ? `font-bold` : `font-light`
+                }`}
+              >
+                {item}
               </li>
             ))}
           </ul>

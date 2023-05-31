@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
+import { Link } from 'react-router-dom';
 
 function CheckoutButton() {
   const products = useSelector((state: RootState) => state.product.products);
@@ -18,15 +19,17 @@ function CheckoutButton() {
   }, 0);
 
   return (
-    <button className="relative mt-5 h-12 w-full bg-black text-white">
-      <div className="flex flex-row align-top">
-        <div className="basis-2/5 text-right">Checkout</div>
-        <div className="relative basis-1/5 text-center leading-none">
-          <div className="align-top">.</div>
+    <Link to="/checkout">
+      <button className="relative mt-5 h-12 w-full bg-black text-white">
+        <div className="flex flex-row align-top">
+          <div className="basis-2/5 text-right">Checkout</div>
+          <div className="relative basis-1/5 text-center leading-none">
+            <div className="align-top">.</div>
+          </div>
+          <div className="basis-2/5 text-left">${totalPrice} USD</div>
         </div>
-        <div className="basis-2/5 text-left">${totalPrice} USD</div>
-      </div>
-    </button>
+      </button>
+    </Link>
   );
 }
 

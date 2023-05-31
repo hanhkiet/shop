@@ -10,11 +10,11 @@ function HomePage() {
       id: 1,
       src: 'https://asrv.com/cdn/shop/files/BF-Banner-Desktop_3f36479b-ef35-40df-9b4e-7770efeb8c56.jpg',
       srcSmallScreen: 'https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg',
-      mainTitle: 'END OF SEASON SALE',
+      mainTitle: null,
       productListTitle: 'END OF SEASON SALE',
       subTitle: 'UP TO 50% OFF - SALE ENDS 5.31.23',
       firstButton: 'SHOP SALE',
-      secondButton: 'MINDSET TRAINING #10',
+      secondButton: null,
     },
     {
       id: 2,
@@ -28,21 +28,10 @@ function HomePage() {
     },
     {
       id: 3,
-      src: 'https://cdn.shopify.com/s/files/1/0297/6293/files/D2B_2000x.png?v=1681496790',
-      srcSmallScreen:
-        'https://cdn.shopify.com/s/files/1/0297/6293/files/MobileDrop2_x800.heic?v=1681328045',
-      mainTitle: 'SPRING DROP 2',
-      productListTitle: null,
-      subTitle: 'BUILT FOR THE HIGH-PERFORMANCE LIFESTYLE',
-      firstButton: 'SHOP NOW',
-      secondButton: 'MINDSET TRAINING #10',
-    },
-    {
-      id: 4,
       src: 'https://cdn.shopify.com/videos/c/o/v/a1e944e243cd4e06b50e5eebd96d0d2f.mp4',
       srcSmallScreen: 'https://asrv.com/cdn/shop/files/DSC00896.png',
-      mainTitle: 'SPRING DROP 1',
-      productListTitle: null,
+      mainTitle: null,
+      productListTitle: "SPRING '23 COLLECTION",
       subTitle: 'THE ART OF ADAPTATION',
       firstButton: 'SHOP NOW',
       secondButton: 'TUTORIAL',
@@ -51,8 +40,8 @@ function HomePage() {
       id: 5,
       src: 'https://asrv.com/cdn/shop/files/wide-boy-final.jpg',
       srcSmallScreen: 'https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg',
-      mainTitle: "WINTER '22 COLLECTION",
-      productListTitle: null,
+      mainTitle: null,
+      productListTitle: "WINTER '22 COLLECTION",
       subTitle: 'EXPLORE NATURE IN ITS HARSHEST FORM',
       firstButton: 'SHOP NOW',
       secondButton: 'LOOKBOOK',
@@ -67,8 +56,8 @@ function HomePage() {
           coverKey={index}
           src={item.src}
           srcSmallScreen={item.srcSmallScreen || item.src}
-          mainTitle={item.mainTitle}
-          productListTitle={item.productListTitle || item.mainTitle}
+          mainTitle={item.mainTitle || item.productListTitle}
+          productListTitle={item.productListTitle}
           subTitle={item.subTitle}
           firstButton={item.firstButton}
           secondButton={item.secondButton || null}
