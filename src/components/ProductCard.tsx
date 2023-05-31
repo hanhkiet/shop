@@ -33,7 +33,7 @@ function ProductCard(props: Props) {
       onMouseLeave={() => setIsShown(false)}
       className={`relative m-5 flex flex-col items-center text-center ${props.className}`}
     >
-      <Link to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
+      <Link to={`/products/${props.id}`}>
         <div className="relative">
           <img
             src={props.imageOne}
