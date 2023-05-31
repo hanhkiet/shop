@@ -156,12 +156,12 @@ function CategoryPage() {
           </div>
         </div>
         <div className="flex flex-row">
-          <div className="hidden basis-0 lg:block lg:basis-2/12">
+          <div className="hidden basis-0 lg:block lg:basis-3/12">
             <div className="sticky left-0 top-36 h-screen w-full overflow-y-auto">
               <MenuDropDown />
             </div>
           </div>
-          <div className={`basis-full lg:ml-5 lg:basis-10/12`}>
+          <div className={`basis-full lg:ml-5 lg:basis-9/12`}>
             <div
               className={`grid grid-cols-${gridSmall} md:grid-cols-${gridLarge}`}
             >

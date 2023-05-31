@@ -9,6 +9,7 @@ type Props = {
   id: string;
   imageOne: string;
   imageTwo: string;
+  className?: string;
   name: string;
   price: number;
   onClick?: () => void;
@@ -30,7 +31,7 @@ function ProductCard(props: Props) {
     <div
       onMouseEnter={() => setIsShown(true)}
       onMouseLeave={() => setIsShown(false)}
-      className="relative m-5 flex flex-col items-center text-center"
+      className={`relative m-5 flex flex-col items-center text-center ${props.className}`}
     >
       <Link to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}>
         <div className="relative">
