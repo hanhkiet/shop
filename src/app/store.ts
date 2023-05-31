@@ -3,9 +3,11 @@ import authReducer from './authSlice';
 import cartReducer from './cartSlice';
 import managerReducer from './managerSlice';
 import menuReducer from './menuSlice';
+import productReducer from './productSlice';
+import productQuantityReducer from './productQuantitySlice';
+import categoryProductReducer from './categoryProductSlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
-import productReducer from './productSlice';
 
 const store = configureStore({
   reducer: {
@@ -15,6 +17,8 @@ const store = configureStore({
     menu: menuReducer,
     auth: authReducer,
     product: productReducer,
+    productQuantity: productQuantityReducer,
+    categoryProduct: categoryProductReducer,
     path: pathSlice,
   },
 });

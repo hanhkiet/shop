@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product } from './types';
+import { ItemsInStore, Product } from './types';
 import { ProductState } from './types';
 
 const initialState: ProductState = {
-  colors: ['RED', 'BLUE', 'GREEN', 'BLACK', 'WHITE'],
   sizes: ['XS', 'S', 'M', 'L', 'XL'],
   products: [],
 };

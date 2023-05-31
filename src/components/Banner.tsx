@@ -1,14 +1,21 @@
 type Props = {
   src: string;
   srcSmallScreen?: string;
+  bannerKey: number;
 };
 
 function Banner(props: Props) {
+  const hasSale = true;
+  const largeScreenClassName = 'hidden md:block';
+  const smallScreenClassName = 'block md:hidden';
+  const bannerClassName = `-z-10 ${
+    props.bannerKey == 0 && !hasSale ? `h-screen` : `h-[calc(100vh-64px)]`
+  } w-full object-cover brightness-[.80]`;
   return (
     <>
       {props.src.split('.').pop() == 'mp4' ? (
         <video
-          className="-z-10 hidden h-screen w-full object-cover brightness-[.80] md:block lg:block"
+          className={`${bannerClassName} ${largeScreenClassName}`}
           autoPlay
           loop
           muted
@@ -16,13 +23,13 @@ function Banner(props: Props) {
         ></video>
       ) : (
         <img
-          className="-z-10 hidden h-screen w-full object-cover brightness-[.80] md:block lg:block"
+          className={`${bannerClassName} ${largeScreenClassName}`}
           src={props.src}
           alt=""
         />
       )}
       <img
-        className="-z-10 block h-screen w-full object-cover brightness-[.80] md:hidden lg:hidden"
+        className={`${bannerClassName} ${smallScreenClassName}`}
         src={props.srcSmallScreen ? props.srcSmallScreen : props.src}
         alt=""
       />
