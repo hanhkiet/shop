@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { getMenuData } from './app/menuSlice';
 import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
+import ErrorPopUp from './components/ErrorPopUp';
 import { accountRouter } from './routers/accountRouter';
 import { authRouter } from './routers/authRouter';
 import { categoryRouter } from './routers/categoryRouter';
@@ -29,7 +30,12 @@ function App() {
     dispatch(getProductData());
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ErrorPopUp />
+      <RouterProvider router={router} />;
+    </>
+  );
 }
 
 export default App;

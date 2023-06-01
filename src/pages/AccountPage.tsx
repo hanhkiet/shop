@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
 function AccountPage() {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useSelector((state: RootState) => state.account);
   const navigate = useNavigate();
 
   if (!isAuthenticated) return <Navigate to="/auth/login" replace={true} />;

@@ -1,7 +1,7 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { sendLoginRequest } from '../app/authSlice';
+import { sendLoginRequest } from '../app/accountSlice';
 import { AppDispatch } from '../app/store';
 import { LoginDataActionPayload } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
@@ -26,8 +26,6 @@ const LoginSection = () => {
     passwordRegex,
     'Please enter a valid password (min 6 characters)',
   );
-
-  const [message, setMessage] = useState('');
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -88,7 +86,6 @@ const LoginSection = () => {
       <p className="text-sm font-light lg:text-base">
         Don't have an account? <Link to="/auth/register">Register</Link>
       </p>
-      {message && <p className="text-sm text-red-500">{message}</p>}
     </>
   );
 };

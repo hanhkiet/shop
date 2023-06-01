@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { sendUpdateAddressRequest } from '../app/addressSlice';
 import { AppDispatch } from '../app/store';
 import { Address } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
@@ -13,17 +13,9 @@ type Props = {
 };
 
 const EditAddressModal = ({ address, onClose }: Props) => {
+  const { recipientName, recipientPhone, street, district, city, uuid } =
+    address;
   const dispatch: AppDispatch = useDispatch();
-
-  const {
-    isPrimary,
-    recipientName,
-    recipientPhone,
-    street,
-    district,
-    city,
-    uuid,
-  } = address;
 
   const {
     ref: recipientNameRef,
@@ -70,8 +62,6 @@ const EditAddressModal = ({ address, onClose }: Props) => {
     'Please enter a valid city (e.g. Ho Chi Minh City)',
   );
 
-  const [isChecked, setIsChecked] = useState(isPrimary);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -90,13 +80,14 @@ const EditAddressModal = ({ address, onClose }: Props) => {
     ) {
       const address = {
         uuid,
-        isPrimary: isChecked,
         recipientName: recipientNameRef.current?.value,
         recipientPhone: recipientPhoneRef.current?.value,
         street: streetRef.current?.value,
         district: districtRef.current?.value,
         city: cityRef.current?.value,
       } as Address;
+
+      dispatch(sendUpdateAddressRequest(address)).then(() => onClose());
     }
   };
 
@@ -109,7 +100,7 @@ const EditAddressModal = ({ address, onClose }: Props) => {
             Please modify the information below
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3 lg:gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div className="w-full space-y-1 text-left">
             <input
               ref={recipientNameRef}
@@ -179,14 +170,6 @@ const EditAddressModal = ({ address, onClose }: Props) => {
             <p className="mx-1 text-xs text-red-500">
               {cityError ?? <span></span>}
             </p>
-          </div>
-          <div className="flex w-full items-center gap-2">
-            <input
-              type="checkbox"
-              checked={isChecked}
-              onChange={e => setIsChecked(e.target.checked)}
-            />
-            <span>Set as primary address</span>
           </div>
           <div className="flex w-full justify-end gap-3">
             <button className="button button-dark">save</button>

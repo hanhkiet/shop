@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { RootState } from '../app/store';
 
 function AuthPage() {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useSelector((state: RootState) => state.account);
   if (isAuthenticated) return <Navigate to="/" replace={true} />;
 
   return (
