@@ -27,25 +27,24 @@ export interface MenuState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
-  menus: MenuData[];
+  menus: Menu[];
 }
 
-export interface MegaMenuItem {
+export interface Menu {
   id: number;
   name: string;
-  url: string;
+  collectionTypes: CollectionType[];
 }
 
-export interface MegaMenuData {
+export interface CollectionType {
   id: number;
   name: string;
-  megaMenuItems: MegaMenuItem[];
+  collections: Array<Collection>;
 }
 
-export interface MenuData {
+export interface Collection {
   id: number;
   name: string;
-  megaMenus: MegaMenuData[];
 }
 
 export interface User {
@@ -113,7 +112,6 @@ export interface Product {
 }
 
 export interface ProductState {
-  colors: Array<string>;
   sizes: Array<string>;
   products: Array<Product>;
 }
@@ -130,4 +128,25 @@ export interface ManagerState {
   isAuthenticated: boolean;
   loading: boolean;
   manager: Manager | null;
+}
+
+export interface ItemsInStore {
+  id: number;
+  productUuid: string;
+  size: string;
+  quantity: number;
+}
+
+export interface ProductQuantityState {
+  productQuantity: Array<ItemsInStore>;
+}
+
+export interface CategoryProduct {
+  id: number;
+  product: Product;
+  productCollection: Collection;
+}
+
+export interface CategoryProductState {
+  categoryProduct: Array<CategoryProduct>;
 }

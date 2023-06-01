@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setHoverMenuId } from '../app/menuSlice';
 import { AppDispatch, RootState } from '../app/store';
-import { MenuData } from '../app/types';
+import { Menu } from '../app/types';
 import ModalNavbar from '../modals/ModalNavbar';
 import MegaMenu from './MegaMenu';
 import MenuDropDown from './MenuDropdown';
@@ -14,6 +14,7 @@ type Props = {
   changeColor: boolean;
   onClick: () => void;
   onClose: () => void;
+  saleAppear: boolean;
 };
 
 export default function NavbarLeft(props: Props) {
@@ -48,12 +49,12 @@ export default function NavbarLeft(props: Props) {
           props.changeColor ? `text-neutral-600` : `text-white`
         }`}
       >
-        {menus.map((item: MenuData, index: number) => (
+        {menus.map((item: Menu, index) => (
           <li key={index}>
             <div className={`navbar-list z-50`}>
               <Link
                 onMouseOver={() => {
-                  setShowShopMenu(item.megaMenus.length > 0);
+                  setShowShopMenu(item.collectionTypes.length > 0);
                   if (hoverMenuId != item.id) {
                     dispatch(setHoverMenuId(0));
                     setTimeout(() => {
@@ -61,7 +62,9 @@ export default function NavbarLeft(props: Props) {
                     }, 100);
                   }
                 }}
-                to="/"
+                to={`/collections/${item.collectionTypes[0].collections[0].name
+                  .replace(/\W+/gi, '-')
+                  .toLowerCase()}`}
               >
                 {item.name}
               </Link>
@@ -85,7 +88,8 @@ export default function NavbarLeft(props: Props) {
       </ModalNavbar>
       {
         <MegaMenu
-          menu={menus.find(item => item.id === hoverMenuId)?.megaMenus || []}
+          menuId={hoverMenuId}
+          saleAppear={props.saleAppear}
           className={
             checkMenu && props.changeColorFirst
               ? `visible opacity-100`

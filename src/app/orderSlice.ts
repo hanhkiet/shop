@@ -2,7 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OrderState } from './types';
 
 const initialState: OrderState = {
-  note: '',
+  note: localStorage.getItem('cartNote')
+    ? localStorage.getItem('cartNote')!
+    : '',
 };
 
 const orderSlice = createSlice({
@@ -11,6 +13,7 @@ const orderSlice = createSlice({
   reducers: {
     setNote(state, action: PayloadAction<string>) {
       state.note = action.payload;
+      localStorage.setItem('cartNote', state.note);
     },
   },
 });

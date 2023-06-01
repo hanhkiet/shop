@@ -3,17 +3,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { setActiveMenu } from '../app/menuSlice';
 import MenuDropDownItem from './MenuDropDownItem';
+import { Menu } from '../app/types';
 
 type Props = {
-  onClickClose: () => void;
+  onClickClose?: () => void;
+  className?: string;
 };
 
 function MenuDropDown(props: Props) {
-  const menus = useSelector((state: RootState) => state.menu.menus);
-  const menusMobile = [
-    ...menus,
-    { name: 'account', url: '/account', megaMenus: [] },
-  ];
+  const menusData = useSelector((state: RootState) => state.menu.menus);
+  // const menus = [
+  //   ...menusData,
+  //   {
+  //     id: 0,
+  //     name: 'Account',
+  //     url: '/account',
+  //     collectionTypes: [],
+  //   },
+  // ];
+  const menus = menusData;
+
   const activeMenuStore = useSelector(
     (state: RootState) => state.menu.activeMenu,
   );
@@ -22,17 +31,17 @@ function MenuDropDown(props: Props) {
     dispatch(setActiveMenu(menu === activeMenuStore ? null : menu));
   };
   return (
-    <div className="z-50 m-5">
+    <div className={`z-50 m-5 ${props.className}`}>
       <img
         onClick={props.onClickClose}
-        className="mb-5 h-3 hover:cursor-pointer"
+        className="mb-5 block h-3 hover:cursor-pointer lg:hidden"
         src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png"
         alt=""
       />
       <ul>
-        {menusMobile.map((item: any, index: any) => (
+        {menus.map((item: Menu, index) => (
           <li key={index}>
-            {item.megaMenus.length > 0 ? (
+            {item.collectionTypes.length > 0 ? (
               <MenuDropDownItem
                 onMenuClick={() => handleMenuClick(item.name)}
                 activeMenu={activeMenuStore}
@@ -42,7 +51,7 @@ function MenuDropDown(props: Props) {
             ) : (
               <Link
                 className="text-1xl grid h-16 cursor-pointer content-center border-b-2 border-gray-300 font-light uppercase hover:text-gray-500"
-                to={item.url}
+                to="/"
               >
                 {item.name}
               </Link>

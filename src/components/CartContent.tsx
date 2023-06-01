@@ -5,6 +5,7 @@ import { toggleVisibility } from '../app/cartSlice';
 import CheckoutButton from './CheckoutButton';
 import OrderNote from './OrderNote';
 import ProductCart from './ProductCart';
+import { CartItem } from '../app/types';
 
 type Props = {
   onClose: () => void;
@@ -45,7 +46,7 @@ function CartContent(props: Props) {
               {items
                 .slice(0)
                 .reverse()
-                .map((item: any, index) => (
+                .map((item: CartItem, index) => (
                   <li key={index}>
                     <ProductCart
                       productId={item.id}
