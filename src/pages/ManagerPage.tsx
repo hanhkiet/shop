@@ -1,11 +1,18 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { RootState } from '../app/store';
+import { sendRefreshRequest } from '../app/managerSlice';
+import { AppDispatch, RootState } from '../app/store';
 import ManagerNavbar from '../layout/ManagerNavbar';
 import ManagerLoginModal from '../modals/ManagerLoginModal';
 
 function ManagerPage() {
   const { isAuthenticated } = useSelector((state: RootState) => state.manager);
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(sendRefreshRequest());
+  }, []);
 
   if (!isAuthenticated) {
     return (
