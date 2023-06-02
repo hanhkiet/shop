@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { toggleVisibility } from '../app/cartSlice';
@@ -16,6 +16,7 @@ type Props = {
 function NavbarRight(props: Props) {
   const visible = useSelector((state: RootState) => state.cart.visible);
   const dispatch = useDispatch();
+  const location = useLocation();
   const items = useSelector((state: RootState) => state.cart.items);
   const totalQuantity = items.reduce((total, item) => {
     return total + item.quantity;
@@ -23,6 +24,12 @@ function NavbarRight(props: Props) {
   const handleCartAppear = () => {
     dispatch(toggleVisibility(true));
     dispatch(setHoverMenuId(0));
+  };
+  const handleClickCart = () => {
+    if (location.pathname != '/cart') {
+      handleCartAppear();
+      props.onClick();
+    }
   };
   return (
     <>
@@ -40,10 +47,7 @@ function NavbarRight(props: Props) {
         </li>
         <li>
           <img
-            onClick={() => {
-              handleCartAppear();
-              props.onClick();
-            }}
+            onClick={handleClickCart}
             alt=""
             src={
               totalQuantity
@@ -66,31 +70,27 @@ function NavbarRight(props: Props) {
         </li>
         <li className="navbar-list capitalize hover:cursor-pointer">search</li>
         <li>
-          <button
-            className="capitalize"
-            onClick={() => {
-              handleCartAppear();
-              props.onClick();
-            }}
-          >
+          <button className="capitalize" onClick={handleClickCart}>
             cart({totalQuantity})
           </button>
         </li>
       </ul>
-      <ModalNavbar
-        isRight
-        isShown={visible}
-        className={`flex justify-end ${
-          visible ? `visible` : `collapse`
-        } duration-500`}
-        onClose={() => {
-          dispatch(toggleVisibility(false));
-          dispatch(setHoverMenuId(0));
-          props.onClose();
-        }}
-      >
-        <CartContent onClose={props.onClose} />
-      </ModalNavbar>
+      {visible && (
+        <ModalNavbar
+          isRight
+          isShown={visible}
+          className={`flex justify-end ${
+            visible ? `visible` : `collapse`
+          } duration-500`}
+          onClose={() => {
+            dispatch(toggleVisibility(false));
+            dispatch(setHoverMenuId(0));
+            props.onClose();
+          }}
+        >
+          <CartContent onClose={props.onClose} />
+        </ModalNavbar>
+      )}
     </>
   );
 }

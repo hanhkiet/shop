@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setHoverMenuId } from '../app/menuSlice';
+import { setHoverMenuId, setVisibleMenu } from '../app/menuSlice';
 import { AppDispatch, RootState } from '../app/store';
 import { Menu } from '../app/types';
 import ModalNavbar from '../modals/ModalNavbar';
@@ -18,6 +18,7 @@ type Props = {
 };
 
 export default function NavbarLeft(props: Props) {
+  const visibleMenu = useSelector((state: RootState) => state.menu.visibleMenu);
   const [showMenu, setShowMenu] = useState(false);
   const menus = useSelector((state: RootState) => state.menu.menus);
   const [showShopMenu, setShowShopMenu] = useState(false);
@@ -25,7 +26,7 @@ export default function NavbarLeft(props: Props) {
   const dispatch: AppDispatch = useDispatch();
   const checkMenu = showShopMenu && hoverMenuId !== 0;
   const handleDisappearMenu = () => {
-    setShowMenu(false);
+    dispatch(setVisibleMenu(!visibleMenu));
     props.onClose();
   };
   return (
@@ -35,7 +36,7 @@ export default function NavbarLeft(props: Props) {
           <img
             src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
             onClick={() => {
-              setShowMenu(true);
+              dispatch(setVisibleMenu(!visibleMenu));
               props.onClick();
             }}
             className={`mx-auto h-4 cursor-pointer duration-300 ${
@@ -79,13 +80,15 @@ export default function NavbarLeft(props: Props) {
           </li>
         ))}
       </ul>
-      <ModalNavbar
-        isShown={showMenu}
-        className={`${showMenu ? `visible` : `collapse`} duration-500`}
-        onClose={handleDisappearMenu}
-      >
-        <MenuDropDown onClickClose={handleDisappearMenu} />
-      </ModalNavbar>
+      {visibleMenu && (
+        <ModalNavbar
+          isShown={visibleMenu}
+          className={`${visibleMenu ? `visible` : `collapse`} duration-500`}
+          onClose={handleDisappearMenu}
+        >
+          <MenuDropDown onClickClose={handleDisappearMenu} />
+        </ModalNavbar>
+      )}
       {
         <MegaMenu
           menuId={hoverMenuId}

@@ -8,6 +8,7 @@ import { accountRouter } from './routers/accountRouter';
 import { productRouter } from './routers/productRouter';
 import { authRouter } from './routers/authRouter';
 import { categoryRouter } from './routers/categoryRouter';
+import { cartRouter } from './routers/cartRouter';
 import { checkoutRouter } from './routers/checkoutRouter';
 import { errorRouter } from './routers/errorRouter';
 import { homeRouter } from './routers/homeRouter';
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   accountRouter,
   managerRouter,
   authRouter,
+  cartRouter,
   checkoutRouter,
   categoryRouter,
   errorRouter,

@@ -17,9 +17,9 @@ function Footer() {
   };
   return (
     <>
-      <footer className="mt-10 h-full bg-gray-100 py-10 font-light text-gray-700">
+      <footer className="h-full bg-gray-100 py-10 font-light text-gray-700">
         <div className="container mx-auto overflow-x-auto text-center">
-          <div className={`grid grid-cols-1 gap-6 md:grid-cols-2`}>
+          {/* <div className={`grid grid-cols-1 gap-6 md:grid-cols-2`}>
             <SubscribeSection />
             <ConnectSection />
           </div>
@@ -82,7 +82,7 @@ function Footer() {
                 src="https://media.discordapp.net/attachments/1026660684739653674/1110605525760102581/TruspilotLogo.png"
               />
             </a>
-          </div>
+          </div> */}
           <div className="mt-10">
             <Link
               onClick={handleClickFooter}

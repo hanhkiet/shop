@@ -1,47 +1,54 @@
-const OrderSummarySection = () => {
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
+import { CartItem } from '../app/types';
+import ProductCardCheckout from './ProductCardCheckout';
+
+function OrderSummarySection() {
+  const products = useSelector((state: RootState) => state.product.products);
+  const items = useSelector((state: RootState) => state.cart.items);
+  const totalPrice = items.reduce((total, item) => {
+    const product = products.find(p => p.uuid === item.id);
+
+    if (product && product.price) {
+      return total + item.quantity * product.price;
+    } else {
+      return total;
+    }
+  }, 0);
+  const subtotalPrice = 50;
+  const shippingPrice = 50;
+
   return (
-    <div className="flex w-10/12 basis-1/3 flex-col items-center gap-4 bg-neutral-100 p-6">
-      <h2 className="text-xl">Order summary</h2>
+    <div className="static top-0 right-0 order-1 grid h-full basis-1/3 flex-col place-content-center gap-4 bg-neutral-100 p-6 lg:fixed lg:h-screen">
       <div className="flex flex-col gap-3">
-        <div className="flex max-w-md items-center gap-4">
-          <div>
-            <img
-              className="rounded"
-              src="//cdn.shopify.com/s/files/1/0297/6293/products/0757Tank_SpaceGrey_small.jpg?v=1681235597"
-              alt=""
+        {items
+          .slice(0)
+          .reverse()
+          .map((item: CartItem, index) => (
+            <ProductCardCheckout
+              key={index}
+              productId={item.id}
+              quantity={item.quantity}
+              size={item.size}
             />
-          </div>
-          <div className="basis-full">
-            <p className="text-md">
-              0757. Silver-Lite™ 2.0 Cutoff Tank - Space Grey
-            </p>
-            <p className="text-xs">XS</p>
-          </div>
-          <div>$58</div>
+          ))}
+      </div>
+      <div className="grid w-full max-w-md border-t border-neutral-300 pt-3">
+        <div className="flex justify-between">
+          <p className="text-md">Subtotal</p>
+          <p>${subtotalPrice}</p>
         </div>
-        <div className="flex max-w-md items-center gap-4">
-          <div>
-            <img
-              className="rounded"
-              src="//cdn.shopify.com/s/files/1/0297/6293/products/0757Tank_SpaceGrey_small.jpg?v=1681235597"
-              alt=""
-            />
-          </div>
-          <div className="basis-full">
-            <p className="text-md">
-              0757. Silver-Lite™ 2.0 Cutoff Tank - Space Grey
-            </p>
-            <p className="text-xs">XS</p>
-          </div>
-          <div>$58</div>
+        <div className="flex justify-between">
+          <p className="text-md">Shipping</p>
+          <p>${shippingPrice}</p>
         </div>
       </div>
       <div className="flex w-full max-w-md justify-between border-t border-neutral-300 py-3">
         <p className="text-md">Total</p>
-        <p>$58</p>
+        <p>${totalPrice + subtotalPrice + shippingPrice}</p>
       </div>
     </div>
   );
-};
+}
 
 export default OrderSummarySection;

@@ -17,6 +17,7 @@ export interface MenuState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
+  visibleMenu: boolean;
   menus: Menu[];
 }
 

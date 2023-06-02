@@ -6,6 +6,7 @@ const initialState: MenuState = {
   hoverMenuId: 0,
   activeMenu: null,
   activeMenuChild: [],
+  visibleMenu: false,
   menus: [],
 };
 
@@ -15,6 +16,9 @@ const menuSlice = createSlice({
   reducers: {
     setHoverMenuId(state, action: PayloadAction<number>) {
       state.hoverMenuId = action.payload;
+    },
+    setVisibleMenu(state, action: PayloadAction<boolean>) {
+      state.visibleMenu = action.payload;
     },
     setActiveMenu(state, action: PayloadAction<string | null>) {
       state.activeMenu = action.payload;
@@ -54,6 +58,7 @@ const getMenuData = createAsyncThunk('menu/getMenuData', async () => {
 export const {
   setHoverMenuId,
   setActiveMenu,
+  setVisibleMenu,
   addActiveMenuChild,
   removeActiveMenuChild,
 } = menuSlice.actions;
