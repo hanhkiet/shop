@@ -6,9 +6,6 @@ export default function ManagerRightNavbar() {
       <li className="capitalize">
         <Link to="account">account</Link>
       </li>
-      <li className="navbar-list capitalize hover:cursor-pointer">
-        <Link to="/">logout</Link>
-      </li>
     </ul>
   );
 }

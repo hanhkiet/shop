@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { getCategoryProductData } from './app/categoryProductSlice';
 import { getMenuData } from './app/menuSlice';
+import { getProductQuantityData } from './app/productQuantitySlice';
 import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
 import ErrorPopUp from './components/ErrorPopUp';
 import { accountRouter } from './routers/accountRouter';
-import { productRouter } from './routers/productRouter';
 import { authRouter } from './routers/authRouter';
 import { categoryRouter } from './routers/categoryRouter';
 import { checkoutRouter } from './routers/checkoutRouter';
 import { errorRouter } from './routers/errorRouter';
 import { homeRouter } from './routers/homeRouter';
 import { managerRouter } from './routers/managerRouter';
-import { getProductQuantityData } from './app/productQuantitySlice';
-import { getCategoryProductData } from './app/categoryProductSlice';
+import { productRouter } from './routers/productRouter';
 
 const router = createBrowserRouter([
   homeRouter,
@@ -29,6 +29,7 @@ const router = createBrowserRouter([
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getMenuData());
     dispatch(getProductData());

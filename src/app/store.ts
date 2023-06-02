@@ -30,6 +30,7 @@ const store = configureStore({
 store.subscribe(() => {
   localStorage.setItem('account', JSON.stringify(store.getState().account));
   localStorage.setItem('address', JSON.stringify(store.getState().address));
+  localStorage.setItem('manager', JSON.stringify(store.getState().manager));
 });
 
 export type RootState = ReturnType<typeof store.getState>;
