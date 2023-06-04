@@ -6,6 +6,8 @@ const initialState: CartState = {
     ? JSON.parse(localStorage.getItem('cartItems')!)
     : [],
   visible: false,
+  sizeCartItemChosen: null,
+  sizeCartItemChosenTemp: null,
 };
 
 const cartSlice = createSlice({
@@ -91,6 +93,12 @@ const cartSlice = createSlice({
     toggleVisibility(state, action: PayloadAction<boolean>) {
       state.visible = action.payload;
     },
+    setSizeCartItemChosen(state, action: PayloadAction<string | null>) {
+      state.sizeCartItemChosen = action.payload;
+    },
+    setSizeCartItemChosenTemp(state, action: PayloadAction<string | null>) {
+      state.sizeCartItemChosenTemp = action.payload;
+    },
   },
 });
 
@@ -101,6 +109,8 @@ export const {
   decrementQuantity,
   setQuantity,
   toggleVisibility,
+  setSizeCartItemChosen,
+  setSizeCartItemChosenTemp,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

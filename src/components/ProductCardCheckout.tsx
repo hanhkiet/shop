@@ -19,13 +19,13 @@ function ProductCardCheckout(props: Props) {
       <div className="relative">
         <img className="w-24 rounded" src={product.images[0]} alt="" />
         <div className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-gray-900 text-center text-xs">
-          <div className="grid h-5 w-5 place-items-center text-center text-xs text-white">
+          <div className="grid h-5 w-5 select-none place-items-center text-center text-xs text-white">
             {props.quantity}
           </div>
         </div>
       </div>
       <div className="basis-full">
-        <p className="text-md">{product.name}</p>
+        <p className="text-md w-72">{product.name}</p>
         <p className="text-xs">Size: {props.size}</p>
       </div>
       <div>${product.price * props.quantity}</div>

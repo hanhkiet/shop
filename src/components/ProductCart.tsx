@@ -61,7 +61,10 @@ export default function ProductCart(props: Props) {
       </div>
       <div className="my-auto ml-5 basis-3/4">
         <Link
-          onClick={() => dispatch(cartSlice.toggleVisibility(false))}
+          onClick={() => {
+            dispatch(cartSlice.toggleVisibility(false));
+            dispatch(cartSlice.setSizeCartItemChosen(props.size));
+          }}
           to={`/products/${products.uuid}`}
         >
           {products.name}

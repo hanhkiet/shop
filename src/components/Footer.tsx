@@ -55,7 +55,7 @@ function Footer() {
               </svg>
             </a>
           </div>
-          <div className="mt-10 flex justify-center gap-3">
+          <div className="m-10 flex justify-center gap-3">
             <a
               target="_blank"
               href="https://www.trustpilot.com/review/asrv.com"
@@ -83,15 +83,13 @@ function Footer() {
               />
             </a>
           </div> */}
-          <div className="mt-10">
-            <Link
-              onClick={handleClickFooter}
-              to="/"
-              className="font-[ASRV-Standard] font-bold uppercase text-gray-500 duration-300 hover:text-black"
-            >
-              COPYRIGHT © {currentYear} · (ASRV)
-            </Link>
-          </div>
+          <Link
+            onClick={handleClickFooter}
+            to="/"
+            className="font-[ASRV-Standard] font-bold uppercase text-gray-500 duration-300 hover:text-black"
+          >
+            COPYRIGHT © {currentYear} · (ASRV)
+          </Link>
         </div>
       </footer>
     </>

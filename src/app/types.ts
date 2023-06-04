@@ -7,10 +7,14 @@ export interface CartItem {
 export interface CartState {
   items: CartItem[];
   visible: boolean;
+  sizeCartItemChosen: string | null;
+  sizeCartItemChosenTemp: string | null;
 }
 
 export interface OrderState {
   note: string;
+  contactEmailOrder: string;
+  shippingAddress: string;
 }
 
 export interface MenuState {

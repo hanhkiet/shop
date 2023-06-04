@@ -61,7 +61,7 @@ function ProductCard(props: Props) {
 
       <Link
         className="mb-5 text-sm font-light uppercase text-neutral-800"
-        to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
+        to={`/products/${props.id}`}
       >
         {props.name}
       </Link>

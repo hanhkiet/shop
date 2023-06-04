@@ -19,7 +19,6 @@ type Props = {
 
 export default function NavbarLeft(props: Props) {
   const visibleMenu = useSelector((state: RootState) => state.menu.visibleMenu);
-  const [showMenu, setShowMenu] = useState(false);
   const menus = useSelector((state: RootState) => state.menu.menus);
   const [showShopMenu, setShowShopMenu] = useState(false);
   const hoverMenuId = useSelector((state: RootState) => state.menu.hoverMenuId);
@@ -33,7 +32,7 @@ export default function NavbarLeft(props: Props) {
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
         <li className="navbar-list">
-          <img
+          {(menus && menus.length > 0) && <img
             src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
             onClick={() => {
               dispatch(setVisibleMenu(!visibleMenu));
@@ -42,7 +41,7 @@ export default function NavbarLeft(props: Props) {
             className={`mx-auto h-4 cursor-pointer duration-300 ${
               props.changeColor ? '' : 'grayscale invert'
             }`}
-          />
+          />}
         </li>
       </ul>
       <ul

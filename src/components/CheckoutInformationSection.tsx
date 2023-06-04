@@ -2,34 +2,17 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function CheckoutInformationSection() {
-  const [checked, setChecked] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
     <div className="w-full">
-      {/* <div className="relative rounded border">
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 transform bg-white px-3 font-[Mulish] font-bold">
-          Express checkout
-        </span>
-        <div className="mt-3 flex flex-row justify-between gap-3 p-3">
-          <button className="basis-1/2 rounded bg-purple-700 p-3 opacity-90 duration-300 hover:opacity-100">
-            <img
-              className="mx-auto h-5 brightness-0 grayscale invert"
-              src="https://media.discordapp.net/attachments/1026660684739653674/1114027864422088794/shop-pay.png"
-              // src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Transparent.png"
-            />
-          </button>
-          <button className="basis-1/2 rounded bg-yellow-500 opacity-90 duration-300 hover:opacity-100">
-            <img
-              className="mx-auto h-5"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png"
-            />
-          </button>
-        </div>
-      </div>
-      <div className="flex flex-row items-center justify-between p-3 text-center">
-        <div className="h-px w-full basis-6/12 bg-gray-500"></div>
-        <div className="basis-1/12 text-xs uppercase text-gray-500">OR</div>
-        <div className="h-px w-full basis-6/12 bg-gray-500"></div>
-      </div> */}
       <div className="flex flex-row justify-between p-3">
         <h2 className="text-xl">Contact information</h2>
         <span>
@@ -44,17 +27,6 @@ function CheckoutInformationSection() {
           </label>
           <input type="Email" className="w-full px-2 outline-none" />
         </div>
-        <div className="flex gap-3">
-          <input
-            onClick={() => setChecked(!checked)}
-            type="checkbox"
-            id="email-offers"
-            name="email-offers"
-            value="Bike"
-            checked={checked}
-          />
-          <label htmlFor="email-offers">Email me with news and offers</label>
-        </div>
       </div>
       <div className="space-y-2">
         <h2 className="p-3 text-xl">Shipping address</h2>
@@ -63,6 +35,7 @@ function CheckoutInformationSection() {
             <label htmlFor="address" className="absolute -top-3 bg-white px-1">
               Country/region
             </label>
+            <div className='absolute top-0 right-10 h-full grid items-center'><div className='h-[50%] w-px bg-gray-300'></div></div>
             <select
               name="address"
               id="address"
@@ -74,8 +47,8 @@ function CheckoutInformationSection() {
               <option value="2">United States</option>
             </select>
           </div>
-          <div className="grid flex-row justify-between gap-3 lg:flex">
-            <div className="relative basis-1/2 rounded border p-3">
+          <div className="grid grid-cols-1 flex-row justify-between gap-3 lg:flex">
+            <div className="relative basis-full rounded border p-3 lg:basis-1/2">
               <label
                 htmlFor="first-name"
                 className="absolute -top-3 bg-white px-1"
@@ -84,7 +57,7 @@ function CheckoutInformationSection() {
               </label>
               <input type="text" className="w-full px-2 outline-none" />
             </div>
-            <div className="relative basis-1/2 rounded border p-3">
+            <div className="relative basis-full rounded border p-3 lg:basis-1/2">
               <label
                 htmlFor="last-name"
                 className="absolute -top-3 bg-white px-1"
@@ -101,15 +74,12 @@ function CheckoutInformationSection() {
             <input type="text" className="w-full px-2 outline-none" />
           </div>
           <div className="relative rounded border p-3">
-            <label
-              htmlFor="apartment"
-              className="absolute -top-3 bg-white px-1"
-            >
-              Apartment, suite, etc. (optional)
+            <label htmlFor="district" className="absolute -top-3 bg-white px-1">
+              District
             </label>
             <input type="text" className="w-full px-2 outline-none" />
           </div>
-          <div className="grid flex-row justify-between gap-3 lg:flex">
+          <div className="grid grid-cols-1 flex-row justify-between gap-3 lg:flex">
             <div className="relative basis-1/2 rounded border p-3">
               <label htmlFor="city" className="absolute -top-3 bg-white px-1">
                 City
@@ -121,35 +91,36 @@ function CheckoutInformationSection() {
                 htmlFor="postal-code"
                 className="absolute -top-3 bg-white px-1"
               >
-                Postal code (optional)
+                Phone
               </label>
-              <input type="text" className="w-full px-2 outline-none" />
+              <input
+                type="text"
+                className="relative w-full px-2 outline-none"
+              />
+              <div
+                className="absolute top-3 right-3"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <img
+                  className="h-5 w-5 cursor-pointer opacity-70"
+                  src="https://www.freepnglogos.com/uploads/question-mark-png/big-question-mark-makgeolli-mamas-papas-27.png"
+                  alt=""
+                />
+                <div
+                  className={`${
+                    isHovered ? 'visible opacity-100' : 'collapse opacity-0'
+                  } absolute bottom-9 -right-10 z-50 w-56 rounded bg-gray-700 p-2 text-center text-white duration-300 lg:-right-24`}
+                >
+                  <span className="relative z-50">
+                    In case we need to contact you about your order
+                  </span>
+                  <div className="absolute -bottom-2 left-40 z-40 lg:left-[calc(96px+8px)]">
+                    <div className="h-6 w-6 rotate-45 transform bg-gray-700" />
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="relative rounded border p-3">
-            <label htmlFor="phone" className="absolute -top-3 bg-white px-1">
-              Phone
-            </label>
-            <input type="text" className="w-full px-2 outline-none" />
-          </div>
-          <div className="flex gap-3">
-            <input type="checkbox" id="offers" name="offers" value="Bike" />
-            <label htmlFor="offers">Text me with news and offers</label>
-          </div>
-          <p className="mx-5 text-left text-gray-500">
-            If this box is unchecked, your number will only be used if the
-            courier has issues locating your address and will not be used for
-            marketing purposes.
-          </p>
-          <div className="flex flex-row gap-2">
-            <Link to="/cart" className="w-full p-2">
-              {'< '}Return to cart
-            </Link>
-            <Link className="w-full" to="/checkout/shipping">
-              <button className="button button-dark w-full normal-case">
-                Continue to shipping
-              </button>
-            </Link>
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ function HomePage() {
       srcSmallScreen: 'https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg',
       mainTitle: null,
       productListTitle: 'END OF SEASON SALE',
-      subTitle: 'UP TO 50% OFF - SALE ENDS 5.31.23',
+      subTitle: 'UP TO 50% OFF - SALE ENDS 6.31.23',
       firstButton: 'SHOP SALE',
       secondButton: null,
     },

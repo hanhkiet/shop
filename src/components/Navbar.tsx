@@ -8,6 +8,7 @@ import NavbarRight from './NavbarRight';
 import ScrollToTop from './ScrollToTop';
 import { setPathName } from '../app/pathSlice';
 import NavbarLogo from './NavbarLogo';
+import { setSizeCartItemChosen } from '../app/cartSlice';
 
 function Navbar() {
   const hasSale = true;
@@ -17,7 +18,9 @@ function Navbar() {
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
   const dispatch = useDispatch();
   const pathName = useSelector((state: RootState) => state.path.pathName);
-  const location = useLocation();
+  const sizeCartItemChosen = useSelector(
+    (state: RootState) => state.cart.sizeCartItemChosen,
+  );
   if (pathName != location.pathname) {
     dispatch(setPathName(location.pathname));
     window.scrollTo(0, 0);
@@ -60,7 +63,7 @@ function Navbar() {
     <>
       {hasSale && (
         <div className="relative flex h-16 items-center justify-center bg-red-800 px-4 text-xs font-bold uppercase text-white">
-          <span>END OF SEASON SALE - ENDS 5.31.23</span>
+          <span>END OF SEASON SALE - ENDS 6.31.23</span>
         </div>
       )}
       <header

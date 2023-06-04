@@ -5,6 +5,12 @@ const initialState: OrderState = {
   note: localStorage.getItem('cartNote')
     ? localStorage.getItem('cartNote')!
     : '',
+    contactEmailOrder: localStorage.getItem('contactEmailOrder')
+    ? localStorage.getItem('contactEmailOrder')!
+    : '',
+    shippingAddress: localStorage.getItem('shippingAddress')
+    ? localStorage.getItem('shippingAddress')!
+    : ''
 };
 
 const orderSlice = createSlice({
@@ -15,9 +21,17 @@ const orderSlice = createSlice({
       state.note = action.payload;
       localStorage.setItem('cartNote', state.note);
     },
+    setContactEmailOrder(state, action: PayloadAction<string>) {
+      state.contactEmailOrder = action.payload;
+      localStorage.setItem('contactEmailOrder', state.contactEmailOrder);
+    },
+    setShippingAddress(state, action: PayloadAction<string>) {
+      state.shippingAddress = action.payload;
+      localStorage.setItem('shippingAddress', state.shippingAddress);
+    },
   },
 });
 
-export const { setNote } = orderSlice.actions;
+export const { setNote, setContactEmailOrder, setShippingAddress } = orderSlice.actions;
 
 export default orderSlice.reducer;
