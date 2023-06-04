@@ -36,12 +36,6 @@ export interface Menu {
   collectionTypes: CollectionType[];
 }
 
-export interface CollectionType {
-  id: number;
-  name: string;
-  collections: Array<Collection>;
-}
-
 export interface Collection {
   id: number;
   name: string;
@@ -128,6 +122,19 @@ export interface ManagerState {
   isAuthenticated: boolean;
   loading: boolean;
   manager: Manager | null;
+  collections: CollectionItem[];
+}
+
+export interface StorageState {
+  loading: boolean;
+  collections: CollectionItem[];
+}
+
+export type CollectionType = 'FEATURED' | 'TOPS' | 'BOTTOMS';
+export interface CollectionItem {
+  id: number;
+  name: string;
+  type: CollectionType;
 }
 
 export interface ItemsInStore {

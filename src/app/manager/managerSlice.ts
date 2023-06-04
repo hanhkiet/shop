@@ -1,144 +1,102 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-import { sendLoadAddressesRequest } from './addressSlice';
-import { popUpMessage } from './messageSlice';
+import { popUpMessage } from '../messageSlice';
 import {
-  AccountState,
+  CollectionItem,
   Credentials,
   LoginDataActionPayload,
-  RegisterDataActionPayload,
-  User,
-  UserProfilePayload,
-} from './types';
+  Manager,
+  ManagerState,
+} from '../types';
 
-const initialState: AccountState = {
+const initialState: ManagerState = {
   isAuthenticated: false,
   loading: false,
-  status: null,
-  user: null,
+  manager: null,
+  collections: [] as CollectionItem[],
 };
 
-const persistedState: AccountState = localStorage.getItem('account')
-  ? JSON.parse(localStorage.getItem('account')!)
+const persistedState: ManagerState = localStorage.getItem('manager')
+  ? JSON.parse(localStorage.getItem('manager')!)
   : initialState;
 
-const authSlice = createSlice({
-  name: 'account',
+const managerSlice = createSlice({
+  name: 'manager',
   initialState: persistedState,
   reducers: {},
   extraReducers: builder => {
-    builder
-      .addCase(sendRegisterRequest.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(sendRegisterRequest.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload;
-      })
-      .addCase(sendRegisterRequest.rejected, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = false;
-        state.user = null;
-      });
+    builder.addCase(sendLoginRequest.pending, state => {
+      state.loading = true;
+    });
+    builder.addCase(sendLoginRequest.fulfilled, (state, action) => {
+      state.loading = false;
+      state.manager = action.payload;
+      state.isAuthenticated = true;
+    });
+    builder.addCase(sendLoginRequest.rejected, state => {
+      state.loading = false;
+    });
 
     builder
-      .addCase(sendLoginRequest.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(sendLoginRequest.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload;
-      })
-      .addCase(sendLoginRequest.rejected, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = false;
-        state.user = null;
-      });
-
-    builder
-      .addCase(sendLogoutRequest.pending, (state, action) => {
+      .addCase(sendLogoutRequest.pending, state => {
         state.loading = true;
       })
       .addCase(sendLogoutRequest.fulfilled, (state, action) => {
         state.loading = false;
+        state.manager = null;
         state.isAuthenticated = false;
-        state.user = null;
       })
-      .addCase(sendLogoutRequest.rejected, (state, action) => {
+      .addCase(sendLogoutRequest.rejected, state => {
         state.loading = false;
         state.isAuthenticated = false;
-        state.user = null;
       });
 
     builder
-      .addCase(sendUpdateProfileRequest.pending, (state, action) => {
+      .addCase(sendUpdatePasswordRequest.pending, state => {
+        state.loading = true;
+      })
+      .addCase(sendUpdatePasswordRequest.fulfilled, state => {
+        state.loading = false;
+      })
+      .addCase(sendUpdatePasswordRequest.rejected, state => {
+        state.loading = false;
+      });
+
+    builder
+      .addCase(sendUpdateProfileRequest.pending, state => {
         state.loading = true;
       })
       .addCase(sendUpdateProfileRequest.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = {
-          ...state.user!,
-          ...action.payload,
-        };
+        state.manager = action.payload;
       })
-      .addCase(sendUpdateProfileRequest.rejected, (state, action) => {
+      .addCase(sendUpdateProfileRequest.rejected, state => {
         state.loading = false;
+      });
+
+    builder
+      .addCase(sendRefreshRequest.pending, state => {
+        state.loading = true;
+      })
+      .addCase(sendRefreshRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.manager = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(sendRefreshRequest.rejected, state => {
+        state.loading = false;
+        state.manager = null;
+        state.isAuthenticated = false;
       });
   },
 });
 
-const sendRegisterRequest = createAsyncThunk(
-  'account/register',
-  async (payload: RegisterDataActionPayload, { dispatch }) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_CUSTOMER_AUTH_API_URL}/register`,
-        payload,
-        {
-          withCredentials: true,
-        },
-      );
-
-      dispatch(
-        popUpMessage({
-          message: 'Successfully registered.',
-          status: response.status,
-        }),
-      );
-
-      const user = response.data as User;
-      return user;
-    } catch (error) {
-      const { response } = error as AxiosError;
-      if (response) {
-        dispatch(
-          popUpMessage({
-            message: 'Error registering. Please check your credentials.',
-            status: response.status,
-          }),
-        );
-      } else {
-        dispatch(
-          popUpMessage({
-            message:
-              'Error registering. Please check your internet connection.',
-            status: 500,
-          }),
-        );
-      }
-      throw error;
-    }
-  },
-);
-
 const sendLoginRequest = createAsyncThunk(
-  'account/login',
+  'manager/login',
   async (payload: LoginDataActionPayload, { dispatch }) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_CUSTOMER_AUTH_API_URL}/login`,
+        `${import.meta.env.VITE_MANAGER_AUTH_API_URL}/login`,
         payload,
         {
           withCredentials: true,
@@ -152,10 +110,8 @@ const sendLoginRequest = createAsyncThunk(
         }),
       );
 
-      dispatch(sendLoadAddressesRequest());
-
-      const user = response.data as User;
-      return user;
+      const manager = response.data as Manager;
+      return manager;
     } catch (error) {
       const { response } = error as AxiosError;
       if (response) {
@@ -179,12 +135,12 @@ const sendLoginRequest = createAsyncThunk(
 );
 
 const sendLogoutRequest = createAsyncThunk(
-  'account/logout',
+  'manager/logout',
   async (_, { dispatch }) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_CUSTOMER_AUTH_API_URL}/logout`,
-        {},
+        `${import.meta.env.VITE_MANAGER_AUTH_API_URL}/logout`,
+        null,
         {
           withCredentials: true,
         },
@@ -201,7 +157,7 @@ const sendLogoutRequest = createAsyncThunk(
       if (response) {
         dispatch(
           popUpMessage({
-            message: 'Error logging out. Please try again.',
+            message: 'Error logging out.',
             status: response.status,
           }),
         );
@@ -214,21 +170,58 @@ const sendLogoutRequest = createAsyncThunk(
           }),
         );
       }
+      throw error;
+    }
+  },
+);
 
+const sendRefreshRequest = createAsyncThunk(
+  'manager/refresh',
+  async (_, { dispatch }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_MANAGER_AUTH_API_URL}/refresh`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      const manager = response.data as Manager;
+      return manager;
+    } catch (error) {
+      const { response } = error as AxiosError;
+      if (response) {
+        dispatch(
+          popUpMessage({
+            message: 'Token expired. Please log in again.',
+            status: response.status,
+          }),
+        );
+      } else {
+        dispatch(
+          popUpMessage({
+            message: 'Please check your internet connection.',
+            status: 500,
+          }),
+        );
+      }
       throw error;
     }
   },
 );
 
 const sendUpdatePasswordRequest = createAsyncThunk(
-  'account/updatePassword',
+  'manager/updatePassword',
   async (
-    payload: { oldCredentials: Credentials; newCredentials: Credentials },
+    payload: {
+      oldCredentials: Credentials;
+      newCredentials: Credentials;
+    },
     { dispatch },
   ) => {
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_CUSTOMER_ACCOUNT_API_URL}/password`,
+        `${import.meta.env.VITE_MANAGER_ACCOUNT_API_URL}/password`,
         payload,
         {
           withCredentials: true,
@@ -266,11 +259,11 @@ const sendUpdatePasswordRequest = createAsyncThunk(
 );
 
 const sendUpdateProfileRequest = createAsyncThunk(
-  'account/updateProfile',
-  async (payload: UserProfilePayload, { dispatch }) => {
+  'manager/updateProfile',
+  async (payload: Manager, { dispatch }) => {
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_CUSTOMER_ACCOUNT_API_URL}`,
+        `${import.meta.env.VITE_MANAGER_ACCOUNT_API_URL}`,
         payload,
         {
           withCredentials: true,
@@ -284,8 +277,7 @@ const sendUpdateProfileRequest = createAsyncThunk(
         }),
       );
 
-      const user = response.data as User;
-      return user;
+      return response.data as Manager;
     } catch (error) {
       const { response } = error as AxiosError;
       if (response) {
@@ -313,8 +305,9 @@ const sendUpdateProfileRequest = createAsyncThunk(
 export {
   sendLoginRequest,
   sendLogoutRequest,
-  sendRegisterRequest,
+  sendRefreshRequest,
   sendUpdatePasswordRequest,
   sendUpdateProfileRequest,
 };
-export default authSlice.reducer;
+
+export default managerSlice.reducer;

@@ -1,8 +1,7 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, toggleVisibility } from '../app/cartSlice';
 import { RootState } from '../app/store';
-import { useSelector, useDispatch } from 'react-redux';
 import { ItemsInStore } from '../app/types';
-import { addItem } from '../app/cartSlice';
-import { toggleVisibility } from '../app/cartSlice';
 
 type Props = {
   id: string;

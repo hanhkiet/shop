@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { sendLogoutRequest } from '../app/accountSlice';
+import { sendLogoutRequest } from '../app/customer/accountSlice';
 import { AppDispatch, RootState } from '../app/store';
-import { Address } from '../app/types';
 import OrderOverviewSection from '../components/OrderOverviewSection';
 import ChangePasswordModal from '../modals/ChangePasswordModal';
 import UpdateProfileModal from '../modals/UpdateProfileModal';
@@ -15,8 +14,6 @@ const AccountOverviewSection = () => {
   const { firstName, lastName } = useSelector(
     (state: RootState) => state.account.user!,
   );
-
-  const primaryAddress = null as Address | null;
 
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);

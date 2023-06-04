@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { sendRegisterRequest } from '../app/accountSlice';
+import { sendRegisterRequest } from '../app/customer/accountSlice';
 import { AppDispatch } from '../app/store';
 import { RegisterDataActionPayload } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';

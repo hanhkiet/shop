@@ -1,9 +1,9 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
 import { setActiveMenu } from '../app/menuSlice';
-import MenuDropDownItem from './MenuDropDownItem';
+import { RootState } from '../app/store';
 import { Menu } from '../app/types';
+import MenuDropDownItem from './MenuDropDownItem';
 
 type Props = {
   onClickClose?: () => void;

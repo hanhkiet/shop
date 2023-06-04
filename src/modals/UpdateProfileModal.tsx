@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendUpdateProfileRequest } from '../app/accountSlice';
+import { sendUpdateProfileRequest } from '../app/customer/accountSlice';
 import { AppDispatch, RootState } from '../app/store';
 import { UserProfilePayload } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';

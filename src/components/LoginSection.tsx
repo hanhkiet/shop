@@ -1,7 +1,7 @@
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { sendLoginRequest } from '../app/accountSlice';
+import { sendLoginRequest } from '../app/customer/accountSlice';
 import { AppDispatch } from '../app/store';
 import { LoginDataActionPayload } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';

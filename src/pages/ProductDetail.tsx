@@ -1,18 +1,14 @@
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
-import { useParams } from 'react-router-dom';
-import { ItemsInStore, Product } from '../app/types';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import { useEffect, useState } from 'react';
-import { AppDispatch } from '../app/store';
-import { useDispatch } from 'react-redux';
-import { addItem } from '../app/cartSlice';
-import { toggleVisibility } from '../app/cartSlice';
-import Modal from '../modals/Modal';
-import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RemoveScrollBar } from 'react-remove-scroll-bar';
+import { Link, useParams } from 'react-router-dom';
+import { addItem, toggleVisibility } from '../app/cartSlice';
+import { AppDispatch, RootState } from '../app/store';
+import { ItemsInStore, Product } from '../app/types';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import Modal from '../modals/Modal';
 
 function ProductDetail() {
   const sales = false;

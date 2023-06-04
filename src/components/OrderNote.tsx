@@ -1,6 +1,6 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNote } from '../app/orderSlice';
+import { RootState } from '../app/store';
 import CheckoutButton from './CheckoutButton';
 
 type Props = {
