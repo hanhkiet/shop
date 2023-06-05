@@ -35,7 +35,7 @@ store.subscribe(() => {
   localStorage.setItem('manager', JSON.stringify(store.getState().manager));
   localStorage.setItem(
     'collection',
-    JSON.stringify(store.getState().collection)
+    JSON.stringify(store.getState().collection),
   );
 });
 
