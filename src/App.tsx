@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { sendRefreshTokenRequest } from './app/customer/accountSlice';
 import { getMenuData } from './app/menuSlice';
 import { getProductQuantityData } from './app/productQuantitySlice';
 import { getProductData } from './app/productSlice';
@@ -30,6 +31,7 @@ function App() {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(sendRefreshTokenRequest());
     dispatch(getMenuData());
     dispatch(getProductData());
     dispatch(getProductQuantityData());
