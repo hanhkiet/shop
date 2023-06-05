@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toggleVisibility } from '../app/cartSlice';
-import { setHoverMenuId } from '../app/menuSlice';
+import { setHoverMenuId } from '../app/collectionSlice';
 import { RootState } from '../app/store';
 import ModalNavbar from '../modals/ModalNavbar';
 import CartContent from './CartContent';
@@ -22,7 +22,7 @@ function NavbarRight(props: Props) {
   }, 0);
   const handleCartAppear = () => {
     dispatch(toggleVisibility(true));
-    dispatch(setHoverMenuId(0));
+    dispatch(setHoverMenuId(-1));
   };
   return (
     <>
@@ -85,7 +85,7 @@ function NavbarRight(props: Props) {
         } duration-500`}
         onClose={() => {
           dispatch(toggleVisibility(false));
-          dispatch(setHoverMenuId(0));
+          dispatch(setHoverMenuId(-1));
           props.onClose();
         }}
       >

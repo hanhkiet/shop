@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { getMenuData } from './app/menuSlice';
+import { getCollectionData } from './app/collectionSlice';
 import { getProductQuantityData } from './app/productQuantitySlice';
 import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
@@ -30,10 +30,9 @@ function App() {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMenuData());
+    dispatch(getCollectionData());
     dispatch(getProductData());
     dispatch(getProductQuantityData());
-    // dispatch(getCategoryProductData());
   }, []);
 
   return (

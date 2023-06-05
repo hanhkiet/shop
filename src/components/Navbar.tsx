@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { setHoverMenuId } from '../app/menuSlice';
+import { setHoverMenuId } from '../app/collectionSlice';
 import { setPathName } from '../app/pathSlice';
 import { RootState } from '../app/store';
 import NavbarLeft from './NavbarLeft';
@@ -50,7 +50,7 @@ function Navbar() {
   const checkOut = useRef<any>(null);
   const handleHeaderLeave = () => {
     checkOut.current = setTimeout(() => {
-      dispatch(setHoverMenuId(0));
+      dispatch(setHoverMenuId(-1));
     }, 300);
   };
   const handleHeaderEnter = () => {

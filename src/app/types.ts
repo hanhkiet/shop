@@ -23,22 +23,17 @@ export interface OrderState {
   note: string;
 }
 
-export interface MenuState {
+export interface CollectionState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
-  menus: Menu[];
-}
-
-export interface Menu {
-  id: number;
-  name: string;
-  collectionTypes: CollectionType[];
+  collections: Collection[];
 }
 
 export interface Collection {
   id: number;
   name: string;
+  type: CollectionType;
 }
 
 export interface User {
