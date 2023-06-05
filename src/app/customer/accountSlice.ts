@@ -3,12 +3,12 @@ import axios, { AxiosError } from 'axios';
 import { sendLoadAddressesRequest } from '../addressSlice';
 import { popUpMessage } from '../messageSlice';
 import {
-  AccountState,
-  Credentials,
-  LoginDataActionPayload,
-  RegisterDataActionPayload,
-  User,
-  UserProfilePayload,
+    AccountState,
+    Credentials,
+    LoginDataActionPayload,
+    RegisterDataActionPayload,
+    User,
+    UserProfilePayload,
 } from '../types';
 
 const initialState: AccountState = {
@@ -311,10 +311,10 @@ const sendUpdateProfileRequest = createAsyncThunk(
 );
 
 export {
-  sendLoginRequest,
-  sendLogoutRequest,
-  sendRegisterRequest,
-  sendUpdatePasswordRequest,
-  sendUpdateProfileRequest,
+    sendLoginRequest,
+    sendLogoutRequest,
+    sendRegisterRequest,
+    sendUpdatePasswordRequest,
+    sendUpdateProfileRequest
 };
 export default authSlice.reducer;
