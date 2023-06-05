@@ -27,7 +27,7 @@ export default function Cover(props: Props) {
   );
   return (
     <>
-      {categoryProduct.length > 0 && <><div className="relative h-screen">
+      {<><div className="relative h-screen">
         <Banner
           bannerKey={props.coverKey}
           src={props.src}

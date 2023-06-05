@@ -40,7 +40,7 @@ function App() {
   return (
     <>
       <ErrorPopUp />
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </>
   );
 }
