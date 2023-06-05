@@ -17,9 +17,9 @@ function Footer() {
   };
   return (
     <>
-      <footer className="mt-10 h-full bg-gray-100 py-10 font-light text-gray-700">
+      <footer className="h-full bg-gray-100 py-10 font-light text-gray-700">
         <div className="container mx-auto overflow-x-auto text-center">
-          <div className={`grid grid-cols-1 gap-6 md:grid-cols-2`}>
+          {/* <div className={`grid grid-cols-1 gap-6 md:grid-cols-2`}>
             <SubscribeSection />
             <ConnectSection />
           </div>
@@ -55,7 +55,7 @@ function Footer() {
               </svg>
             </a>
           </div>
-          <div className="mt-10 flex justify-center gap-3">
+          <div className="m-10 flex justify-center gap-3">
             <a
               target="_blank"
               href="https://www.trustpilot.com/review/asrv.com"
@@ -82,16 +82,14 @@ function Footer() {
                 src="https://media.discordapp.net/attachments/1026660684739653674/1110605525760102581/TruspilotLogo.png"
               />
             </a>
-          </div>
-          <div className="mt-10">
-            <Link
-              onClick={handleClickFooter}
-              to="/"
-              className="font-[ASRV-Standard] font-bold uppercase text-gray-500 duration-300 hover:text-black"
-            >
-              COPYRIGHT © {currentYear} · (ASRV)
-            </Link>
-          </div>
+          </div> */}
+          <Link
+            onClick={handleClickFooter}
+            to="/"
+            className="font-[ASRV-Standard] font-bold uppercase text-gray-500 duration-300 hover:text-black"
+          >
+            COPYRIGHT © {currentYear} · (ASRV)
+          </Link>
         </div>
       </footer>
     </>

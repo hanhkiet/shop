@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setHoverMenuId } from '../app/collectionSlice';
+import { setHoverMenuId, setVisibleMenu } from '../app/collectionSlice';
 import { AppDispatch, RootState } from '../app/store';
 import { Collection, CollectionType } from '../app/types';
 import ModalNavbar from '../modals/ModalNavbar';
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default function NavbarLeft(props: Props) {
-  const [showMenu, setShowMenu] = useState(false);
+  const visibleMenu = useSelector((state: RootState) => state.collection.visibleMenu);
   const collections = useSelector(
     (state: RootState) => state.collection.collections,
   );
@@ -29,7 +29,7 @@ export default function NavbarLeft(props: Props) {
   const dispatch: AppDispatch = useDispatch();
   const checkMenu = showShopMenu && hoverMenuId !== -1;
   const handleDisappearMenu = () => {
-    setShowMenu(false);
+    dispatch(setVisibleMenu(!visibleMenu));
     props.onClose();
   };
   const arrMenu = ['FEATURED', 'TOPS', 'BOTTOMS'] as CollectionType[];
@@ -38,16 +38,16 @@ export default function NavbarLeft(props: Props) {
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
         <li className="navbar-list">
-          <img
+          {(collections && collections.length > 0) && <img
             src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
             onClick={() => {
-              setShowMenu(true);
+              dispatch(setVisibleMenu(!visibleMenu));
               props.onClick();
             }}
             className={`mx-auto h-4 cursor-pointer duration-300 ${
               props.changeColor ? '' : 'grayscale invert'
             }`}
-          />
+          />}
         </li>
       </ul>
       <ul
@@ -85,13 +85,15 @@ export default function NavbarLeft(props: Props) {
           </li>
         ))}
       </ul>
-      <ModalNavbar
-        isShown={showMenu}
-        className={`${showMenu ? `visible` : `collapse`} duration-500`}
-        onClose={handleDisappearMenu}
-      >
-        <MenuDropDown onClickClose={handleDisappearMenu} />
-      </ModalNavbar>
+      {visibleMenu && (
+        <ModalNavbar
+          isShown={visibleMenu}
+          className={`${visibleMenu ? `visible` : `collapse`} duration-500`}
+          onClose={handleDisappearMenu}
+        >
+          <MenuDropDown onClickClose={handleDisappearMenu} />
+        </ModalNavbar>
+      )}
       {
         <MegaMenu
           menuId={hoverMenuId}

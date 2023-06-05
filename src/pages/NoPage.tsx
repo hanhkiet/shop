@@ -4,13 +4,18 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 function NoPage() {
+  const hasSale = false;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
     <>
       <Navbar />
-      <div className="object-fit grid h-screen content-center">
+      <div
+        className={`object-fit grid ${
+          hasSale ? `h-[calc(100vh-64px)]` : `h-screen`
+        } content-center`}
+      >
         <div className="relative grid h-[300px] w-full content-center">
           <img
             className="mx-auto brightness-0"
@@ -27,7 +32,7 @@ function NoPage() {
           />
         </div>
         <div className="absolute top-0 h-[300px] w-full opacity-0"></div>
-        <div className="p-10 text-center">
+        <div className="text-center">
           <Link
             to="/"
             className="bg-black px-5 py-3 font-bold text-white hover:opacity-80"

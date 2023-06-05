@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
+import { setVisibleMenu } from '../app/collectionSlice';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MenuDropDown from '../components/MenuDropdown';
@@ -14,6 +15,8 @@ function CategoryPage() {
   const categoryProducts = useSelector(
     (state: RootState) => state.categoryProduct.categoryProduct,
   );
+  const visibleMenu = useSelector((state: RootState) => state.collection.visibleMenu);
+  const dispatch = useDispatch();
   const categoryProduct =
     name === 'all'
       ? categoryProducts
@@ -33,7 +36,6 @@ function CategoryPage() {
   const [filterChosen, setFilterChosen] = useState(0);
   const [gridLarge, setGridLarge] = useState(3);
   const [gridSmall, setGridSmall] = useState(2);
-  const [filterAppear, setFilterAppear] = useState(false);
   const [sortAppearSmall, setSortAppearSmall] = useState(false);
   const [ourProducts, setOurProducts] = useState(categoryProduct);
   const sortProductsAtoZ = () => {
@@ -149,7 +151,7 @@ function CategoryPage() {
             </div>
           </div>
           <div
-            onClick={() => setFilterAppear(true)}
+            onClick={() => dispatch(setVisibleMenu(!visibleMenu))}
             className="flex basis-1/3 cursor-pointer justify-center border-l-2 border-gray-300 p-6 md:basis-1/12 lg:hidden"
           >
             Filter
@@ -230,31 +232,6 @@ function CategoryPage() {
           </div>
         </div>
       </div>
-      <ModalNavbar
-        isRight
-        isShown={filterAppear}
-        className={`flex justify-end ${
-          filterAppear ? `visible` : `collapse`
-        } duration-500`}
-        onClose={() => setFilterAppear(false)}
-      >
-        <div className="mt-1 border-b-[2px] border-neutral-300">
-          <div className="mx-5 flex h-16 justify-between">
-            <div className="text-1xl grid content-center font-light capitalize">
-              Filter
-            </div>
-            <img
-              onClick={() => setFilterAppear(false)}
-              className="my-auto h-3 hover:cursor-pointer"
-              src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png"
-              alt=""
-            />
-          </div>
-        </div>
-        <div className="m-auto flex h-[85%] w-max items-center text-center">
-          <p className="font-light">Your cart is empty</p>
-        </div>
-      </ModalNavbar>
       <ModalNavbar
         isBottom
         isShown={sortAppearSmall}

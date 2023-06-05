@@ -17,16 +17,29 @@ export interface MessagePayload {
 export interface CartState {
   items: CartItem[];
   visible: boolean;
+  sizeCartItemChosen: string | null;
+  sizeCartItemChosenTemp: string | null;
 }
 
 export interface OrderState {
   note: string;
+  emailOrder: string;
+  countryOrder: string;
+  firstNameOrder: string;
+  lastNameOrder: string;
+  addressOrder: string;
+  districtOrder: string;
+  cityOrder: string;
+  phoneOrder: string;
+  showQuantityWarning: boolean;
+  shippingPrice: number;
 }
 
 export interface CollectionState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
+  visibleMenu: boolean;
   collections: Collection[];
 }
 

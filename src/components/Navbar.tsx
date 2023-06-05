@@ -10,7 +10,7 @@ import NavbarRight from './NavbarRight';
 import ScrollToTop from './ScrollToTop';
 
 function Navbar() {
-  const hasSale = true;
+  const hasSale = false;
   const [showSale, setShowSale] = useState(true);
   const [hoverNavbar, setHoverNavbar] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -60,7 +60,7 @@ function Navbar() {
     <>
       {hasSale && (
         <div className="relative flex h-16 items-center justify-center bg-red-800 px-4 text-xs font-bold uppercase text-white">
-          <span>END OF SEASON SALE - ENDS 5.31.23</span>
+          <span>END OF SEASON SALE - ENDS 6.31.23</span>
         </div>
       )}
       <header

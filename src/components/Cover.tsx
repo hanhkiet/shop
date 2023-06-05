@@ -27,7 +27,7 @@ export default function Cover(props: Props) {
   );
   return (
     <>
-      <div className="relative h-screen">
+      {categoryProduct.length > 0 && <><div className="relative h-screen">
         <Banner
           bannerKey={props.coverKey}
           src={props.src}
@@ -61,9 +61,9 @@ export default function Cover(props: Props) {
       <h2 className="m-10 text-center text-3xl font-light">
         {props.productListTitle}
       </h2>
-      {categoryProduct ? (
+      {categoryProduct.length > 0 ? (
         <>
-          <div className="mx-auto grid grid-cols-2 gap-x-24 gap-y-12 p-12 lg:max-w-screen-xl lg:grid-cols-4">
+          <div className="mx-auto grid grid-cols-2 lg:max-w-screen-xl lg:grid-cols-4">
             {categoryProduct.map((item: CategoryProduct) => (
               <ProductCard
                 key={item.product.uuid}
@@ -87,7 +87,7 @@ export default function Cover(props: Props) {
         </>
       ) : (
         <SkeletonProduct />
-      )}
+      )}</>}
     </>
   );
 }

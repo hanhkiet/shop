@@ -6,6 +6,7 @@ const initialState: CollectionState = {
   hoverMenuId: 0,
   activeMenu: null,
   activeMenuChild: [],
+  visibleMenu: false,
   collections: [],
 };
 
@@ -15,6 +16,9 @@ const collectionSlice = createSlice({
   reducers: {
     setHoverMenuId(state, action: PayloadAction<number>) {
       state.hoverMenuId = action.payload;
+    },
+    setVisibleMenu(state, action: PayloadAction<boolean>) {
+      state.visibleMenu = action.payload;
     },
     setActiveMenu(state, action: PayloadAction<string | null>) {
       state.activeMenu = action.payload;
@@ -60,6 +64,7 @@ const getCollectionData = createAsyncThunk(
 export const {
   setHoverMenuId,
   setActiveMenu,
+  setVisibleMenu,
   addActiveMenuChild,
   removeActiveMenuChild,
 } = collectionSlice.actions;

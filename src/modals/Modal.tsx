@@ -22,6 +22,18 @@ function Modal(props: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        props.onClose();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div
       className={`fixed left-0 top-0 z-50 h-screen w-screen bg-neutral-900 bg-opacity-75 ${props.className}`}
