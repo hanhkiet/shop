@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { Menu, MenuState } from './types';
+import { Collection, CollectionState } from './types';
 
-const initialState: MenuState = {
+const initialState: CollectionState = {
   hoverMenuId: 0,
   activeMenu: null,
   activeMenuChild: [],
   visibleMenu: false,
-  menus: [],
+  collections: [],
 };
 
-const menuSlice = createSlice({
-  name: 'menu',
+const collectionSlice = createSlice({
+  name: 'collection',
   initialState,
   reducers: {
     setHoverMenuId(state, action: PayloadAction<number>) {
@@ -34,26 +34,32 @@ const menuSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(getMenuData.pending, (state, action) => {
-        state.menus = [];
+      .addCase(getCollectionData.pending, (state, action) => {
+        state.collections = [];
       })
-      .addCase(getMenuData.fulfilled, (state, action) => {
-        state.menus = action.payload;
+      .addCase(getCollectionData.fulfilled, (state, action) => {
+        state.collections = action.payload;
       })
-      .addCase(getMenuData.rejected, (state, action) => {
-        state.menus = [];
+      .addCase(getCollectionData.rejected, (state, action) => {
+        state.collections = [];
       });
   },
 });
 
-const getMenuData = createAsyncThunk('menu/getMenuData', async () => {
-  const response = await axios.get(`${import.meta.env.VITE_MENUS_API_URL}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  return response.data as Menu[];
-});
+const getCollectionData = createAsyncThunk(
+  'collection/getCollectionData',
+  async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_COLLECTIONS_API_URL}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    return response.data as Collection[];
+  },
+);
 
 export const {
   setHoverMenuId,
@@ -61,8 +67,8 @@ export const {
   setVisibleMenu,
   addActiveMenuChild,
   removeActiveMenuChild,
-} = menuSlice.actions;
+} = collectionSlice.actions;
 
-export { getMenuData };
+export { getCollectionData };
 
-export default menuSlice.reducer;
+export default collectionSlice.reducer;

@@ -1,13 +1,12 @@
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { RootState } from '../app/store';
 import { Address } from '../app/types';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
 function AccountPage() {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state: RootState) => state.account);
 
   if (!isAuthenticated) return <Navigate to="/auth/login" replace={true} />;
   const addresses = [] as Address[];

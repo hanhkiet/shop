@@ -1,14 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { setHoverMenuId } from '../app/collectionSlice';
+import { setPathName } from '../app/pathSlice';
 import { RootState } from '../app/store';
-import { setHoverMenuId } from '../app/menuSlice';
 import NavbarLeft from './NavbarLeft';
+import NavbarLogo from './NavbarLogo';
 import NavbarRight from './NavbarRight';
 import ScrollToTop from './ScrollToTop';
-import { setPathName } from '../app/pathSlice';
-import NavbarLogo from './NavbarLogo';
-import { setSizeCartItemChosen } from '../app/cartSlice';
 
 function Navbar() {
   const hasSale = false;
@@ -18,9 +17,7 @@ function Navbar() {
   const [changeNavbarColor, setChangeNavbarColor] = useState(false);
   const dispatch = useDispatch();
   const pathName = useSelector((state: RootState) => state.path.pathName);
-  const sizeCartItemChosen = useSelector(
-    (state: RootState) => state.cart.sizeCartItemChosen,
-  );
+  const location = useLocation();
   if (pathName != location.pathname) {
     dispatch(setPathName(location.pathname));
     window.scrollTo(0, 0);
@@ -53,7 +50,7 @@ function Navbar() {
   const checkOut = useRef<any>(null);
   const handleHeaderLeave = () => {
     checkOut.current = setTimeout(() => {
-      dispatch(setHoverMenuId(0));
+      dispatch(setHoverMenuId(-1));
     }, 300);
   };
   const handleHeaderEnter = () => {

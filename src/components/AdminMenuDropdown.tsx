@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { toggleVisibility } from '../app/cartSlice';
 
 type Props = {

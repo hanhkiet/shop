@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setHoverMenuId, setVisibleMenu } from '../app/menuSlice';
+import { setHoverMenuId, setVisibleMenu } from '../app/collectionSlice';
 import { AppDispatch, RootState } from '../app/store';
-import { Menu } from '../app/types';
+import { Collection, CollectionType } from '../app/types';
 import ModalNavbar from '../modals/ModalNavbar';
 import MegaMenu from './MegaMenu';
 import MenuDropDown from './MenuDropdown';
@@ -18,16 +18,22 @@ type Props = {
 };
 
 export default function NavbarLeft(props: Props) {
-  const visibleMenu = useSelector((state: RootState) => state.menu.visibleMenu);
-  const menus = useSelector((state: RootState) => state.menu.menus);
+  const visibleMenu = useSelector((state: RootState) => state.collection.visibleMenu);
+  const collections = useSelector(
+    (state: RootState) => state.collection.collections,
+  );
   const [showShopMenu, setShowShopMenu] = useState(false);
-  const hoverMenuId = useSelector((state: RootState) => state.menu.hoverMenuId);
+  const hoverMenuId = useSelector(
+    (state: RootState) => state.collection.hoverMenuId,
+  );
   const dispatch: AppDispatch = useDispatch();
-  const checkMenu = showShopMenu && hoverMenuId !== 0;
+  const checkMenu = showShopMenu && hoverMenuId !== -1;
   const handleDisappearMenu = () => {
     dispatch(setVisibleMenu(!visibleMenu));
     props.onClose();
   };
+  const arrMenu = ['FEATURED', 'TOPS', 'BOTTOMS'] as CollectionType[];
+  if (collections.length === 0) return <></>;
   return (
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
@@ -49,29 +55,29 @@ export default function NavbarLeft(props: Props) {
           props.changeColor ? `text-neutral-600` : `text-white`
         }`}
       >
-        {menus.map((item: Menu, index) => (
+        {arrMenu.map((item: CollectionType, index) => (
           <li key={index}>
             <div className={`navbar-list z-50`}>
               <Link
                 onMouseOver={() => {
-                  setShowShopMenu(item.collectionTypes.length > 0);
-                  if (hoverMenuId != item.id) {
-                    dispatch(setHoverMenuId(0));
+                  setShowShopMenu(true);
+                  if (hoverMenuId != arrMenu.indexOf(item)) {
                     setTimeout(() => {
-                      dispatch(setHoverMenuId(item.id));
+                      dispatch(setHoverMenuId(arrMenu.indexOf(item)));
                     }, 100);
                   }
                 }}
-                to={`/collections/${item.collectionTypes[0].collections[0].name
-                  .replace(/\W+/gi, '-')
+                to={`/collections/${collections
+                  .filter((item: Collection) => item.type === arrMenu[index])[0]
+                  .name.replace(/\W+/gi, '-')
                   .toLowerCase()}`}
               >
-                {item.name}
+                {item}
               </Link>
             </div>
             <div
               className={`relative left-0 bottom-0.5 z-50 bg-black py-px duration-300 ${
-                hoverMenuId === item.id && props.changeColorFirst
+                hoverMenuId === arrMenu.indexOf(item) && props.changeColorFirst
                   ? `visible w-full`
                   : `collapse w-0`
               }`}
@@ -91,6 +97,7 @@ export default function NavbarLeft(props: Props) {
       {
         <MegaMenu
           menuId={hoverMenuId}
+          type={arrMenu[hoverMenuId]}
           saleAppear={props.saleAppear}
           className={
             checkMenu && props.changeColorFirst

@@ -1,8 +1,7 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import * as cartSlice from '../app/cartSlice';
+import { RootState } from '../app/store';
 import { ItemsInStore } from '../app/types';
 import { useState } from 'react';
 import QuantityWarningModal from '../modals/QuantityWarningModal';

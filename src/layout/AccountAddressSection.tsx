@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
-import { Address } from '../app/types';
+import { sendLoadAddressesRequest } from '../app/addressSlice';
+import { AppDispatch, RootState } from '../app/store';
 import AddressCard from '../components/AddressCard';
 import AddNewAddressModal from '../modals/AddNewAddressModal';
 
 const AccountAddressSection = () => {
-  const addresses = [] as Address[];
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { addresses } = useSelector((state: RootState) => state.address);
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(sendLoadAddressesRequest());
+  }, []);
 
   return (
     <>

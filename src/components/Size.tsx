@@ -1,3 +1,5 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, toggleVisibility } from '../app/cartSlice';
 import { RootState } from '../app/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { CartItem, ItemsInStore, ProductQuantityState } from '../app/types';

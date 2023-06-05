@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { sendDeleteAddressRequest } from '../app/addressSlice';
 import { AppDispatch } from '../app/store';
 import { Address } from '../app/types';
 import EditAddressModal from '../modals/EditAddressModal';
@@ -11,15 +12,9 @@ type Props = {
 };
 
 const AddressCard = ({ index, address }: Props) => {
-  const {
-    isPrimary,
-    uuid,
-    recipientName,
-    recipientPhone,
-    street,
-    district,
-    city,
-  } = address;
+  const { uuid, recipientName, recipientPhone, street, district, city } =
+    address;
+
   const dispatch: AppDispatch = useDispatch();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -29,7 +24,11 @@ const AddressCard = ({ index, address }: Props) => {
     <>
       {isDeleteModalOpen && (
         <YesNoDialogModal
-          onYes={() => {}}
+          onYes={() =>
+            dispatch(sendDeleteAddressRequest(uuid)).then(() =>
+              setIsDeleteModalOpen(false),
+            )
+          }
           onClose={() => setIsDeleteModalOpen(false)}
           title="Delete address"
           description="Are you sure you want to delete this address?"
@@ -46,7 +45,7 @@ const AddressCard = ({ index, address }: Props) => {
 
       <div className="space-y-6">
         <p className="border-b border-b-neutral-200 pb-3 text-sm font-light capitalize text-neutral-500">
-          {isPrimary ? 'primary address' : `address ${index + 1}`}
+          {`Address ${index + 1}`}
         </p>
         <div className="space-y-3 font-light">
           <p>{recipientName}</p>

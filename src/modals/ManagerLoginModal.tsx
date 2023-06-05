@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { sendLoginRequest } from '../app/authSlice';
+import { sendLoginRequest } from '../app/manager/managerSlice';
 import { AppDispatch } from '../app/store';
 import { LoginDataActionPayload } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';

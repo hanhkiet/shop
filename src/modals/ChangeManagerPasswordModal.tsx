@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendUpdatePasswordRequest } from '../app/customer/accountSlice';
+import { sendUpdatePasswordRequest } from '../app/manager/managerSlice';
 import { AppDispatch, RootState } from '../app/store';
 import { Credentials } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
@@ -11,9 +11,9 @@ type Props = {
   onClose: () => void;
 };
 
-const ChangePasswordModal = ({ onClose }: Props) => {
+const ChangeManagerPasswordModal = ({ onClose }: Props) => {
   const username = useSelector(
-    (state: RootState) => state.account.user?.username,
+    (state: RootState) => state.manager.manager?.username,
   );
   const dispatch: AppDispatch = useDispatch();
 
@@ -130,4 +130,4 @@ const ChangePasswordModal = ({ onClose }: Props) => {
   );
 };
 
-export default ChangePasswordModal;
+export default ChangeManagerPasswordModal;

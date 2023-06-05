@@ -4,6 +4,16 @@ export interface CartItem {
   size: string;
 }
 
+export interface MessageState {
+  message: string | null;
+  status: number | null;
+}
+
+export interface MessagePayload {
+  message: string;
+  status: number;
+}
+
 export interface CartState {
   items: CartItem[];
   visible: boolean;
@@ -25,29 +35,18 @@ export interface OrderState {
   shippingPrice: number;
 }
 
-export interface MenuState {
+export interface CollectionState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
   visibleMenu: boolean;
-  menus: Menu[];
-}
-
-export interface Menu {
-  id: number;
-  name: string;
-  collectionTypes: CollectionType[];
-}
-
-export interface CollectionType {
-  id: number;
-  name: string;
-  collections: Array<Collection>;
+  collections: Collection[];
 }
 
 export interface Collection {
   id: number;
   name: string;
+  type: CollectionType;
 }
 
 export interface User {
@@ -55,6 +54,11 @@ export interface User {
   firstName: string;
   lastName: string;
   username: string;
+}
+
+export interface Credentials {
+  username: string;
+  password: string;
 }
 
 export interface RegisterDataActionPayload {
@@ -76,7 +80,13 @@ export interface UserRegisterData {
   password: string;
 }
 
-export interface AuthState {
+export interface UserProfilePayload {
+  firstName: string;
+  lastName: string;
+  username: string;
+}
+
+export interface AccountState {
   isAuthenticated: boolean;
   loading: boolean;
   status: number | null;
@@ -84,7 +94,6 @@ export interface AuthState {
 }
 
 export interface Address {
-  isPrimary: boolean;
   uuid: string;
   recipientName: string;
   recipientPhone: string;
@@ -121,6 +130,19 @@ export interface ManagerState {
   isAuthenticated: boolean;
   loading: boolean;
   manager: Manager | null;
+  collections: CollectionItem[];
+}
+
+export interface StorageState {
+  loading: boolean;
+  collections: CollectionItem[];
+}
+
+export type CollectionType = 'FEATURED' | 'TOPS' | 'BOTTOMS';
+export interface CollectionItem {
+  id: number;
+  name: string;
+  type: CollectionType;
 }
 
 export interface ItemsInStore {
