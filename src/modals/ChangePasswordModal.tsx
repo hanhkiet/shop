@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendUpdatePasswordRequest } from '../app/accountSlice';
+import { sendUpdatePasswordRequest } from '../app/customer/accountSlice';
 import { AppDispatch, RootState } from '../app/store';
 import { Credentials } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
@@ -35,13 +35,23 @@ const ChangePasswordModal = ({ onClose }: Props) => {
     'Please enter a valid password (e.g. Abc123)',
   );
 
+  const {
+    ref: confirmPasswordRef,
+    error: confirmPasswordError,
+    validate: validateConfirmPassword,
+  } = useRefWithValidator(
+    (value: string) => value === newPasswordRef.current?.value,
+    'Passwords do not match',
+  );
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const isOldPasswordValid = validateOldPassword();
     const isNewPasswordValid = validateNewPassword();
+    const isConfirmPasswordValid = validateConfirmPassword();
 
-    if (isOldPasswordValid && isNewPasswordValid) {
+    if (isOldPasswordValid && isNewPasswordValid && isConfirmPasswordValid) {
       const oldCredentials = {
         username,
         password: oldPasswordRef.current?.value,
@@ -91,6 +101,20 @@ const ChangePasswordModal = ({ onClose }: Props) => {
             />
             <p className="mx-1 text-xs text-red-500">
               {newPasswordError ?? <span></span>}
+            </p>
+          </div>
+
+          <div className="w-full space-y-1 text-left">
+            <input
+              ref={confirmPasswordRef}
+              className={`input-field w-full lg:text-base ${
+                confirmPasswordError && 'border-red-500'
+              }`}
+              type="password"
+              placeholder="Confirm password"
+            />
+            <p className="mx-1 text-xs text-red-500">
+              {confirmPasswordError ?? <span></span>}
             </p>
           </div>
 

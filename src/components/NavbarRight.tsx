@@ -1,10 +1,10 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
 import { toggleVisibility } from '../app/cartSlice';
 import { setHoverMenuId } from '../app/menuSlice';
-import CartContent from './CartContent';
+import { RootState } from '../app/store';
 import ModalNavbar from '../modals/ModalNavbar';
+import CartContent from './CartContent';
 
 type Props = {
   className?: string;

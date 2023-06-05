@@ -1,8 +1,8 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { addActiveMenuChild, removeActiveMenuChild } from '../app/menuSlice';
-import MenuDropDownItemChild from './MenuDropDownItemChild';
+import { RootState } from '../app/store';
 import { CollectionType, Menu } from '../app/types';
+import MenuDropDownItemChild from './MenuDropDownItemChild';
 
 type Props = {
   menuTitle: string;

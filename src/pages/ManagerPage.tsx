@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { sendRefreshRequest } from '../app/managerSlice';
+import { sendRefreshRequest } from '../app/manager/managerSlice';
 import { AppDispatch, RootState } from '../app/store';
 import ManagerNavbar from '../layout/ManagerNavbar';
 import ManagerLoginModal from '../modals/ManagerLoginModal';

@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { RootState } from '../app/store';
 import { setHoverMenuId } from '../app/menuSlice';
+import { setPathName } from '../app/pathSlice';
+import { RootState } from '../app/store';
 import NavbarLeft from './NavbarLeft';
+import NavbarLogo from './NavbarLogo';
 import NavbarRight from './NavbarRight';
 import ScrollToTop from './ScrollToTop';
-import { setPathName } from '../app/pathSlice';
-import NavbarLogo from './NavbarLogo';
 
 function Navbar() {
   const hasSale = true;

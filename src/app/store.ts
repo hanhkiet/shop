@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import accountReducer from './accountSlice';
 import addressReducer from './addressSlice';
 import cartReducer from './cartSlice';
 import categoryProductReducer from './categoryProductSlice';
-import managerReducer from './managerSlice';
+import accountReducer from './customer/accountSlice';
+import managerReducer from './manager/managerSlice';
+import storageReducer from './manager/storageSlice';
 import menuReducer from './menuSlice';
 import messageReducer from './messageSlice';
 import orderReducer from './orderSlice';
@@ -15,6 +16,7 @@ const store = configureStore({
   reducer: {
     message: messageReducer,
     manager: managerReducer,
+    storage: storageReducer,
     address: addressReducer,
     cart: cartReducer,
     order: orderReducer,

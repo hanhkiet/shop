@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleVisibility } from '../app/cartSlice';
+import { RootState } from '../app/store';
+import { CartItem } from '../app/types';
 import CheckoutButton from './CheckoutButton';
 import OrderNote from './OrderNote';
 import ProductCart from './ProductCart';
-import { CartItem } from '../app/types';
 
 type Props = {
   onClose: () => void;

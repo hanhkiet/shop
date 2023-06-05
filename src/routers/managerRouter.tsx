@@ -1,3 +1,5 @@
+import CollectionManagementSection from '../components/management/CollectionManagementSection';
+import ProductManagementSection from '../components/management/ProductManagementSection';
 import ManagerAccountSection from '../layout/ManagerAccountSection';
 import ManagerDashboardSection from '../layout/ManagerDashboardSection';
 import ManagerStorageSection from '../layout/ManagerStorageSection';
@@ -14,6 +16,16 @@ export const managerRouter = {
     {
       path: 'storage',
       element: <ManagerStorageSection />,
+      children: [
+        {
+          path: 'collections',
+          element: <CollectionManagementSection />,
+        },
+        {
+          path: 'products',
+          element: <ProductManagementSection />,
+        },
+      ],
     },
     {
       path: 'account',
