@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { setPathName } from '../app/pathSlice';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
+import { deleteAllCartData } from '../app/cartSlice';
 
 function CheckoutPage() {
   const location = useLocation();
@@ -17,6 +18,8 @@ function CheckoutPage() {
   const [urlNext, setUrlNext] = useState('');
   const [textTurnBack, setTextTurnBack] = useState('');
   const [textButton, setTextButton] = useState('');
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmOrder, setConfirmOrder] = useState(false);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -39,8 +42,8 @@ function CheckoutPage() {
     } else if (location.pathname.includes('shipping')) {
       setUrlTurnBack('/checkout/information');
       setTextTurnBack('information');
-      setTextButton('Continue to payment');
-      setUrlNext('/checkout/payment');
+      setTextButton('Complete order');
+      setUrlNext('');
     } else {
       setUrlTurnBack('/checkout/shipping');
       setTextTurnBack('shipping');
@@ -55,6 +58,12 @@ function CheckoutPage() {
     window.scrollTo(0, 0);
   }
   const navigate = useNavigate();
+  const handleFinish = () => {
+    setConfirmOrder(false);
+    navigate('/');
+    localStorage.removeItem('cartItems');
+    dispatch(deleteAllCartData());
+  }
   return (
     <>
       <div className="grid flex-row font-[avenir-next] font-bold lg:flex">
@@ -65,42 +74,31 @@ function CheckoutPage() {
             className={`mx-auto mt-5 hidden h-12 cursor-pointer lg:block`}
             alt=""
           />
-          <nav className="flex place-content-center gap-2 text-gray-300">
-            <Link to="/cart">Cart</Link>
-            <span className="cursor-default text-black selection:bg-transparent">
+          <nav className="flex place-content-center gap-2 text-gray-900 font-[Mulish]">
+            <Link to="/cart" className='opacity-80'>Cart</Link>
+            <span className="cursor-default text-black selection:bg-transparent opacity-80">
               {'>'}
             </span>
             <Link
               to="/checkout/information"
               className={`${
                 location.pathname.includes('information')
-                  ? `text-neutral-900`
-                  : ``
+                  ? `opacity-100`
+                  : `opacity-80`
               }`}
             >
               Information
             </Link>
-            <span className="cursor-default text-black selection:bg-transparent">
+            <span className="cursor-default text-black selection:bg-transparent opacity-80">
               {'>'}
             </span>
             <Link
               to="/checkout/shipping"
               className={`${
-                location.pathname.includes('shipping') ? `text-neutral-900` : ``
+                location.pathname.includes('shipping') ? `opacity-100` : `opacity-50`
               }`}
             >
               Shipping
-            </Link>
-            <span className="cursor-default text-black selection:bg-transparent">
-              {'>'}
-            </span>
-            <Link
-              to="/checkout/payment"
-              className={`${
-                location.pathname.includes('payment') ? `text-neutral-900` : ``
-              }`}
-            >
-              Payment
             </Link>
           </nav>
           <Outlet />
@@ -108,11 +106,13 @@ function CheckoutPage() {
             <Link to={urlTurnBack} className="w-full p-2">
               {'< '}Return to {textTurnBack}
             </Link>
-            <Link className="w-full" to={urlNext}>
+            {location.pathname.includes('shipping') ? <div className="w-full"><button onClick={() => setShowConfirmModal(true)} className="button bg-gray-900 text-white w-full normal-case duration-300 hover:bg-black">
+                {textButton}
+              </button></div> : <Link className="w-full" to={urlNext}>
               <button className="button bg-gray-900 text-white w-full normal-case duration-300 hover:bg-black">
                 {textButton}
               </button>
-            </Link>
+            </Link>}
           </div>
           <div className="h-px w-full bg-gray-300"></div>
           <div className="flex flex-row gap-12">
@@ -269,6 +269,71 @@ function CheckoutPage() {
               the user, conditioned upon your acceptance of all terms,
               conditions, policies and notices stated here.
             </p>
+          </div>
+        </>
+      </Modal>
+      <Modal
+        className={`flex items-center justify-center overflow-y-auto duration-300 ${
+          showConfirmModal ? `visible opacity-100` : `collapse opacity-0`
+        }`}
+        onClose={() => setShowConfirmModal(false)}
+      >
+        <>
+          {showConfirmModal && <RemoveScrollBar />}
+          <div className="mt-1 border-b-[2px] border-neutral-300">
+            <div className="mx-5 flex h-16 justify-between">
+              <div className="text-1xl grid content-center font-light capitalize">
+                Confirm
+              </div>
+              <img
+                onClick={() => setShowConfirmModal(false)}
+                className="my-auto h-3 hover:cursor-pointer"
+                src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <div className="grid max-h-96 w-96 overflow-auto px-6 py-3 text-center">
+            <p>Would you like to submit this order with the information you entered?</p>
+            <div className="flex flex-row justify-between gap-3 mt-3">
+              <button onClick={() => setShowConfirmModal(false)} className='basis-1/2 grid items-center px-3 py-1 bg-black text-white rounded opacity-70 hover:opacity-80 duration-300'>Cancel</button>
+              <button onClick={() => {setConfirmOrder(true); setShowConfirmModal(false)}} className='basis-1/2 grid items-center px-3 py-1 bg-black text-white rounded opacity-90 hover:opacity-100 duration-300'>Confirm</button>
+            </div>
+          </div>
+        </>
+      </Modal>
+      <Modal
+        className={`flex items-center justify-center overflow-y-auto duration-300 ${
+          confirmOrder ? `visible opacity-100` : `collapse opacity-0`
+        }`}
+        onClose={() => {}}
+      >
+        <>
+          {confirmOrder && <RemoveScrollBar />}
+          <div className="mt-1 border-b-[2px] border-neutral-300">
+            <div className="mx-5 flex h-16 justify-between">
+              <div className="text-1xl grid content-center font-light capitalize">
+                Successfully confirmed
+              </div>
+              <img
+                onClick={handleFinish}
+                className="my-auto h-3 hover:cursor-pointer"
+                src="https://cdn-icons-png.flaticon.com/512/2961/2961937.png"
+                alt=""
+                data-duration={5}
+              />
+            </div>
+          </div>
+          <div className="grid max-h-96 w-96 overflow-auto px-6 py-3 text-center">
+            <img
+              src="https://i.gifer.com/7efs.gif"
+              alt="Animated GIF"
+              id="gifImage"
+            />
+            <p>Your order has been sent. We will contact you soon to confirm.</p>
+            <div className="grid items-center mt-3">
+              <button onClick={handleFinish} className='grid items-center px-3 py-1 bg-black text-white rounded opacity-90 hover:opacity-100 duration-300'>Confirm</button>
+            </div>
           </div>
         </>
       </Modal>

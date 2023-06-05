@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 function NoPage() {
-  const hasSale = true;
+  const hasSale = false;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

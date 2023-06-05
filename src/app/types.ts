@@ -13,8 +13,16 @@ export interface CartState {
 
 export interface OrderState {
   note: string;
-  contactEmailOrder: string;
-  shippingAddress: string;
+  emailOrder: string;
+  countryOrder: string;
+  firstNameOrder: string;
+  lastNameOrder: string;
+  addressOrder: string;
+  districtOrder: string;
+  cityOrder: string;
+  phoneOrder: string;
+  showQuantityWarning: boolean;
+  shippingPrice: number;
 }
 
 export interface MenuState {

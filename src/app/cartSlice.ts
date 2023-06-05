@@ -99,6 +99,9 @@ const cartSlice = createSlice({
     setSizeCartItemChosenTemp(state, action: PayloadAction<string | null>) {
       state.sizeCartItemChosenTemp = action.payload;
     },
+    deleteAllCartData(state) {
+      state.items = [];
+    },
   },
 });
 
@@ -111,6 +114,7 @@ export const {
   toggleVisibility,
   setSizeCartItemChosen,
   setSizeCartItemChosenTemp,
+  deleteAllCartData,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

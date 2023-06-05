@@ -1,5 +1,8 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import * as orderSlice from '../app/orderSlice';
+import { RootState } from '../app/store';
 
 function CheckoutInformationSection() {
   const [isHovered, setIsHovered] = useState(false);
@@ -11,6 +14,15 @@ function CheckoutInformationSection() {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+  const emailOrder = useSelector((state: RootState) => state.order.emailOrder);
+  const countryOrder = useSelector((state: RootState) => state.order.countryOrder);
+  const firstNameOrder = useSelector((state: RootState) => state.order.firstNameOrder);
+  const lastNameOrder = useSelector((state: RootState) => state.order.lastNameOrder);
+  const addressOrder = useSelector((state: RootState) => state.order.addressOrder);
+  const districtOrder = useSelector((state: RootState) => state.order.districtOrder);
+  const cityOrder = useSelector((state: RootState) => state.order.cityOrder);
+  const phoneOrder = useSelector((state: RootState) => state.order.phoneOrder);
+  const dispatch = useDispatch();
   return (
     <div className="w-full">
       <div className="flex flex-row justify-between p-3">
@@ -22,10 +34,10 @@ function CheckoutInformationSection() {
       </div>
       <div className="space-y-6 p-3">
         <div className="relative rounded border p-3">
-          <label htmlFor="first-name" className="absolute -top-3 bg-white px-1">
+          <label htmlFor="Email" className="absolute -top-3 bg-white px-1">
             Email
           </label>
-          <input type="Email" className="w-full px-2 outline-none" />
+          <input type="Email" className="w-full px-2 outline-none" onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(orderSlice.setEmailOrder(event.target.value))} value={emailOrder} />
         </div>
       </div>
       <div className="space-y-2">
@@ -39,12 +51,12 @@ function CheckoutInformationSection() {
             <select
               name="address"
               id="address"
-              className="w-full space-y-2 bg-white px-1 outline-none"
+              className="w-full space-y-2 bg-white px-1 outline-none" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => dispatch(orderSlice.setCountryOrder(event.target.value))} value={countryOrder}
             >
-              <option className="p-1" value="1">
+              <option className="p-1" value="Vietnam">
                 Vietnam
               </option>
-              <option value="2">United States</option>
+              <option className="p-1" value="United States">United States</option>
             </select>
           </div>
           <div className="grid grid-cols-1 flex-row justify-between gap-3 lg:flex">
@@ -55,7 +67,7 @@ function CheckoutInformationSection() {
               >
                 First name
               </label>
-              <input type="text" className="w-full px-2 outline-none" />
+              <input type="text" className="w-full px-2 outline-none" onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(orderSlice.setFirstNameOrder(event.target.value))} value={firstNameOrder} />
             </div>
             <div className="relative basis-full rounded border p-3 lg:basis-1/2">
               <label
@@ -64,27 +76,27 @@ function CheckoutInformationSection() {
               >
                 Last name
               </label>
-              <input type="text" className="w-full px-2 outline-none" />
+              <input type="text" className="w-full px-2 outline-none" onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(orderSlice.setLastNameOrder(event.target.value))} value={lastNameOrder} />
             </div>
           </div>
           <div className="relative rounded border p-3">
             <label htmlFor="address" className="absolute -top-3 bg-white px-1">
               Address
             </label>
-            <input type="text" className="w-full px-2 outline-none" />
+            <input type="text" className="w-full px-2 outline-none" onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(orderSlice.setAddressOrder(event.target.value))} value={addressOrder} />
           </div>
           <div className="relative rounded border p-3">
             <label htmlFor="district" className="absolute -top-3 bg-white px-1">
               District
             </label>
-            <input type="text" className="w-full px-2 outline-none" />
+            <input type="text" className="w-full px-2 outline-none" onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(orderSlice.setDistrictOrder(event.target.value))} value={districtOrder} />
           </div>
           <div className="grid grid-cols-1 flex-row justify-between gap-3 lg:flex">
             <div className="relative basis-1/2 rounded border p-3">
               <label htmlFor="city" className="absolute -top-3 bg-white px-1">
                 City
               </label>
-              <input type="text" className="w-full px-2 outline-none" />
+              <input type="text" className="w-full px-2 outline-none" onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(orderSlice.setCityOrder(event.target.value))} value={cityOrder} />
             </div>
             <div className="relative basis-1/2 rounded border p-3">
               <label
@@ -95,7 +107,7 @@ function CheckoutInformationSection() {
               </label>
               <input
                 type="text"
-                className="relative w-full px-2 outline-none"
+                className="relative w-full px-2 outline-none" onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(orderSlice.setPhoneOrder(event.target.value))} value={phoneOrder}
               />
               <div
                 className="absolute top-3 right-3"

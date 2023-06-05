@@ -35,7 +35,7 @@ function OrderSummarySection() {
   useEffect(() => {
     handleScroll();
   }, [])
-  const shippingPrice = 50;
+  const shippingPrice = useSelector((state: RootState) => state.order.shippingPrice);
 
   return (
     <>
@@ -103,7 +103,7 @@ function OrderSummarySection() {
                 />
               ))}
           </div>
-            {<div className={`absolute bottom-0 left-1/3 bg-black px-3 py-1 rounded-full flex flex-row justify-center gap-1 text-white collapse opacity-0 ${showScrollNotice ? `lg:visible lg:opacity-100` : ``} lg:duration-300`}>
+            {items.length > 4 && <div className={`absolute bottom-0 left-1/3 bg-black px-3 py-1 rounded-full flex flex-row justify-center gap-1 text-white collapse opacity-0 ${showScrollNotice ? `lg:visible lg:opacity-100` : ``} lg:duration-300`}>
               <p className='z-50'>Scroll for more items</p>
               <div className='grid place-content-center'>
                 <img alt="" className='h-3 w-3 grayscale invert select-none' src="https://icons-for-free.com/iconfiles/png/256/down+arrow+download+icon-1320185738770602413.png" />
@@ -123,7 +123,7 @@ function OrderSummarySection() {
             />
             <label
               htmlFor="voucher"
-              className={`pointer-events-none absolute left-3 text-gray-500 duration-300 ${
+              className={`pointer-events-none absolute left-3 text-gray-500 ${
                 textVoucher ? `top-1 text-xs` : `text-md top-3`
               }`}
             >
@@ -132,7 +132,7 @@ function OrderSummarySection() {
           </div>
           <div className="mt-3 basis-1/3">
             <button
-              className={`h-full w-full rounded bg-gray-900 px-3 py-1 text-white duration-300 ${
+              className={`h-full w-full rounded bg-gray-900 px-3 py-1 text-white ${
                 textVoucher
                   ? `opacity-100 hover:bg-black`
                   : `cursor-default opacity-50`

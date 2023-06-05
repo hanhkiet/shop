@@ -11,7 +11,7 @@ import NavbarLogo from './NavbarLogo';
 import { setSizeCartItemChosen } from '../app/cartSlice';
 
 function Navbar() {
-  const hasSale = true;
+  const hasSale = false;
   const [showSale, setShowSale] = useState(true);
   const [hoverNavbar, setHoverNavbar] = useState(false);
   const [showModal, setShowModal] = useState(false);

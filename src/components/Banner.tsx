@@ -5,7 +5,7 @@ type Props = {
 };
 
 function Banner(props: Props) {
-  const hasSale = true;
+  const hasSale = false;
   const largeScreenClassName = 'hidden md:block';
   const smallScreenClassName = 'block md:hidden';
   const bannerClassName = `-z-10 ${

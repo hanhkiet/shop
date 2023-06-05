@@ -8,11 +8,7 @@ import Footer from '../components/Footer';
 import { useEffect, useState } from 'react';
 import { AppDispatch } from '../app/store';
 import { useDispatch } from 'react-redux';
-import {
-  addItem,
-  setSizeCartItemChosen,
-  setSizeCartItemChosenTemp,
-} from '../app/cartSlice';
+import { addItem } from '../app/cartSlice';
 import { toggleVisibility } from '../app/cartSlice';
 import Modal from '../modals/Modal';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
@@ -32,12 +28,6 @@ function ProductDetail() {
   const [hoverMeasure, setHoverMeasure] = useState(false);
   const products = useSelector((state: RootState) => state.product.products);
   const sizes = useSelector((state: RootState) => state.product.sizes);
-  const sizeCartItemChosen = useSelector(
-    (state: RootState) => state.cart.sizeCartItemChosen,
-  );
-  const sizeCartItemChosenTemp = useSelector(
-    (state: RootState) => state.cart.sizeCartItemChosenTemp,
-  );
   const [thisProduct, setThisProduct] = useState<Product | null>(null);
   const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
@@ -61,15 +51,12 @@ function ProductDetail() {
   useEffect(() => {
     if (isAddToCartButtonDisabled) {
       setSizeValue(null);
-    } else if (sizeCartItemChosen) {
-      dispatch(setSizeCartItemChosenTemp(sizeCartItemChosen));
-      setSizeValue(sizeCartItemChosenTemp);
-      dispatch(setSizeCartItemChosen(null));
-    } else {
+    }
+    else {
       setSizeValue(thisProductQuantityAvailable.size);
     }
-  }, [isAddToCartButtonDisabled, sizeCartItemChosen]);
-  if (!thisProduct || !name || !thisProductQuantity) return <></>;
+  }, [isAddToCartButtonDisabled, name]);
+  if (!thisProduct || !thisProductQuantity) return <></>;
   const thisProductColor = products.filter(
     (prod: Product) =>
       prod.name.slice(0, prod.name.lastIndexOf('-')).trim() ===
