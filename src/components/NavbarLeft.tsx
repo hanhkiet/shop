@@ -38,7 +38,7 @@ export default function NavbarLeft(props: Props) {
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
         <li className="navbar-list">
-          {(menus && menus.length > 0) && <img
+          {(collections && collections.length > 0) && <img
             src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
             onClick={() => {
               dispatch(setVisibleMenu(!visibleMenu));

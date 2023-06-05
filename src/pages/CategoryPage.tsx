@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
-import { setVisibleMenu } from '../app/menuSlice';
+import { setVisibleMenu } from '../app/collectionSlice';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MenuDropDown from '../components/MenuDropdown';
@@ -15,7 +15,7 @@ function CategoryPage() {
   const categoryProducts = useSelector(
     (state: RootState) => state.categoryProduct.categoryProduct,
   );
-  const visibleMenu = useSelector((state: RootState) => state.menu.visibleMenu);
+  const visibleMenu = useSelector((state: RootState) => state.collection.visibleMenu);
   const dispatch = useDispatch();
   const categoryProduct =
     name === 'all'
