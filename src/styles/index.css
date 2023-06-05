@@ -50,6 +50,10 @@
     @apply bg-neutral-800 text-neutral-200;
   }
 
+  .button-red {
+    @apply bg-red-700 text-white;
+  }
+
   .button-light {
     @apply bg-white text-black;
   }

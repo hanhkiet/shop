@@ -1,11 +1,11 @@
 import { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendUpdatePasswordRequest } from '../app/manager/managerSlice';
-import { AppDispatch, RootState } from '../app/store';
-import { Credentials } from '../app/types';
-import { useRefWithValidator } from '../hooks/useRefWithValidator';
-import { passwordRegex } from '../utils/regex';
-import Modal from './Modal';
+import { sendUpdatePasswordRequest } from '../../app/manager/managerSlice';
+import { AppDispatch, RootState } from '../../app/store';
+import { Credentials } from '../../app/types';
+import { useRefWithValidator } from '../../hooks/useRefWithValidator';
+import { passwordRegex } from '../../utils/regex';
+import Modal from '../Modal';
 
 type Props = {
   onClose: () => void;

@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { sendRefreshRequest } from '../app/manager/managerSlice';
 import { AppDispatch, RootState } from '../app/store';
 import ManagerNavbar from '../layout/ManagerNavbar';
-import ManagerLoginModal from '../modals/ManagerLoginModal';
+import ManagerLoginModal from '../modals/manager/ManagerLoginModal';
 
 function ManagerPage() {
   const { isAuthenticated } = useSelector((state: RootState) => state.manager);

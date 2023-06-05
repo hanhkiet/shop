@@ -103,6 +103,7 @@ export interface Product {
   name: string;
   price: number;
   images: Array<string>;
+  collections: CollectionItem[];
 }
 
 export interface ProductState {
@@ -128,6 +129,12 @@ export interface ManagerState {
 export interface StorageState {
   loading: boolean;
   collections: CollectionItem[];
+  products: Product[];
+}
+
+export interface ProductFilterPayload {
+  type: CollectionType;
+  collectionId: number;
 }
 
 export type CollectionType = 'FEATURED' | 'TOPS' | 'BOTTOMS';

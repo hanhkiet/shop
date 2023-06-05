@@ -8,9 +8,9 @@ import {
 } from '../../app/manager/storageSlice';
 import { AppDispatch, RootState } from '../../app/store';
 import { CollectionItem, CollectionType } from '../../app/types';
-import AddCollectionModal from '../../modals/AddCollectionModal';
 import EditCollectionModal from '../../modals/EditCollectionModal';
 import YesNoDialogModal from '../../modals/YesNoDialogModal';
+import AddCollectionModal from '../../modals/manager/AddCollectionModal';
 
 const CollectionCard = (collection: CollectionItem) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
