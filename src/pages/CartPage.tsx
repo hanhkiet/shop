@@ -4,7 +4,7 @@ import { setNote } from '../app/orderSlice';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import { CartItem } from '../app/types';
+import { CartItem, Collection } from '../app/types';
 import ProductCartPage from '../components/ProductCartPage';
 import ProductCart from '../components/ProductCart';
 
@@ -27,6 +27,9 @@ function CartPage() {
     }
   }, 0);
   const hasSale = false;
+  const collections = useSelector(
+    (state: RootState) => state.collection.collections,
+  );
   return (
     <>
       <Navbar />
@@ -37,7 +40,14 @@ function CartPage() {
           }`}
         >
           <p className="text-center">Your cart is empty</p>
-          <Link to="/collections/all">
+          <Link
+            to={`/collections/${
+              collections
+                .find((item: Collection) => item.type === 'FEATURED')
+                ?.name.replace(/\W+/gi, '-')
+                .toLowerCase() || '/'
+            }`}
+          >
             <button className="m-5 bg-black px-6 py-3 text-center uppercase text-white duration-300 hover:bg-gray-500">
               SHOP OUR PRODUCTS
             </button>
