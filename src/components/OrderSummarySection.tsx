@@ -148,7 +148,7 @@ function OrderSummarySection() {
           </div>
           <div className="mt-3 basis-1/3">
             <button
-              className={`h-full w-full rounded bg-gray-900 px-3 py-1 text-white duration-300 ${
+              className={`h-full w-full rounded bg-gray-900 px-3 py-1 text-white ${
                 textVoucher
                   ? `opacity-100 hover:bg-black`
                   : `cursor-default opacity-50`

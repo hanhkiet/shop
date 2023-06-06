@@ -63,7 +63,7 @@ function CheckoutPage() {
     navigate('/');
     localStorage.removeItem('cartItems');
     dispatch(deleteAllCartData());
-  }
+  };
   return (
     <>
       <div className="grid flex-row font-[avenir-next] font-bold lg:flex">
@@ -74,9 +74,11 @@ function CheckoutPage() {
             className={`mx-auto mt-5 hidden h-12 cursor-pointer lg:block`}
             alt=""
           />
-          <nav className="flex place-content-center gap-2 text-gray-900 font-[Mulish]">
-            <Link to="/cart" className='opacity-80'>Cart</Link>
-            <span className="cursor-default text-black selection:bg-transparent opacity-80">
+          <nav className="flex place-content-center gap-2 font-[Mulish] text-gray-900">
+            <Link to="/cart" className="opacity-80">
+              Cart
+            </Link>
+            <span className="cursor-default text-black opacity-80 selection:bg-transparent">
               {'>'}
             </span>
             <Link
@@ -89,31 +91,44 @@ function CheckoutPage() {
             >
               Information
             </Link>
-            <span className="cursor-default text-black selection:bg-transparent opacity-80">
+            <span className="cursor-default text-black opacity-80 selection:bg-transparent">
               {'>'}
             </span>
             <Link
               to="/checkout/shipping"
               className={`${
-                location.pathname.includes('shipping') ? `opacity-100` : `opacity-50`
+                location.pathname.includes('shipping')
+                  ? `opacity-100`
+                  : `opacity-50`
               }`}
             >
               Shipping
             </Link>
           </nav>
           <Outlet />
-          <div className="flex w-full flex-row gap-2 mt-20 lg:mt-auto">
-            <Link to={urlTurnBack} className="w-full p-2">
-              {'< '}Return to {textTurnBack}
-            </Link>
-            {location.pathname.includes('shipping') ? <div className="w-full"><button onClick={() => setShowConfirmModal(true)} className="button bg-gray-900 text-white w-full normal-case duration-300 hover:bg-black">
-                {textButton}
-              </button></div> : <Link className="w-full" to={urlNext}>
-              <button className="button bg-gray-900 text-white w-full normal-case duration-300 hover:bg-black">
-                {textButton}
-              </button>
-            </Link>}
-          </div>
+          {!location.pathname.includes('information') && (
+            <div className="mt-20 flex w-full flex-row gap-2 lg:mt-auto">
+              <Link to={urlTurnBack} className="w-full p-2">
+                {'< '}Return to {textTurnBack}
+              </Link>
+              {location.pathname.includes('shipping') ? (
+                <div className="w-full">
+                  <button
+                    onClick={() => setShowConfirmModal(true)}
+                    className="button w-full bg-gray-900 normal-case text-white duration-300 hover:bg-black"
+                  >
+                    {textButton}
+                  </button>
+                </div>
+              ) : (
+                <Link className="w-full" to={urlNext}>
+                  <button className="button w-full bg-gray-900 normal-case text-white duration-300 hover:bg-black">
+                    {textButton}
+                  </button>
+                </Link>
+              )}
+            </div>
+          )}
           <div className="h-px w-full bg-gray-300"></div>
           <div className="flex flex-row gap-12">
             <span
@@ -294,10 +309,26 @@ function CheckoutPage() {
             </div>
           </div>
           <div className="grid max-h-96 w-96 overflow-auto px-6 py-3 text-center">
-            <p>Would you like to submit this order with the information you entered?</p>
-            <div className="flex flex-row justify-between gap-3 mt-3">
-              <button onClick={() => setShowConfirmModal(false)} className='basis-1/2 grid items-center px-3 py-1 bg-black text-white rounded opacity-70 hover:opacity-80 duration-300'>Cancel</button>
-              <button onClick={() => {setConfirmOrder(true); setShowConfirmModal(false)}} className='basis-1/2 grid items-center px-3 py-1 bg-black text-white rounded opacity-90 hover:opacity-100 duration-300'>Confirm</button>
+            <p>
+              Would you like to submit this order with the information you
+              entered?
+            </p>
+            <div className="mt-3 flex flex-row justify-between gap-3">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="grid basis-1/2 items-center rounded bg-black px-3 py-1 text-white opacity-70 duration-300 hover:opacity-80"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setConfirmOrder(true);
+                  setShowConfirmModal(false);
+                }}
+                className="grid basis-1/2 items-center rounded bg-black px-3 py-1 text-white opacity-90 duration-300 hover:opacity-100"
+              >
+                Confirm
+              </button>
             </div>
           </div>
         </>
@@ -330,9 +361,16 @@ function CheckoutPage() {
               alt="Animated GIF"
               id="gifImage"
             />
-            <p>Your order has been sent. We will contact you soon to confirm.</p>
-            <div className="grid items-center mt-3">
-              <button onClick={handleFinish} className='grid items-center px-3 py-1 bg-black text-white rounded opacity-90 hover:opacity-100 duration-300'>Confirm</button>
+            <p>
+              Your order has been sent. We will contact you soon to confirm.
+            </p>
+            <div className="mt-3 grid items-center">
+              <button
+                onClick={handleFinish}
+                className="grid items-center rounded bg-black px-3 py-1 text-white opacity-90 duration-300 hover:opacity-100"
+              >
+                Confirm
+              </button>
             </div>
           </div>
         </>

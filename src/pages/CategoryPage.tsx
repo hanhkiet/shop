@@ -14,6 +14,8 @@ import axios from 'axios';
 function CategoryPage() {
   const { name } = useParams<{ name: string }>();
   const [products, setProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filterChosen, setFilterChosen] = useState(0);
   const collections = useSelector(
     (state: RootState) => state.collection.collections,
   );
@@ -35,7 +37,6 @@ function CategoryPage() {
         console.error('Error fetching products:', error);
       });
   }, [collections, collection]);
-
   const visibleMenu = useSelector(
     (state: RootState) => state.collection.visibleMenu,
   );
@@ -47,7 +48,6 @@ function CategoryPage() {
     'Price, low to high',
     'Price, high to low',
   ];
-  const [filterChosen, setFilterChosen] = useState(0);
   const [gridLarge, setGridLarge] = useState(3);
   const [gridSmall, setGridSmall] = useState(2);
   const [sortAppearSmall, setSortAppearSmall] = useState(false);
@@ -75,7 +75,6 @@ function CategoryPage() {
     const sortedProducts = products.sort((a, b) => b.price - a.price);
     setProducts(sortedProducts);
   };
-  const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 2;
   const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;

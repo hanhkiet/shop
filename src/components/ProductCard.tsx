@@ -33,12 +33,10 @@ function ProductCard(props: Props) {
   return (
     <div
       className={`relative m-5 flex flex-col items-center text-center ${props.className}`}
+      onMouseEnter={() => setIsShown(true)}
+      onMouseLeave={() => setIsShown(false)}
     >
-      <Link
-        onMouseEnter={() => setIsShown(true)}
-        onMouseLeave={() => setIsShown(false)}
-        to={`/products/${props.id}`}
-      >
+      <Link to={`/products/${props.id}`}>
         <div className="relative grid place-items-center">
           <img
             src={props.imageOne}
