@@ -92,6 +92,18 @@ const storageSlice = createSlice({
       .addCase(sendLoadProductsRequest.rejected, state => {
         state.loading = false;
       });
+
+    builder
+      .addCase(sendAddProductRequest.pending, state => {
+        state.loading = true;
+      })
+      .addCase(sendAddProductRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products.push(action.payload);
+      })
+      .addCase(sendAddProductRequest.rejected, state => {
+        state.loading = false;
+      });
   },
 });
 
@@ -312,11 +324,57 @@ const sendLoadProductsRequest = createAsyncThunk(
   },
 );
 
+const sendAddProductRequest = createAsyncThunk(
+  'storage/addProduct',
+  async (product: Product, { dispatch }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_MANAGER_STORAGE_API_URL}/products`,
+        product,
+        {
+          withCredentials: true,
+        },
+      );
+
+      dispatch(
+        popUpMessage({
+          message: 'Product added successfully.',
+          status: 200,
+        }),
+      );
+
+      const newProduct = response.data as Product;
+      return newProduct;
+    } catch (error) {
+      const { response } = error as AxiosError;
+      if (response) {
+        dispatch(
+          popUpMessage({
+            message: 'Error adding product. Please try again later.',
+            status: response.status,
+          }),
+        );
+      } else {
+        dispatch(
+          popUpMessage({
+            message:
+              'Error adding product. Please check your internet connection.',
+            status: 500,
+          }),
+        );
+      }
+
+      throw error;
+    }
+  },
+);
+
 export {
   sendAddProductCollectionRequest,
+  sendAddProductRequest,
   sendDeleteProductCollectionRequest,
   sendLoadProductsCollectionRequest,
   sendLoadProductsRequest,
-  sendUpdateProductCollectionRequest
+  sendUpdateProductCollectionRequest,
 };
 export default storageSlice.reducer;

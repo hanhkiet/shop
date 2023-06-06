@@ -98,12 +98,34 @@ export interface PathState {
   pathName: string;
 }
 
+export enum Color {
+  BLACK = 'BLACK',
+  BLUE = 'BLUE',
+  WHITE = 'WHITE',
+  RED = 'RED',
+  GREEN = 'GREEN',
+  GREY = 'GREY',
+  OLIVE = 'OLIVE',
+  NAVY = 'NAVY',
+  CHAI = 'CHAI',
+  PLUM = 'PLUM',
+  TAUPE = 'TAUPE',
+  SAGE = 'SAGE',
+  CREAM = 'CREAM',
+  RAVEN = 'RAVEN',
+  SMOKE = 'SMOKE',
+  SKY = 'SKY',
+  STONE = 'STONE',
+}
+
 export interface Product {
   uuid: string;
   name: string;
   price: number;
+  color: Color;
   images: Array<string>;
   collections: CollectionItem[];
+  catalogs: Catalog[];
 }
 
 export interface ProductState {
@@ -133,8 +155,10 @@ export interface StorageState {
 }
 
 export interface ProductFilterPayload {
-  type: CollectionType;
-  collectionId: number;
+  type?: CollectionType;
+  collectionId?: number;
+  color?: Color;
+  query?: string;
 }
 
 export type CollectionType = 'FEATURED' | 'TOPS' | 'BOTTOMS';
@@ -142,6 +166,20 @@ export interface CollectionItem {
   id: number;
   name: string;
   type: CollectionType;
+}
+
+export enum Size {
+  XS = 'XS',
+  S = 'S',
+  M = 'M',
+  L = 'L',
+  XL = 'XL',
+  XXL = 'XXL',
+}
+
+export interface Catalog {
+  size: Size;
+  quantity: number;
 }
 
 export interface ItemsInStore {
