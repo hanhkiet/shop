@@ -26,12 +26,16 @@ function CartPage() {
       return total;
     }
   }, 0);
-  const demo = false;
+  const hasSale = false;
   return (
     <>
       <Navbar />
       {!products || !items || items.length == 0 || products.length == 0 ? (
-        <div className="grid h-[calc(100vh-64px)] place-content-center">
+        <div
+          className={`grid place-content-center ${
+            hasSale ? `h-[calc(100vh-64px)]` : `h-screen`
+          }`}
+        >
           <p className="text-center">Your cart is empty</p>
           <Link to="/collections/all">
             <button className="m-5 bg-black px-6 py-3 text-center uppercase text-white duration-300 hover:bg-gray-500">

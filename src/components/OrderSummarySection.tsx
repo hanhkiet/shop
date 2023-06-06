@@ -34,8 +34,10 @@ function OrderSummarySection() {
   };
   useEffect(() => {
     handleScroll();
-  }, [])
-  const shippingPrice = useSelector((state: RootState) => state.order.shippingPrice);
+  }, []);
+  const shippingPrice = useSelector(
+    (state: RootState) => state.order.shippingPrice,
+  );
 
   return (
     <>
@@ -79,18 +81,22 @@ function OrderSummarySection() {
           </div>
         </div>
         <div>
-          <p className="font-[Mulish]">
-            ${totalPrice + shippingPrice}
-          </p>
+          <p className="font-[Mulish]">${totalPrice + shippingPrice}</p>
         </div>
       </div>
       <div
         className={`static top-0 right-0 order-1 grid ${
-          showOrderSummary ? `visible h-full p-6 gap-4 w-full` : `collapse h-0 p-0 gap-0 w-0`
-        } basis-1/2 flex-col place-content-center bg-gray-100 lg:gap-4 lg:w-full lg:visible lg:sticky lg:grid lg:h-screen lg:p-6`}
+          showOrderSummary
+            ? `visible h-full w-full gap-4 p-6`
+            : `collapse h-0 w-0 gap-0 p-0`
+        } basis-1/2 flex-col place-content-center bg-gray-100 lg:visible lg:sticky lg:grid lg:h-screen lg:w-full lg:gap-4 lg:p-6`}
       >
-        <div className='relative'>
-          <div ref={divRef} onScroll={handleScroll} className="grid gap-6 lg:max-h-96 overflow-y-hidden hover:overflow-y-auto p-3">
+        <div className="relative">
+          <div
+            ref={divRef}
+            onScroll={handleScroll}
+            className="grid gap-6 overflow-y-hidden p-3 hover:overflow-y-auto lg:max-h-96"
+          >
             {items
               .slice(0)
               .reverse()
@@ -103,12 +109,22 @@ function OrderSummarySection() {
                 />
               ))}
           </div>
-            {items.length > 4 && <div className={`absolute bottom-0 left-1/3 bg-black px-3 py-1 rounded-full flex flex-row justify-center gap-1 text-white collapse opacity-0 ${showScrollNotice ? `lg:visible lg:opacity-100` : ``} lg:duration-300`}>
-              <p className='z-50'>Scroll for more items</p>
-              <div className='grid place-content-center'>
-                <img alt="" className='h-3 w-3 grayscale invert select-none' src="https://icons-for-free.com/iconfiles/png/256/down+arrow+download+icon-1320185738770602413.png" />
+          {items.length > 4 && (
+            <div
+              className={`collapse absolute bottom-0 left-1/3 flex flex-row justify-center gap-1 rounded-full bg-black px-3 py-1 text-white opacity-0 ${
+                showScrollNotice ? `lg:visible lg:opacity-100` : ``
+              } lg:duration-300`}
+            >
+              <p className="z-50">Scroll for more items</p>
+              <div className="grid place-content-center">
+                <img
+                  alt=""
+                  className="h-3 w-3 select-none grayscale invert"
+                  src="https://icons-for-free.com/iconfiles/png/256/down+arrow+download+icon-1320185738770602413.png"
+                />
               </div>
-            </div>}
+            </div>
+          )}
         </div>
         <div className="flex w-full max-w-md flex-row gap-3 border-t border-neutral-300 p-3">
           <div className="relative mt-3 basis-2/3 rounded border bg-white p-3">
@@ -123,7 +139,7 @@ function OrderSummarySection() {
             />
             <label
               htmlFor="voucher"
-              className={`pointer-events-none absolute left-3 text-gray-500 ${
+              className={`pointer-events-none absolute left-3 text-gray-500 duration-300 ${
                 textVoucher ? `top-1 text-xs` : `text-md top-3`
               }`}
             >
@@ -132,7 +148,7 @@ function OrderSummarySection() {
           </div>
           <div className="mt-3 basis-1/3">
             <button
-              className={`h-full w-full rounded bg-gray-900 px-3 py-1 text-white ${
+              className={`h-full w-full rounded bg-gray-900 px-3 py-1 text-white duration-300 ${
                 textVoucher
                   ? `opacity-100 hover:bg-black`
                   : `cursor-default opacity-50`
@@ -156,7 +172,7 @@ function OrderSummarySection() {
           <div className="text-md grid basis-10/12 items-center">Total</div>
           <div className="flex basis-2/12 flex-row justify-between gap-3">
             <div className="grid items-center text-xs text-gray-500">USD</div>
-            <div className="grid items-center font-[Mulish] text-2xl text-right">
+            <div className="grid items-center text-right font-[Mulish] text-2xl">
               ${totalPrice + shippingPrice}
             </div>
           </div>
