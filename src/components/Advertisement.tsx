@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type Props = {
   srcImg: string;
   adText: string;
@@ -5,6 +7,7 @@ type Props = {
   className?: string;
   isCenter?: Boolean;
   isSmallText?: Boolean;
+  link: string;
 };
 
 export default function Advertisement(props: Props) {
@@ -33,9 +36,11 @@ export default function Advertisement(props: Props) {
               {props.adText}
             </h1>
           </div>
-          <button className="w-56 bg-white px-9 py-3 text-sm uppercase tracking-widest text-gray-500 hover:bg-gray-200">
-            {props.buttonText}
-          </button>
+          <Link to={props.link}>
+            <button className="w-56 bg-white px-9 py-3 text-sm uppercase tracking-widest text-gray-500 hover:bg-gray-200">
+              {props.buttonText}
+            </button>
+          </Link>
         </div>
       </div>
     </div>

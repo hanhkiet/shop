@@ -111,6 +111,8 @@ export interface Product {
   name: string;
   price: number;
   images: Array<string>;
+  color: string;
+  collections: Collection[];
 }
 
 export interface ProductState {

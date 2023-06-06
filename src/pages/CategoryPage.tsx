@@ -6,26 +6,40 @@ import Footer from '../components/Footer';
 import MenuDropDown from '../components/MenuDropdown';
 import { useParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { CategoryProduct } from '../app/types';
-import { useState } from 'react';
+import { Collection, Product } from '../app/types';
+import { useState, useEffect } from 'react';
 import ModalNavbar from '../modals/ModalNavbar';
+import axios from 'axios';
 
 function CategoryPage() {
   const { name } = useParams<{ name: string }>();
-  const categoryProducts = useSelector(
-    (state: RootState) => state.categoryProduct.categoryProduct,
+  const [products, setProducts] = useState<Product[]>([]);
+  const collections = useSelector(
+    (state: RootState) => state.collection.collections,
   );
-  const visibleMenu = useSelector((state: RootState) => state.collection.visibleMenu);
+  const collection = collections.find(
+    (item: Collection) =>
+      item.name.replace(/\W+/gi, '-').toLowerCase() === name,
+  );
+  useEffect(() => {
+    setFilterChosen(0);
+    setCurrentPage(1);
+    setProducts([]);
+    if (!collection) return;
+    axios
+      .get(`${import.meta.env.VITE_COLLECTIONS_API_URL}/${collection.id}`)
+      .then(res => {
+        setProducts(res.data);
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error);
+      });
+  }, [collections, collection]);
+
+  const visibleMenu = useSelector(
+    (state: RootState) => state.collection.visibleMenu,
+  );
   const dispatch = useDispatch();
-  const categoryProduct =
-    name === 'all'
-      ? categoryProducts
-      : categoryProducts.filter(
-          (prod: CategoryProduct) =>
-            prod.productCollection.name.replace(/\W+/gi, '-').toLowerCase() ===
-            name,
-        );
-  if (!categoryProduct || !categoryProducts) return <></>;
   const filterMode = [
     'Default',
     'Alphabetically, A-Z',
@@ -37,37 +51,36 @@ function CategoryPage() {
   const [gridLarge, setGridLarge] = useState(3);
   const [gridSmall, setGridSmall] = useState(2);
   const [sortAppearSmall, setSortAppearSmall] = useState(false);
-  const [ourProducts, setOurProducts] = useState(categoryProduct);
   const sortProductsAtoZ = () => {
-    const sortedProducts = [...ourProducts].sort((a, b) =>
-      a.product.name.localeCompare(b.product.name),
+    setCurrentPage(1);
+    const sortedProducts = products.sort((a, b) =>
+      a.name.localeCompare(b.name),
     );
-    setOurProducts(sortedProducts);
+    setProducts(sortedProducts);
   };
   const sortProductsZtoA = () => {
-    const sortedProducts = [...ourProducts].sort((a, b) =>
-      b.product.name.localeCompare(a.product.name),
+    setCurrentPage(1);
+    const sortedProducts = products.sort((a, b) =>
+      b.name.localeCompare(a.name),
     );
-    setOurProducts(sortedProducts);
+    setProducts(sortedProducts);
   };
   const sortLowToHighPrice = () => {
-    const sortedProducts = [...ourProducts].sort(
-      (a, b) => a.product.price - b.product.price,
-    );
-    setOurProducts(sortedProducts);
+    setCurrentPage(1);
+    const sortedProducts = products.sort((a, b) => a.price - b.price);
+    setProducts(sortedProducts);
   };
   const sortHighToLowPrice = () => {
-    const sortedProducts = [...ourProducts].sort(
-      (a, b) => b.product.price - a.product.price,
-    );
-    setOurProducts(sortedProducts);
+    setCurrentPage(1);
+    const sortedProducts = products.sort((a, b) => b.price - a.price);
+    setProducts(sortedProducts);
   };
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 2;
-  const totalPages = Math.ceil(ourProducts.length / productsPerPage);
+  const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = ourProducts.slice(
+  const currentProducts = products.slice(
     indexOfFirstProduct,
     indexOfLastProduct,
   );
@@ -78,10 +91,10 @@ function CategoryPage() {
   return (
     <>
       <Navbar />
-      <div className="mt-16 min-h-screen">
+      <div className="mt-16">
         <div className="sticky left-0 top-16 z-20 flex flex-row-reverse border-b-2 border-gray-300 bg-white md:flex-row">
           <div className="basis-1/3 p-6 md:basis-1/12">
-            <div className="flex justify-center gap-3 md:hidden">
+            <div className="flex justify-center gap-3">
               <button
                 className={`grid h-5 w-5 content-center duration-300 ${
                   gridSmall === 1 ? `opacity-100` : `opacity-50`
@@ -105,7 +118,7 @@ function CategoryPage() {
                 </svg>
               </button>
             </div>
-            <div className="hidden justify-center gap-3 md:flex">
+            <div className="hidden justify-center gap-3">
               <button
                 className={`grid h-5 w-5 content-center duration-300 ${
                   gridLarge === 2 ? `opacity-100` : `opacity-50`
@@ -159,7 +172,7 @@ function CategoryPage() {
         </div>
         <div className="flex flex-row">
           <div className="hidden basis-0 lg:block lg:basis-3/12">
-            <div className="sticky left-0 top-36 h-screen w-full overflow-y-auto">
+            <div className="sticky left-0 top-36">
               <MenuDropDown />
             </div>
           </div>
@@ -167,14 +180,14 @@ function CategoryPage() {
             <div
               className={`grid grid-cols-${gridSmall} md:grid-cols-${gridLarge}`}
             >
-              {currentProducts.map((item: CategoryProduct) => (
+              {currentProducts.map((item: Product) => (
                 <ProductCard
-                  key={item.product.uuid}
-                  id={item.product.uuid}
-                  name={item.product.name}
-                  price={item.product.price}
-                  imageOne={item.product.images[0]}
-                  imageTwo={item.product.images[1]}
+                  key={item.uuid}
+                  id={item.uuid}
+                  name={item.name}
+                  price={item.price}
+                  imageOne={item.images[0]}
+                  imageTwo={item.images[1]}
                 />
               ))}
             </div>
@@ -211,7 +224,7 @@ function CategoryPage() {
                   </button>
                 ),
               )}
-              {currentPage <= currentProducts.length && (
+              {currentPage < totalPages && (
                 <svg
                   onClick={() => {
                     setCurrentPage(currentPage + 1);
@@ -262,7 +275,7 @@ function CategoryPage() {
                 onClick={() => {
                   setFilterChosen(index);
                   setSortAppearSmall(false);
-                  if (index === 0) setOurProducts(categoryProduct);
+                  if (index === 0) setProducts(products);
                   if (index === 1) sortProductsAtoZ();
                   if (index === 2) sortProductsZtoA();
                   if (index === 3) sortLowToHighPrice();

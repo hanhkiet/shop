@@ -34,7 +34,7 @@ function NavbarRight(props: Props) {
   return (
     <>
       <ul
-        className={`flex w-1/6 items-center justify-end gap-6 uppercase md:flex lg:hidden ${props.className}`}
+        className={`flex items-center justify-end gap-6 uppercase md:flex lg:hidden ${props.className}`}
       >
         <li>
           <img
@@ -58,6 +58,17 @@ function NavbarRight(props: Props) {
               props.changeColor ? `` : `grayscale invert`
             }`}
           />
+        </li>
+        <li>
+          <Link to="/account">
+            <img
+              alt=""
+              src="https://cdn-icons-png.flaticon.com/512/64/64572.png"
+              className={`mx-auto h-4 cursor-pointer duration-300 ${
+                props.changeColor ? `` : `grayscale invert`
+              }`}
+            />
+          </Link>
         </li>
       </ul>
       <ul

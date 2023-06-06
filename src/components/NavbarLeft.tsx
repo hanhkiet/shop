@@ -18,7 +18,9 @@ type Props = {
 };
 
 export default function NavbarLeft(props: Props) {
-  const visibleMenu = useSelector((state: RootState) => state.collection.visibleMenu);
+  const visibleMenu = useSelector(
+    (state: RootState) => state.collection.visibleMenu,
+  );
   const collections = useSelector(
     (state: RootState) => state.collection.collections,
   );
@@ -38,16 +40,18 @@ export default function NavbarLeft(props: Props) {
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">
         <li className="navbar-list">
-          {(collections && collections.length > 0) && <img
-            src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
-            onClick={() => {
-              dispatch(setVisibleMenu(!visibleMenu));
-              props.onClick();
-            }}
-            className={`mx-auto h-4 cursor-pointer duration-300 ${
-              props.changeColor ? '' : 'grayscale invert'
-            }`}
-          />}
+          {collections && collections.length > 0 && (
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/6015/6015685.png"
+              onClick={() => {
+                dispatch(setVisibleMenu(!visibleMenu));
+                props.onClick();
+              }}
+              className={`mx-auto h-4 cursor-pointer duration-300 ${
+                props.changeColor ? '' : 'grayscale invert'
+              }`}
+            />
+          )}
         </li>
       </ul>
       <ul

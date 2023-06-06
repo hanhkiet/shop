@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import { Link, useParams } from 'react-router-dom';
@@ -14,12 +14,37 @@ import ProductCard from '../components/ProductCard';
 function ProductDetail() {
   const sales = false;
   const salesMessage = 'FINAL SALE // NO RETURNS';
+  const imageRefs = useRef<HTMLImageElement[]>([]);
+  const [pictureIndex, setPictureIndex] = useState(0);
+  useEffect(() => {
+    const handleScroll = () => {
+      const imageElements = imageRefs.current;
+      let newPictureIndex = pictureIndex;
+
+      imageElements.forEach((image, index) => {
+        const rect = image.getBoundingClientRect();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          newPictureIndex = index;
+        }
+      });
+
+      setPictureIndex(newPictureIndex);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [pictureIndex]);
+
+  const handleRefUpdate = (index: number) => (ref: HTMLImageElement | null) => {
+    if (ref) {
+      imageRefs.current[index] = ref;
+    }
+  };
   const dispatch: AppDispatch = useDispatch();
   const productQuantity = useSelector(
     (state: RootState) => state.productQuantity.productQuantity,
   );
   const { name } = useParams<{ name: string }>();
-  const [pictureIndex, setPictureIndex] = useState(0);
   const [clickModal, setClickModal] = useState(false);
   const [hoverMeasure, setHoverMeasure] = useState(false);
   const products = useSelector((state: RootState) => state.product.products);
@@ -47,8 +72,7 @@ function ProductDetail() {
   useEffect(() => {
     if (isAddToCartButtonDisabled) {
       setSizeValue(null);
-    }
-    else {
+    } else {
       setSizeValue(thisProductQuantityAvailable.size);
     }
   }, [isAddToCartButtonDisabled, name]);
@@ -98,7 +122,7 @@ function ProductDetail() {
                       }}
                       alt={item}
                       src={item}
-                      className={`m-5 mx-auto h-20 cursor-pointer ${
+                      className={`m-5 mx-auto h-20 cursor-pointer delay-75 duration-300 ${
                         pictureIndex === index ? `border-2 border-gray-500` : ``
                       }`}
                     />
@@ -128,6 +152,7 @@ function ProductDetail() {
               {thisProduct.images.map((item: string, index) => (
                 <div className="pt-20" id={index.toString()} key={index}>
                   <img
+                    ref={handleRefUpdate(index)}
                     alt={item}
                     src={item}
                     className="mx-auto px-3 lg:w-5/6"
@@ -289,17 +314,35 @@ function ProductDetail() {
             </div>
           </div>
         </div>
-        <div>
-          <h2 className="text-center font-[avenir-next] font-bold uppercase text-gray-700">
-            YOU MAY ALSO LIKE
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-
-            {[...Array(4).keys()].map(index => (
-        <ProductCard key={index} id={thisProduct.uuid} name={thisProduct.name} imageOne={thisProduct.images[0]} imageTwo={thisProduct.images[1]} price={thisProduct.price}  />
-      ))}
+        {thisProductColor.length < 2 ? (
+          <></>
+        ) : (
+          <div>
+            <h2 className="text-center font-[avenir-next] font-bold uppercase text-gray-700">
+              YOU MAY ALSO LIKE
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+              {thisProductColor
+                .filter((item: Product) => item.uuid != name)
+                .reverse()
+                .slice(0, 4)
+                .map((item: Product) => (
+                  <ProductCard
+                    key={item.uuid}
+                    id={item.uuid}
+                    name={item.name}
+                    imageOne={item.images[0]}
+                    imageTwo={item.images[1]}
+                    price={item.price}
+                    onClick={() => {
+                      setPictureIndex(0);
+                      setSizeValue(null);
+                    }}
+                  />
+                ))}
+            </div>
           </div>
-        </div>
+        )}
         <Footer />
       </div>
       {clickModal && <RemoveScrollBar />}
