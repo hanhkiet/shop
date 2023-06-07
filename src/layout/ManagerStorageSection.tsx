@@ -13,7 +13,7 @@ function ManagerStorageSection() {
           <li
             className={`${
               location.pathname === '/manager/storage/collections'
-                ? 'text-neutral-400'
+                ? 'text-neutral-400 underline underline-offset-4'
                 : ''
             }`}
           >
@@ -27,7 +27,7 @@ function ManagerStorageSection() {
           <li
             className={`${
               location.pathname === '/manager/storage/products'
-                ? 'text-neutral-400'
+                ? 'text-neutral-400 underline underline-offset-4'
                 : ''
             }`}
           >

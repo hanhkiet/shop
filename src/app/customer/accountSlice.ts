@@ -86,6 +86,20 @@ const authSlice = createSlice({
       .addCase(sendUpdateProfileRequest.rejected, (state, action) => {
         state.loading = false;
       });
+
+    builder
+      .addCase(sendRefreshTokenRequest.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(sendRefreshTokenRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = action.payload;
+      })
+      .addCase(sendRefreshTokenRequest.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      });
   },
 });
 
@@ -220,6 +234,46 @@ const sendLogoutRequest = createAsyncThunk(
   },
 );
 
+const sendRefreshTokenRequest = createAsyncThunk(
+  'account/request',
+  async (_, { dispatch }) => {
+    const accountState = localStorage.getItem('account')
+      ? JSON.parse(localStorage.getItem('account')!)
+      : null;
+
+    if (!accountState || !accountState.isAuthenticated) return false;
+
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_CUSTOMER_AUTH_API_URL}/refresh`,
+        {
+          withCredentials: true,
+        },
+      );
+      return true;
+    } catch (error) {
+      const { response } = error as AxiosError;
+      if (response) {
+        dispatch(
+          popUpMessage({
+            message: 'Token expired. Please log in again.',
+            status: response.status,
+          }),
+        );
+      } else {
+        dispatch(
+          popUpMessage({
+            message: 'Please check your internet connection.',
+            status: 500,
+          }),
+        );
+      }
+
+      throw error;
+    }
+  },
+);
+
 const sendUpdatePasswordRequest = createAsyncThunk(
   'account/updatePassword',
   async (
@@ -313,6 +367,7 @@ const sendUpdateProfileRequest = createAsyncThunk(
 export {
   sendLoginRequest,
   sendLogoutRequest,
+  sendRefreshTokenRequest,
   sendRegisterRequest,
   sendUpdatePasswordRequest,
   sendUpdateProfileRequest,
