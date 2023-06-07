@@ -5,7 +5,7 @@ import categoryProductReducer from './categoryProductSlice';
 import accountReducer from './customer/accountSlice';
 import managerReducer from './manager/managerSlice';
 import storageReducer from './manager/storageSlice';
-import menuReducer from './menuSlice';
+import collectionReducer from './collectionSlice';
 import messageReducer from './messageSlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
@@ -20,7 +20,7 @@ const store = configureStore({
     address: addressReducer,
     cart: cartReducer,
     order: orderReducer,
-    menu: menuReducer,
+    collection: collectionReducer,
     account: accountReducer,
     product: productReducer,
     productQuantity: productQuantityReducer,
@@ -33,6 +33,10 @@ store.subscribe(() => {
   localStorage.setItem('account', JSON.stringify(store.getState().account));
   localStorage.setItem('address', JSON.stringify(store.getState().address));
   localStorage.setItem('manager', JSON.stringify(store.getState().manager));
+  localStorage.setItem(
+    'collection',
+    JSON.stringify(store.getState().collection),
+  );
 });
 
 export type RootState = ReturnType<typeof store.getState>;

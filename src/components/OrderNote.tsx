@@ -10,10 +10,10 @@ type Props = {
 function OrderNote(props: Props) {
   const notes = useSelector((state: RootState) => state.order.note);
   const dispatch = useDispatch();
-  function handleNoteChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+  const handleNoteChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newNote = event.target.value;
     dispatch(setNote(newNote));
-  }
+  };
   return (
     <>
       <div className="absolute bottom-0 right-0 z-50 w-full">
@@ -32,7 +32,7 @@ function OrderNote(props: Props) {
               />
             </div>
             <textarea
-              placeholder="Write your order note..."
+              placeholder="How can we help you?"
               value={notes}
               onChange={handleNoteChange}
               className="h-24 w-full resize-none border-[2px] border-neutral-500 p-3 focus:outline-none"

@@ -2,7 +2,7 @@ export default function DownloadApp() {
   return (
     <div className="flex">
       <a
-        className="mr-3 hover:opacity-80"
+        className="mr-3 duration-300 hover:contrast-200"
         href="https://apps.apple.com/us/app/asrv/id1572892588"
         target="_blank"
         rel="noopener"
@@ -15,7 +15,7 @@ export default function DownloadApp() {
         />
       </a>
       <a
-        className="hover:opacity-80"
+        className="duration-300 hover:contrast-200"
         href="https://play.google.com/store/apps/details?id=co.tapcart.app.id_CxUw9Bapyn"
         target="_blank"
         rel="noopener"

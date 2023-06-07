@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { getCollectionData } from './app/collectionSlice';
 import { sendRefreshTokenRequest } from './app/customer/accountSlice';
-import { getMenuData } from './app/menuSlice';
 import { getProductQuantityData } from './app/productQuantitySlice';
 import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
 import ErrorPopUp from './components/ErrorPopUp';
 import { accountRouter } from './routers/accountRouter';
 import { authRouter } from './routers/authRouter';
+import { cartRouter } from './routers/cartRouter';
 import { categoryRouter } from './routers/categoryRouter';
 import { checkoutRouter } from './routers/checkoutRouter';
 import { errorRouter } from './routers/errorRouter';
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
   accountRouter,
   managerRouter,
   authRouter,
+  cartRouter,
   checkoutRouter,
   categoryRouter,
   errorRouter,
@@ -32,16 +34,15 @@ function App() {
 
   useEffect(() => {
     dispatch(sendRefreshTokenRequest());
-    dispatch(getMenuData());
+    dispatch(getCollectionData());
     dispatch(getProductData());
     dispatch(getProductQuantityData());
-    // dispatch(getCategoryProductData());
   }, []);
 
   return (
     <>
       <ErrorPopUp />
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </>
   );
 }

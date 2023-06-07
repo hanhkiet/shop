@@ -17,28 +17,36 @@ export interface MessagePayload {
 export interface CartState {
   items: CartItem[];
   visible: boolean;
+  sizeCartItemChosen: string | null;
+  sizeCartItemChosenTemp: string | null;
 }
 
 export interface OrderState {
   note: string;
+  emailOrder: string;
+  countryOrder: string;
+  firstNameOrder: string;
+  lastNameOrder: string;
+  addressOrder: string;
+  districtOrder: string;
+  cityOrder: string;
+  phoneOrder: string;
+  showQuantityWarning: boolean;
+  shippingPrice: number;
 }
 
-export interface MenuState {
+export interface CollectionState {
   hoverMenuId: number;
   activeMenu: string | null;
   activeMenuChild: Array<string>;
-  menus: Menu[];
-}
-
-export interface Menu {
-  id: number;
-  name: string;
-  collectionTypes: CollectionType[];
+  visibleMenu: boolean;
+  collections: Collection[];
 }
 
 export interface Collection {
   id: number;
   name: string;
+  type: CollectionType;
 }
 
 export interface User {
@@ -122,10 +130,10 @@ export interface Product {
   uuid: string;
   name: string;
   price: number;
-  color: Color;
   images: Array<string>;
-  collections: CollectionItem[];
   catalogs: Catalog[];
+  color: string;
+  collections: Collection[];
 }
 
 export interface ProductState {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import { Link, useParams } from 'react-router-dom';
@@ -9,21 +9,46 @@ import { ItemsInStore, Product } from '../app/types';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Modal from '../modals/Modal';
+import ProductCard from '../components/ProductCard';
 
 function ProductDetail() {
   const sales = false;
   const salesMessage = 'FINAL SALE // NO RETURNS';
+  const imageRefs = useRef<HTMLImageElement[]>([]);
+  const [pictureIndex, setPictureIndex] = useState(0);
+  useEffect(() => {
+    const handleScroll = () => {
+      const imageElements = imageRefs.current;
+      let newPictureIndex = pictureIndex;
+
+      imageElements.forEach((image, index) => {
+        const rect = image.getBoundingClientRect();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          newPictureIndex = index;
+        }
+      });
+
+      setPictureIndex(newPictureIndex);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [pictureIndex]);
+
+  const handleRefUpdate = (index: number) => (ref: HTMLImageElement | null) => {
+    if (ref) {
+      imageRefs.current[index] = ref;
+    }
+  };
   const dispatch: AppDispatch = useDispatch();
   const productQuantity = useSelector(
     (state: RootState) => state.productQuantity.productQuantity,
   );
   const { name } = useParams<{ name: string }>();
-  const [pictureIndex, setPictureIndex] = useState(0);
   const [clickModal, setClickModal] = useState(false);
   const [hoverMeasure, setHoverMeasure] = useState(false);
   const products = useSelector((state: RootState) => state.product.products);
   const sizes = useSelector((state: RootState) => state.product.sizes);
-  const [sizeValue, setSizeValue] = useState(sizes[0]);
   const [thisProduct, setThisProduct] = useState<Product | null>(null);
   const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
@@ -33,14 +58,25 @@ function ProductDetail() {
     axios
       .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${name}`)
       .then(response => setThisProduct(response.data));
-  }, []);
+  }, [name]);
   const thisProductQuantity = productQuantity.filter(
     (prod: ItemsInStore) => prod.productUuid === thisProduct?.uuid,
   );
+  const thisProductQuantityAvailable = thisProductQuantity.filter(
+    (prod: ItemsInStore) => prod.quantity > 0,
+  )[0];
   const isAddToCartButtonDisabled = thisProductQuantity.every(
     (product: ItemsInStore) => product.quantity === 0,
   );
-  if (!thisProduct || !name || !thisProductQuantity) return <></>;
+  const [sizeValue, setSizeValue] = useState<string | null>(sizes[0]);
+  useEffect(() => {
+    if (isAddToCartButtonDisabled) {
+      setSizeValue(null);
+    } else {
+      setSizeValue(thisProductQuantityAvailable.size);
+    }
+  }, [isAddToCartButtonDisabled, name]);
+  if (!thisProduct || !thisProductQuantity) return <></>;
   const thisProductColor = products.filter(
     (prod: Product) =>
       prod.name.slice(0, prod.name.lastIndexOf('-')).trim() ===
@@ -50,7 +86,7 @@ function ProductDetail() {
     dispatch(
       addItem({
         id: thisProduct.uuid,
-        size: sizeValue,
+        size: sizeValue!,
       }),
     );
   };
@@ -72,7 +108,7 @@ function ProductDetail() {
     <>
       <div className="flex min-h-screen flex-col">
         <Navbar />
-        <div className="mt-16 flex-grow font-[avenir-next] font-bold">
+        <div className="my-16 flex-grow font-[avenir-next] font-bold">
           <div className="grid flex-row md:flex">
             <div className="hidden basis-0 md:block md:basis-1/12">
               <div className="sticky top-16 left-0 py-3">
@@ -86,7 +122,7 @@ function ProductDetail() {
                       }}
                       alt={item}
                       src={item}
-                      className={`m-5 mx-auto h-20 cursor-pointer ${
+                      className={`m-5 mx-auto h-20 cursor-pointer delay-75 duration-300 ${
                         pictureIndex === index ? `border-2 border-gray-500` : ``
                       }`}
                     />
@@ -116,6 +152,7 @@ function ProductDetail() {
               {thisProduct.images.map((item: string, index) => (
                 <div className="pt-20" id={index.toString()} key={index}>
                   <img
+                    ref={handleRefUpdate(index)}
                     alt={item}
                     src={item}
                     className="mx-auto px-3 lg:w-5/6"
@@ -186,52 +223,58 @@ function ProductDetail() {
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
                   <p>${thisProduct.price} USD</p>
                 </div>
-                <p>Color: </p>
-                <div className="grid grid-cols-5">
-                  {thisProductColor.map((item: Product) => (
-                    <Link
-                      key={item.uuid}
-                      onClick={() => {
-                        setPictureIndex(0);
-                        setSizeValue(sizes[0]);
-                      }}
-                      to={`/products/${item.name
-                        .replace(/\W+/gi, '-')
-                        .toLowerCase()}`}
-                    >
-                      <img
-                        alt=""
-                        src={item.images[0]}
-                        className={`mx-auto ${
-                          thisProduct.uuid === item.uuid
-                            ? `border-2 border-gray-500`
-                            : ``
-                        }`}
-                      />
-                    </Link>
-                  ))}
-                </div>
-                <p>Size: </p>
-                <div className={`flex gap-2`}>
-                  {thisProductQuantity.map((item: ItemsInStore, index) => (
-                    <button
-                      disabled={item.quantity <= 0}
-                      key={index}
-                      onClick={() => setSizeValue(item.size)}
-                      className={`w-full ${
-                        item.quantity > 0
-                          ? `cursor-pointer opacity-100`
-                          : `cursor-not-allowed opacity-50`
-                      } border border-solid border-neutral-400 px-6 py-2 text-center transition-colors ${
-                        item.size === sizeValue
-                          ? `border-neutral-700`
-                          : `hover:border-neutral-600`
-                      }`}
-                    >
-                      {item.size}
-                    </button>
-                  ))}
-                </div>
+                {thisProductColor.length > 0 && (
+                  <>
+                    <p>Color: </p>
+                    <div className="grid grid-cols-5">
+                      {thisProductColor.map((item: Product) => (
+                        <Link
+                          key={item.uuid}
+                          onClick={() => {
+                            setPictureIndex(0);
+                            setSizeValue(null);
+                          }}
+                          to={`/products/${item.uuid}`}
+                        >
+                          <img
+                            alt=""
+                            src={item.images[0]}
+                            className={`mx-auto ${
+                              thisProduct.uuid === item.uuid
+                                ? `border-2 border-gray-500`
+                                : ``
+                            }`}
+                          />
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                )}
+                {thisProductQuantity.length > 0 && (
+                  <>
+                    <p>Size: </p>
+                    <div className={`flex gap-2`}>
+                      {thisProductQuantity.map((item: ItemsInStore, index) => (
+                        <button
+                          disabled={item.quantity <= 0}
+                          key={index}
+                          onClick={() => setSizeValue(item.size)}
+                          className={`w-full ${
+                            item.quantity > 0
+                              ? `cursor-pointer opacity-100`
+                              : `cursor-not-allowed opacity-50`
+                          } border border-solid border-neutral-400 px-6 py-2 text-center transition-colors ${
+                            item.size === sizeValue
+                              ? `border-neutral-700`
+                              : `hover:border-neutral-600`
+                          }`}
+                        >
+                          {item.size}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
                 <div>
                   <p
                     onMouseEnter={() => setHoverMeasure(true)}
@@ -271,6 +314,35 @@ function ProductDetail() {
             </div>
           </div>
         </div>
+        {thisProductColor.length < 2 ? (
+          <></>
+        ) : (
+          <div>
+            <h2 className="text-center font-[avenir-next] font-bold uppercase text-gray-700">
+              YOU MAY ALSO LIKE
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+              {thisProductColor
+                .filter((item: Product) => item.uuid != name)
+                .reverse()
+                .slice(0, 4)
+                .map((item: Product) => (
+                  <ProductCard
+                    key={item.uuid}
+                    id={item.uuid}
+                    name={item.name}
+                    imageOne={item.images[0]}
+                    imageTwo={item.images[1]}
+                    price={item.price}
+                    onClick={() => {
+                      setPictureIndex(0);
+                      setSizeValue(null);
+                    }}
+                  />
+                ))}
+            </div>
+          </div>
+        )}
         <Footer />
       </div>
       {clickModal && <RemoveScrollBar />}
