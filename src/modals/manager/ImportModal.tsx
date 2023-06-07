@@ -2,6 +2,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { sendAddCatalogProductRequest } from '../../app/manager/storageSlice';
 import { AppDispatch } from '../../app/store';
 import { Catalog, Product, Size } from '../../app/types';
 import Modal from '../Modal';
@@ -20,6 +21,17 @@ const ImportModal = ({ product, onClose }: Props) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const isCatalogValid = catalogs.length > 0;
+
+    if (isCatalogValid) {
+      dispatch(
+        sendAddCatalogProductRequest({
+          productUuid: product.uuid,
+          catalogs: catalogs,
+        }),
+      ).then(() => onClose());
+    }
   };
 
   const handleChangeCatalog = (index: number, catalog: Catalog) => {
@@ -42,8 +54,6 @@ const ImportModal = ({ product, onClose }: Props) => {
     });
     setCatalogs(newCatalogs);
   };
-
-  // console.log(catalogs);
 
   return (
     <Modal className="flex items-center justify-center" onClose={onClose}>

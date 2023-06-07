@@ -5,34 +5,34 @@ const initialState: OrderState = {
   note: localStorage.getItem('cartNote')
     ? localStorage.getItem('cartNote')!
     : '',
-    emailOrder: localStorage.getItem('emailOrder')
+  emailOrder: localStorage.getItem('emailOrder')
     ? localStorage.getItem('emailOrder')!
     : '',
-    countryOrder: localStorage.getItem('countryOrder')
+  countryOrder: localStorage.getItem('countryOrder')
     ? localStorage.getItem('countryOrder')!
     : '',
-    firstNameOrder: localStorage.getItem('firstNameOrder')
+  firstNameOrder: localStorage.getItem('firstNameOrder')
     ? localStorage.getItem('firstNameOrder')!
     : '',
-    lastNameOrder: localStorage.getItem('lastNameOrder')
+  lastNameOrder: localStorage.getItem('lastNameOrder')
     ? localStorage.getItem('lastNameOrder')!
     : '',
-    addressOrder: localStorage.getItem('addressOrder')
+  addressOrder: localStorage.getItem('addressOrder')
     ? localStorage.getItem('addressOrder')!
     : '',
-    districtOrder: localStorage.getItem('districtOrder')
+  districtOrder: localStorage.getItem('districtOrder')
     ? localStorage.getItem('districtOrder')!
     : '',
-    cityOrder: localStorage.getItem('cityOrder')
+  cityOrder: localStorage.getItem('cityOrder')
     ? localStorage.getItem('cityOrder')!
     : '',
-    phoneOrder: localStorage.getItem('phoneOrder')
+  phoneOrder: localStorage.getItem('phoneOrder')
     ? localStorage.getItem('phoneOrder')!
     : '',
-    shippingPrice: localStorage.getItem('shippingPrice')
+  shippingPrice: localStorage.getItem('shippingPrice')
     ? Number(localStorage.getItem('shippingPrice'))!
     : 0,
-    showQuantityWarning: false,
+  showQuantityWarning: false,
 };
 
 const orderSlice = createSlice({
@@ -84,6 +84,18 @@ const orderSlice = createSlice({
   },
 });
 
-export const { setNote, setEmailOrder, setCountryOrder, setFirstNameOrder, setLastNameOrder, setAddressOrder, setDistrictOrder, setCityOrder, setPhoneOrder, setShowQuantityWarning, setShippingPrice } = orderSlice.actions;
+export const {
+  setNote,
+  setEmailOrder,
+  setCountryOrder,
+  setFirstNameOrder,
+  setLastNameOrder,
+  setAddressOrder,
+  setDistrictOrder,
+  setCityOrder,
+  setPhoneOrder,
+  setShowQuantityWarning,
+  setShippingPrice,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;

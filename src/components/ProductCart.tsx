@@ -34,8 +34,7 @@ export default function ProductCart(props: Props) {
   const handleIncrement = (productId: string, size: string) => {
     if (thisProductQuantitySize.quantity > props.quantity) {
       dispatch(cartSlice.incrementQuantity({ productId, size }));
-    }
-    else {
+    } else {
       setShowMaxQuantityMessage(true);
     }
   };
@@ -50,7 +49,7 @@ export default function ProductCart(props: Props) {
     if (thisProductQuantitySize.quantity < newQuantity) {
       newQuantity = thisProductQuantitySize.quantity;
       setShowMaxQuantityMessage(true);
-  }
+    }
     dispatch(
       cartSlice.setQuantity({
         productId: props.productId,
@@ -62,59 +61,59 @@ export default function ProductCart(props: Props) {
   if (!products) return <></>;
   return (
     <>
-      <div className={`m-5 relative flex flex-row ${props.className}`}>
-      <div className="my-auto basis-1/4">
-        <img className="mx-auto w-40" src={products.images[0]} alt="" />
-      </div>
-      <div className="my-auto ml-5 basis-3/4">
-        <Link
-          onClick={() => {
-            dispatch(cartSlice.toggleVisibility(false));
-            dispatch(cartSlice.setSizeCartItemChosen(props.size));
-          }}
-          to={`/products/${products.uuid}`}
-        >
-          {products.name}
-        </Link>
-        <p className="mt-2">Size: {props.size}</p>
-        <p className="mt-2">Unit Price: ${products.price}</p>
-        <div className="mt-5 flex flex-row">
-          <div className="m-auto basis-1/2 border border-neutral-500 text-center">
-            <div className="flex flex-row">
-              <div
-                className="basis-1/3 hover:cursor-pointer"
-                onClick={() => handleDecrement(props.productId, props.size)}
-              >
-                –
-              </div>
-              <div className="basis-1/3">
-                <input
-                  className="w-full text-center outline-none"
-                  type="number"
-                  value={props.quantity}
-                  onChange={handleQuantityChange}
-                />
-              </div>
-              <div
-                className="basis-1/3 hover:cursor-pointer"
-                onClick={() => handleIncrement(props.productId, props.size)}
-              >
-                +
+      <div className={`relative m-5 flex flex-row ${props.className}`}>
+        <div className="my-auto basis-1/4">
+          <img className="mx-auto w-40" src={products.images[0]} alt="" />
+        </div>
+        <div className="my-auto ml-5 basis-3/4">
+          <Link
+            onClick={() => {
+              dispatch(cartSlice.toggleVisibility(false));
+              dispatch(cartSlice.setSizeCartItemChosen(props.size));
+            }}
+            to={`/products/${products.uuid}`}
+          >
+            {products.name}
+          </Link>
+          <p className="mt-2">Size: {props.size}</p>
+          <p className="mt-2">Unit Price: ${products.price}</p>
+          <div className="mt-5 flex flex-row">
+            <div className="m-auto basis-1/2 border border-neutral-500 text-center">
+              <div className="flex flex-row">
+                <div
+                  className="basis-1/3 hover:cursor-pointer"
+                  onClick={() => handleDecrement(props.productId, props.size)}
+                >
+                  –
+                </div>
+                <div className="basis-1/3">
+                  <input
+                    className="w-full text-center outline-none"
+                    type="number"
+                    value={props.quantity}
+                    onChange={handleQuantityChange}
+                  />
+                </div>
+                <div
+                  className="basis-1/3 hover:cursor-pointer"
+                  onClick={() => handleIncrement(props.productId, props.size)}
+                >
+                  +
+                </div>
               </div>
             </div>
-          </div>
-          <div className="m-auto basis-1/2 text-center">
-            <button
-              className="underline underline-offset-4 hover:cursor-pointer hover:no-underline"
-              onClick={() => handleRemove(props.productId, props.size)}
-            >
-              Remove
-            </button>
+            <div className="m-auto basis-1/2 text-center">
+              <button
+                className="underline underline-offset-4 hover:cursor-pointer hover:no-underline"
+                onClick={() => handleRemove(props.productId, props.size)}
+              >
+                Remove
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    {/* <div className='absolute top-1/3 left-0'>s</div> */}
+      {/* <div className='absolute top-1/3 left-0'>s</div> */}
     </>
   );
 }

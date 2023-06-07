@@ -27,7 +27,11 @@ function Size(props: Props) {
     const itemByIdAndSize = items.filter(
       (prod: CartItem) => prod.size === size && prod.id === props.id,
     )[0];
-    if(!itemByIdAndSize || !thisProductQuantitySize || itemByIdAndSize.quantity < thisProductQuantitySize.quantity) {
+    if (
+      !itemByIdAndSize ||
+      !thisProductQuantitySize ||
+      itemByIdAndSize.quantity < thisProductQuantitySize.quantity
+    ) {
       dispatch(
         addItem({
           id: props.id,
@@ -35,14 +39,13 @@ function Size(props: Props) {
         }),
       );
       dispatch(toggleVisibility(true));
-    }
-    else {
+    } else {
       setShowMaxQuantityMessage(true);
     }
   };
   return (
     <>
-      <div className={`flex gap-2 h-6 ${props.className}`}>
+      <div className={`flex h-6 gap-2 ${props.className}`}>
         {thisProductQuantity.map((item: ItemsInStore, index) => (
           <button
             key={index}
@@ -61,7 +64,10 @@ function Size(props: Props) {
           </button>
         ))}
       </div>
-      <QuantityWarningModal isShown={showMaxQuantityMessage} onClose={() => setShowMaxQuantityMessage(false)} />
+      <QuantityWarningModal
+        isShown={showMaxQuantityMessage}
+        onClose={() => setShowMaxQuantityMessage(false)}
+      />
     </>
   );
 }

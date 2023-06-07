@@ -18,7 +18,7 @@ const AddProductModal = ({ onClose }: Props) => {
     error: nameError,
     validate: validateName,
   } = useRefWithValidator(
-    (value: string) => value.length > 0,
+    (value: string) => value.trim().length > 0,
     'Please enter a valid name',
   );
 
@@ -27,7 +27,7 @@ const AddProductModal = ({ onClose }: Props) => {
     error: priceError,
     validate: validatePrice,
   } = useRefWithValidator(
-    (value: number) => value > 0,
+    (value: string) => Number(value) > 0,
     'Please enter a valid price',
   );
 
@@ -44,10 +44,10 @@ const AddProductModal = ({ onClose }: Props) => {
     const isImageListValid = imageList.length > 0;
 
     if (
-      isNameValid &&
-      isPriceValid &&
       isCollectionListValid &&
-      isImageListValid
+      isImageListValid &&
+      isNameValid &&
+      isPriceValid
     ) {
       const payload = {
         name: nameRef.current?.value,
@@ -80,16 +80,33 @@ const AddProductModal = ({ onClose }: Props) => {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <TextInputField
-            ref={nameRef}
-            error={nameError}
-            placeholder="Product name"
-          />
-          <TextInputField
-            ref={priceRef}
-            error={priceError}
-            placeholder="Price"
-          />
+          <div className="w-full space-y-1 text-left">
+            <input
+              ref={nameRef}
+              className={`input-field w-full lg:text-base ${
+                nameError && 'border-red-500'
+              }`}
+              type="text"
+              placeholder="Product name"
+            />
+            <p className="mx-1 text-xs text-red-500">
+              {nameError ?? <span></span>}
+            </p>
+          </div>
+
+          <div className="w-full space-y-1 text-left">
+            <input
+              ref={priceRef}
+              className={`input-field w-full lg:text-base ${
+                priceError && 'border-red-500'
+              }`}
+              type="text"
+              placeholder="Price"
+            />
+            <p className="mx-1 text-xs text-red-500">
+              {priceError ?? <span></span>}
+            </p>
+          </div>
 
           <SelectField
             onChange={e => setSelectedColor(e.currentTarget.value as Color)}
@@ -131,23 +148,6 @@ const CollectionTag = ({ collection }: CollectionTagProps) => (
   <div className="group rounded bg-neutral-700 px-3 py-1 text-xs text-neutral-200 hover:bg-red-700 hover:text-transparent">
     <p className="group-hover:hidden">{collection.name}</p>
     <p className="hidden text-white group-hover:inline">x</p>
-  </div>
-);
-
-type TextInputFieldProps = {
-  ref: React.RefObject<HTMLInputElement>;
-  placeholder?: string;
-  error: string | null;
-};
-const TextInputField = ({ ref, error, placeholder }: TextInputFieldProps) => (
-  <div className="w-full space-y-1 text-left">
-    <input
-      ref={ref}
-      className={`input-field w-full lg:text-base ${error && 'border-red-500'}`}
-      type="text"
-      placeholder={placeholder}
-    />
-    <p className="mx-1 text-xs text-red-500">{error ?? <span></span>}</p>
   </div>
 );
 

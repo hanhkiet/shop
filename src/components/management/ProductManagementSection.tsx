@@ -12,6 +12,9 @@ const ProductManagementSection = () => {
     (state: RootState) => state.storage.collections,
   );
   const products = useSelector((state: RootState) => state.storage.products);
+  const recentlyUpdatedProducts = useSelector(
+    (state: RootState) => state.storage.recentlyUpdatedProducts,
+  );
 
   const [searchQuery, setSearchQuery] = useState('');
   const queryRef = useRef<HTMLInputElement>(null);
@@ -166,11 +169,26 @@ const ProductManagementSection = () => {
           </button>
         )}
       </div>
-      <div className="mx-auto lg:max-w-7xl">
-        <div className="grid grid-cols-4 gap-6">
-          {products.map(product => (
-            <ProductCard key={product.uuid} {...product} />
-          ))}
+      <div className="space-y-6">
+        {recentlyUpdatedProducts.length > 0 && (
+          <div className="mx-auto lg:max-w-7xl">
+            <h2 className="mb-3 text-2xl uppercase text-neutral-600">
+              Recently updated
+            </h2>
+            <div className="grid grid-cols-5 gap-6">
+              {recentlyUpdatedProducts.map(product => (
+                <ProductCard key={product.uuid} {...product} />
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="mx-auto lg:max-w-7xl">
+          <h2 className="mb-3 text-2xl uppercase text-neutral-600">All</h2>
+          <div className="grid grid-cols-5 gap-6">
+            {products.map(product => (
+              <ProductCard key={product.uuid} {...product} />
+            ))}
+          </div>
         </div>
       </div>
     </>

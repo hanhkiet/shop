@@ -160,6 +160,7 @@ export interface StorageState {
   loading: boolean;
   collections: CollectionItem[];
   products: Product[];
+  recentlyUpdatedProducts: Product[];
 }
 
 export interface ProductFilterPayload {
@@ -188,6 +189,11 @@ export enum Size {
 export interface Catalog {
   size: Size;
   quantity: number;
+}
+
+export interface AddCatalogPayload {
+  productUuid: string;
+  catalogs: Catalog[];
 }
 
 export interface ItemsInStore {
