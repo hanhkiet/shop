@@ -1,4 +1,5 @@
 import CategoryPage from '../pages/CategoryPage';
+import NoPage from '../pages/NoPage';
 
 export const categoryRouter = {
   path: '/collections',
@@ -6,6 +7,10 @@ export const categoryRouter = {
     {
       path: ':name',
       element: <CategoryPage />,
+    },
+    {
+      path: '',
+      element: <NoPage />,
     },
   ],
 };

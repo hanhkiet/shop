@@ -3,14 +3,18 @@ import { Link } from 'react-router-dom';
 import * as cartSlice from '../app/cartSlice';
 import { RootState } from '../app/store';
 import { ItemsInStore } from '../app/types';
+import { useState } from 'react';
+import QuantityWarningModal from '../modals/QuantityWarningModal';
 
 type Props = {
   productId: string;
   size: string;
   quantity: number;
+  className?: string;
 };
 
 export default function ProductCart(props: Props) {
+  const [showMaxQuantityMessage, setShowMaxQuantityMessage] = useState(false);
   const products = useSelector(
     (state: RootState) => state.product.products,
   ).filter(item => item.uuid == props.productId)[0];
@@ -31,6 +35,9 @@ export default function ProductCart(props: Props) {
     if (thisProductQuantitySize.quantity > props.quantity) {
       dispatch(cartSlice.incrementQuantity({ productId, size }));
     }
+    else {
+      setShowMaxQuantityMessage(true);
+    }
   };
   const handleDecrement = (productId: string, size: string) => {
     dispatch(cartSlice.decrementQuantity({ productId, size }));
@@ -42,7 +49,8 @@ export default function ProductCart(props: Props) {
     }
     if (thisProductQuantitySize.quantity < newQuantity) {
       newQuantity = thisProductQuantitySize.quantity;
-    }
+      setShowMaxQuantityMessage(true);
+  }
     dispatch(
       cartSlice.setQuantity({
         productId: props.productId,
@@ -53,14 +61,18 @@ export default function ProductCart(props: Props) {
   };
   if (!products) return <></>;
   return (
-    <div className="m-5 flex flex-row">
+    <>
+      <div className={`m-5 relative flex flex-row ${props.className}`}>
       <div className="my-auto basis-1/4">
         <img className="mx-auto w-40" src={products.images[0]} alt="" />
       </div>
       <div className="my-auto ml-5 basis-3/4">
         <Link
-          onClick={() => dispatch(cartSlice.toggleVisibility(false))}
-          to={`/products/${products.name.replace(/\W+/gi, '-').toLowerCase()}`}
+          onClick={() => {
+            dispatch(cartSlice.toggleVisibility(false));
+            dispatch(cartSlice.setSizeCartItemChosen(props.size));
+          }}
+          to={`/products/${products.uuid}`}
         >
           {products.name}
         </Link>
@@ -102,5 +114,7 @@ export default function ProductCart(props: Props) {
         </div>
       </div>
     </div>
+    {/* <div className='absolute top-1/3 left-0'>s</div> */}
+    </>
   );
 }

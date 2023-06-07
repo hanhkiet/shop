@@ -1,24 +1,37 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addActiveMenuChild, removeActiveMenuChild } from '../app/menuSlice';
+import {
+  addActiveMenuChild,
+  removeActiveMenuChild,
+} from '../app/collectionSlice';
 import { RootState } from '../app/store';
-import { CollectionType, Menu } from '../app/types';
-import MenuDropDownItemChild from './MenuDropDownItemChild';
+import { Collection } from '../app/types';
+import { Link } from 'react-router-dom';
 
 type Props = {
   menuTitle: string;
   menuId: number;
   onMenuClick: (menu: string) => void;
   activeMenu: string | null;
+  type: string;
 };
 
 function MenuDropDownItem(props: Props) {
-  const menus = useSelector((state: RootState) => state.menu.menus);
-  const filteredData = menus.filter(
-    (menu: Menu) => menu.id === props.menuId,
-  )[0];
-  const activeMenuChildStore = useSelector(
-    (state: RootState) => state.menu.activeMenuChild,
+  const collections = useSelector(
+    (state: RootState) => state.collection.collections,
   );
+  const activeMenuChildStore = useSelector(
+    (state: RootState) => state.collection.activeMenuChild,
+  );
+  const arrFeatured = ["SPRING '23 COLLECTION", "WINTER '22 COLLECTION"];
+  const arrTops = [
+    'TANKS',
+    'SHORT SLEEVES',
+    'LONG SLEEVES',
+    'HOODIES',
+    'OUTERWEAR',
+  ];
+  const arrBottoms = ['SHORTS', 'TECH JOGGERS', 'LEGGINGS'];
+  const arrMenuItems = [arrFeatured, arrTops, arrBottoms];
   const dispatch = useDispatch();
   const handleMenuClick = (menuId: string, menuChild: string) => {
     if (activeMenuChildStore.includes(menuChild)) {
@@ -82,18 +95,31 @@ function MenuDropDownItem(props: Props) {
             : `collapse h-0 py-0 opacity-0`
         } duration-100`}
       >
-        {filteredData.collectionTypes.map((item: CollectionType, index) => (
-          <MenuDropDownItemChild
-            key={index}
-            onMenuClick={() =>
-              handleMenuClick(filteredData.id.toString(), item.name)
-            }
-            activeMenu={activeMenuChildStore}
-            menuTitle={item.name}
-            menuParentId={props.menuId}
-            parentMegamenuId={item.id}
-          />
-        ))}
+        <ul className="pl-5">
+          {collections
+            .filter(
+              (item: Collection) =>
+                item.type.toLowerCase() === props.type.toLowerCase(),
+            )
+            .map((item: Collection, index) => (
+              <Link
+                key={index}
+                to={`/collections/${item.name
+                  .replace(/\W+/gi, '-')
+                  .toLowerCase()}`}
+              >
+                <li
+                  className={`cursor-pointer ${
+                    arrMenuItems[props.menuId].length > 1
+                      ? `border-l-2 border-gray-300`
+                      : ``
+                  } pl-5 text-xs hover:text-gray-500`}
+                >
+                  {item.name}
+                </li>
+              </Link>
+            ))}
+        </ul>
       </ul>
       <div className="h-0.5 w-full bg-gray-300"></div>
     </div>

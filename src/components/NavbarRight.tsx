@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { toggleVisibility } from '../app/cartSlice';
-import { setHoverMenuId } from '../app/menuSlice';
+import { setHoverMenuId } from '../app/collectionSlice';
 import { RootState } from '../app/store';
 import ModalNavbar from '../modals/ModalNavbar';
 import CartContent from './CartContent';
@@ -16,18 +16,25 @@ type Props = {
 function NavbarRight(props: Props) {
   const visible = useSelector((state: RootState) => state.cart.visible);
   const dispatch = useDispatch();
+  const location = useLocation();
   const items = useSelector((state: RootState) => state.cart.items);
   const totalQuantity = items.reduce((total, item) => {
     return total + item.quantity;
   }, 0);
   const handleCartAppear = () => {
     dispatch(toggleVisibility(true));
-    dispatch(setHoverMenuId(0));
+    dispatch(setHoverMenuId(-1));
+  };
+  const handleClickCart = () => {
+    if (location.pathname != '/cart') {
+      handleCartAppear();
+      props.onClick();
+    }
   };
   return (
     <>
       <ul
-        className={`flex w-1/6 items-center justify-end gap-6 uppercase md:flex lg:hidden ${props.className}`}
+        className={`flex items-center justify-end gap-6 uppercase md:flex lg:hidden ${props.className}`}
       >
         <li>
           <img
@@ -40,10 +47,7 @@ function NavbarRight(props: Props) {
         </li>
         <li>
           <img
-            onClick={() => {
-              handleCartAppear();
-              props.onClick();
-            }}
+            onClick={handleClickCart}
             alt=""
             src={
               totalQuantity
@@ -54,6 +58,17 @@ function NavbarRight(props: Props) {
               props.changeColor ? `` : `grayscale invert`
             }`}
           />
+        </li>
+        <li>
+          <Link to="/account">
+            <img
+              alt=""
+              src="https://cdn-icons-png.flaticon.com/512/64/64572.png"
+              className={`mx-auto h-4 cursor-pointer duration-300 ${
+                props.changeColor ? `` : `grayscale invert`
+              }`}
+            />
+          </Link>
         </li>
       </ul>
       <ul
@@ -66,31 +81,27 @@ function NavbarRight(props: Props) {
         </li>
         <li className="navbar-list capitalize hover:cursor-pointer">search</li>
         <li>
-          <button
-            className="capitalize"
-            onClick={() => {
-              handleCartAppear();
-              props.onClick();
-            }}
-          >
+          <button className="capitalize" onClick={handleClickCart}>
             cart({totalQuantity})
           </button>
         </li>
       </ul>
-      <ModalNavbar
-        isRight
-        isShown={visible}
-        className={`flex justify-end ${
-          visible ? `visible` : `collapse`
-        } duration-500`}
-        onClose={() => {
-          dispatch(toggleVisibility(false));
-          dispatch(setHoverMenuId(0));
-          props.onClose();
-        }}
-      >
-        <CartContent onClose={props.onClose} />
-      </ModalNavbar>
+      {visible && (
+        <ModalNavbar
+          isRight
+          isShown={visible}
+          className={`flex justify-end ${
+            visible ? `visible` : `collapse`
+          } duration-500`}
+          onClose={() => {
+            dispatch(toggleVisibility(false));
+            dispatch(setHoverMenuId(-1));
+            props.onClose();
+          }}
+        >
+          <CartContent onClose={props.onClose} />
+        </ModalNavbar>
+      )}
     </>
   );
 }

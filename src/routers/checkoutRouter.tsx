@@ -1,4 +1,5 @@
 import CheckoutInformationSection from '../components/CheckoutInformationSection';
+import CheckoutShippingSection from '../components/CheckoutShippingSection';
 import PaymentSection from '../components/PaymentSection';
 import CheckoutPage from '../pages/CheckoutPage';
 
@@ -13,6 +14,10 @@ export const checkoutRouter = {
     {
       path: 'information',
       element: <CheckoutInformationSection />,
+    },
+    {
+      path: 'shipping',
+      element: <CheckoutShippingSection />,
     },
     {
       path: 'payment',

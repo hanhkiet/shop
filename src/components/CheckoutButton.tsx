@@ -1,8 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { Link } from 'react-router-dom';
+import { toggleVisibility } from '../app/cartSlice';
 
 function CheckoutButton() {
+  const visible = useSelector((state: RootState) => state.cart.visible);
+  const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.product.products);
   const items = useSelector((state: RootState) => state.cart.items);
 
@@ -19,7 +22,7 @@ function CheckoutButton() {
   }, 0);
 
   return (
-    <Link to="/checkout">
+    <Link to="/checkout/information" onClick={() => dispatch(toggleVisibility(!visible))}>
       <button className="relative mt-5 h-12 w-full bg-black text-white">
         <div className="flex flex-row align-top">
           <div className="basis-2/5 text-right">Checkout</div>

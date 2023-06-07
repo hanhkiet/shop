@@ -2,19 +2,19 @@ import { Link } from 'react-router-dom';
 import ListAllMenu from './ListAllMenu';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
-import { Collection, CollectionType, Menu } from '../app/types';
+import { Collection } from '../app/types';
 
 type Props = {
   menuId: number;
   className?: String;
   saleAppear: boolean;
+  type: string;
 };
 
 export default function MegaMenu(props: Props) {
-  const menus = useSelector((state: RootState) => state.menu.menus);
-  const filteredData = menus.filter(
-    (menu: Menu) => menu.id === props.menuId,
-  )[0];
+  const collections = useSelector(
+    (state: RootState) => state.collection.collections,
+  );
   return (
     <div
       className={`${props.className} fixed ${
@@ -23,35 +23,21 @@ export default function MegaMenu(props: Props) {
     >
       <ListAllMenu numOfCols={5}>
         <>
-          {filteredData?.collectionTypes.map((item: CollectionType, index) => (
-            <div key={index}>
-              <div className="mb-5 font-bold">
-                <Link
-                  to={`/collections/${item.collections[0].name
-                    .replace(/\W+/gi, '-')
-                    .toLowerCase()}`}
-                >
-                  {item.name}
-                </Link>
+          {collections
+            .filter((item: Collection) => item.type === props.type)
+            .map((item: Collection, index) => (
+              <div key={index}>
+                <div className="mb-5 font-[avenir-next] text-xs font-bold">
+                  <Link
+                    to={`/collections/${item.name
+                      .replace(/\W+/gi, '-')
+                      .toLowerCase()}`}
+                  >
+                    {item.name}
+                  </Link>
+                </div>
               </div>
-              <ul>
-                {filteredData?.collectionTypes
-                  .filter((items: CollectionType) => items.id == item.id)[0]
-                  .collections.map((items: Collection, indexs) => (
-                    <li key={indexs}>
-                      <Link
-                        to={`/collections/${items.name
-                          .replace(/\W+/gi, '-')
-                          .toLowerCase()}`}
-                        className="text-xs font-light hover:opacity-80"
-                      >
-                        {items.name}
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          ))}
+            ))}
         </>
       </ListAllMenu>
     </div>

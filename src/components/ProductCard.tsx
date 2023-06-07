@@ -16,6 +16,9 @@ type Props = {
 };
 
 function ProductCard(props: Props) {
+  const showMaxQuantityMessage = useSelector(
+    (state: RootState) => state.order.showQuantityWarning,
+  );
   const [isShown, setIsShown] = useState(false);
   const productQuantity = useSelector(
     (state: RootState) => state.productQuantity.productQuantity,
@@ -23,18 +26,18 @@ function ProductCard(props: Props) {
   const thisProductQuantity = productQuantity.filter(
     (prod: ItemsInStore) => prod.productUuid === props.id,
   );
-  const hasSale = true;
+  const hasSale = false;
   const isSoldOut = thisProductQuantity.every(
     (product: ItemsInStore) => product.quantity === 0,
   );
   return (
     <div
+      className={`relative m-5 flex flex-col items-center text-center ${props.className}`}
       onMouseEnter={() => setIsShown(true)}
       onMouseLeave={() => setIsShown(false)}
-      className={`relative m-5 flex flex-col items-center text-center ${props.className}`}
     >
       <Link to={`/products/${props.id}`}>
-        <div className="relative">
+        <div className="relative grid place-items-center">
           <img
             src={props.imageOne}
             className={`absolute block ${
@@ -43,6 +46,7 @@ function ProductCard(props: Props) {
             alt=""
           />
           <img
+            onClick={props.onClick}
             src={props.imageTwo}
             className={`relative top-0 block ${
               isShown ? `visible opacity-100` : `collapse opacity-0`
@@ -61,7 +65,8 @@ function ProductCard(props: Props) {
 
       <Link
         className="mb-5 text-sm font-light uppercase text-neutral-800"
-        to={`/products/${props.name.replace(/\W+/gi, '-').toLowerCase()}`}
+        to={`/products/${props.id}`}
+        onClick={props.onClick}
       >
         {props.name}
       </Link>
