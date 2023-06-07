@@ -106,6 +106,10 @@ export interface PathState {
   pathName: string;
 }
 
+export interface SearchState {
+  showSearchBar: boolean;
+}
+
 export interface Product {
   uuid: string;
   name: string;

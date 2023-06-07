@@ -9,6 +9,7 @@ import collectionReducer from './collectionSlice';
 import messageReducer from './messageSlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
+import searchSlice from './searchSlice';
 import productQuantityReducer from './productQuantitySlice';
 import productReducer from './productSlice';
 
@@ -26,6 +27,7 @@ const store = configureStore({
     productQuantity: productQuantityReducer,
     categoryProduct: categoryProductReducer,
     path: pathSlice,
+    search: searchSlice,
   },
 });
 

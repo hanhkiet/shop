@@ -93,6 +93,7 @@ function Navbar() {
             changeColor={checkNavbar}
             onClick={handleAppearModal}
             onClose={handleDisappearModal}
+            onSearch={() => setHoverNavbar(true)}
           />
         </nav>
       </header>

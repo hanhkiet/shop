@@ -5,17 +5,23 @@ import { setHoverMenuId } from '../app/collectionSlice';
 import { RootState } from '../app/store';
 import ModalNavbar from '../modals/ModalNavbar';
 import CartContent from './CartContent';
+import SearchBar from './SearchBar';
+import { setShowSearchBar } from '../app/searchSlice';
 
 type Props = {
   className?: string;
   changeColor: boolean;
   onClick: () => void;
   onClose: () => void;
+  onSearch: () => void;
 };
 
 function NavbarRight(props: Props) {
   const visible = useSelector((state: RootState) => state.cart.visible);
   const dispatch = useDispatch();
+  const showSearchBar = useSelector(
+    (state: RootState) => state.search.showSearchBar,
+  );
   const location = useLocation();
   const items = useSelector((state: RootState) => state.cart.items);
   const totalQuantity = items.reduce((total, item) => {
@@ -38,6 +44,10 @@ function NavbarRight(props: Props) {
       >
         <li>
           <img
+            onClick={() => {
+              dispatch(setShowSearchBar(!showSearchBar));
+              props.onSearch();
+            }}
             alt=""
             src="https://cdn-icons-png.flaticon.com/512/149/149852.png"
             className={`mx-auto h-4 cursor-pointer duration-300 ${
@@ -79,7 +89,12 @@ function NavbarRight(props: Props) {
         <li className="capitalize">
           <Link to="/account">account</Link>
         </li>
-        <li className="navbar-list capitalize hover:cursor-pointer">search</li>
+        <li
+          className="navbar-list capitalize hover:cursor-pointer"
+          onClick={() => dispatch(setShowSearchBar(!showSearchBar))}
+        >
+          search
+        </li>
         <li>
           <button className="capitalize" onClick={handleClickCart}>
             cart({totalQuantity})
@@ -102,6 +117,7 @@ function NavbarRight(props: Props) {
           <CartContent onClose={props.onClose} />
         </ModalNavbar>
       )}
+      {showSearchBar && <SearchBar />}
     </>
   );
 }
