@@ -1,11 +1,11 @@
 import { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendUpdateProfileRequest } from '../app/manager/managerSlice';
-import { AppDispatch, RootState } from '../app/store';
-import { Manager } from '../app/types';
-import { useRefWithValidator } from '../hooks/useRefWithValidator';
-import { nameRegex } from '../utils/regex';
-import Modal from './Modal';
+import { sendUpdateProfileRequest } from '../../app/manager/managerSlice';
+import { AppDispatch, RootState } from '../../app/store';
+import { Manager } from '../../app/types';
+import { useRefWithValidator } from '../../hooks/useRefWithValidator';
+import { nameRegex } from '../../utils/regex';
+import Modal from '../Modal';
 
 type Props = {
   onClose: () => void;

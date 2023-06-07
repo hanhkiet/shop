@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendLogoutRequest } from '../app/manager/managerSlice';
 import { AppDispatch, RootState } from '../app/store';
-import ChangeManagerPasswordModal from '../modals/ChangeManagerPasswordModal';
-import UpdateManagerProfileModal from '../modals/UpdateManagerProfileModal';
+import ChangeManagerPasswordModal from '../modals/manager/ChangeManagerPasswordModal';
+import UpdateManagerProfileModal from '../modals/manager/UpdateManagerProfileModal';
 
 function ManagerAccountSection() {
   const { firstName, lastName } = useSelector(

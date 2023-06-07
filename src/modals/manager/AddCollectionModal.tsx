@@ -1,11 +1,11 @@
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { sendAddProductCollectionRequest } from '../app/manager/storageSlice';
-import { AppDispatch } from '../app/store';
-import { CollectionItem, CollectionType } from '../app/types';
-import { useRefWithValidator } from '../hooks/useRefWithValidator';
-import { nameRegex } from '../utils/regex';
-import Modal from './Modal';
+import { sendAddProductCollectionRequest } from '../../app/manager/storageSlice';
+import { AppDispatch } from '../../app/store';
+import { CollectionItem, CollectionType } from '../../app/types';
+import { useRefWithValidator } from '../../hooks/useRefWithValidator';
+import { nameRegex } from '../../utils/regex';
+import Modal from '../Modal';
 
 type Props = {
   onClose: () => void;
