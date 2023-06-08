@@ -17,6 +17,8 @@ function ProductDetail() {
   const [pictureIndex, setPictureIndex] = useState(0);
   useEffect(() => {
     const handleScroll = () => {
+      if (window.innerWidth >= 768) {
+      }
       const imageElements = imageRefs.current;
       let newPictureIndex = pictureIndex;
 
@@ -26,8 +28,9 @@ function ProductDetail() {
           newPictureIndex = index;
         }
       });
-
-      setPictureIndex(newPictureIndex);
+      if (window.innerWidth >= 768) {
+        setPictureIndex(newPictureIndex);
+      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
