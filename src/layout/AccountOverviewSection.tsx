@@ -70,7 +70,7 @@ const AccountOverviewSection = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col justify-between gap-12 lg:flex-row lg:gap-20">
+          <div className="flex justify-between gap-12 lg:flex-row lg:gap-20">
             <OrderOverviewSection />
           </div>
         </div>

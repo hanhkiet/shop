@@ -437,6 +437,6 @@ export {
   sendDeleteProductCollectionRequest,
   sendLoadProductsCollectionRequest,
   sendLoadProductsRequest,
-  sendUpdateProductCollectionRequest
+  sendUpdateProductCollectionRequest,
 };
 export default storageSlice.reducer;
