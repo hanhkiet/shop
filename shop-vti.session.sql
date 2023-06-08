@@ -1,1 +1,1 @@
-DESCRIBE catalogs;
+select * from order_details;

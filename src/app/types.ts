@@ -155,6 +155,26 @@ export interface ManagerState {
   collections: CollectionItem[];
 }
 
+export type OrderStatus = 'PENDING' | 'DELIVERING' | 'DELIVERED' | 'CANCELLED';
+export type PaymentMethod = 'COD' | 'CREDIT_CARD';
+export interface Order {
+  uuid: string;
+  address: Address;
+  status: OrderStatus;
+  paymentMethod: PaymentMethod;
+  createdAt: Date;
+  totalPrice: number;
+}
+
+export interface OrderDetail {
+  uuid: string;
+  name: string;
+  price: number;
+  color: Color;
+  size: Size;
+  quantity: number;
+}
+
 export interface StorageState {
   loading: boolean;
   collections: CollectionItem[];
