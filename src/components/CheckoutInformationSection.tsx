@@ -19,6 +19,8 @@ function CheckoutInformationSection() {
   const user = useSelector((state: RootState) => state.account.user);
   const [isHovered, setIsHovered] = useState(false);
   const streets = useSelector((state: RootState) => state.address.addresses);
+  if (streets.length === 0 || !streets)
+    return <Navigate to="/account/addresses" replace={true} />;
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
