@@ -1,5 +1,5 @@
 export interface CartItem {
-  id: string;
+  productUuid: string;
   quantity: number;
   size: string;
 }
@@ -35,6 +35,7 @@ export interface OrderState {
   shippingPrice: number;
   shippingIndex: number;
   streetIndex: number;
+  orders: OrderPayload;
 }
 
 export interface CollectionState {
@@ -195,4 +196,13 @@ export enum Size {
 export interface Catalog {
   size: Size;
   quantity: number;
+}
+
+export interface AddressPayload {
+  uuid: string;
+}
+
+export interface OrderPayload {
+  address: AddressPayload;
+  items: CartItem[];
 }

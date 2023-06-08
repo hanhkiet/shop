@@ -25,7 +25,7 @@ function CheckoutButton() {
         items.map(async item => {
           try {
             const response = await axios.get(
-              `${import.meta.env.VITE_PRODUCTS_API_URL}/${item.id}`,
+              `${import.meta.env.VITE_PRODUCTS_API_URL}/${item.productUuid}`,
             );
             const product = response.data;
             return product.price * item.quantity;

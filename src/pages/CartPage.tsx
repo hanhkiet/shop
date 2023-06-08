@@ -31,7 +31,7 @@ function CartPage() {
         items.map(async item => {
           try {
             const response = await axios.get(
-              `${import.meta.env.VITE_PRODUCTS_API_URL}/${item.id}`,
+              `${import.meta.env.VITE_PRODUCTS_API_URL}/${item.productUuid}`,
             );
             const product = response.data;
             return product.price * item.quantity;
@@ -97,16 +97,16 @@ function CartPage() {
                 .slice(0)
                 .reverse()
                 .map((item: CartItem) => (
-                  <div key={item.id}>
+                  <div key={item.productUuid}>
                     <ProductCartPage
                       className="hidden md:flex"
-                      productId={item.id}
+                      productId={item.productUuid}
                       quantity={item.quantity}
                       size={item.size}
                     />
                     <ProductCart
                       className="flex md:hidden"
-                      productId={item.id}
+                      productId={item.productUuid}
                       quantity={item.quantity}
                       size={item.size}
                     />

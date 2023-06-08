@@ -18,7 +18,7 @@ function Size(props: Props) {
   const handleAddToCart = (size: string) => {
     dispatch(
       addItem({
-        id: props.id,
+        productUuid: props.id,
         size: size,
       }),
     );

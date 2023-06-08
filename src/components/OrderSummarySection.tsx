@@ -24,7 +24,7 @@ function OrderSummarySection() {
         items.map(async item => {
           try {
             const response = await axios.get(
-              `${import.meta.env.VITE_PRODUCTS_API_URL}/${item.id}`,
+              `${import.meta.env.VITE_PRODUCTS_API_URL}/${item.productUuid}`,
             );
             const product = response.data;
             return product.price * item.quantity;
@@ -127,7 +127,7 @@ function OrderSummarySection() {
               .map((item: CartItem, index) => (
                 <ProductCardCheckout
                   key={index}
-                  productId={item.id}
+                  productId={item.productUuid}
                   quantity={item.quantity}
                   size={item.size}
                 />

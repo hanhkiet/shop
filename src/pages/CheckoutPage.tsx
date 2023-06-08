@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { setPathName } from '../app/pathSlice';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
+import { AppDispatch } from '../app/store';
 import { deleteAllCartData } from '../app/cartSlice';
+import { sendAddNewOrderRequest } from '../app/orderSlice';
 
 function CheckoutPage() {
   const location = useLocation();
@@ -51,7 +53,7 @@ function CheckoutPage() {
       setUrlNext('/checkout/payment');
     }
   }, [location]);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const pathName = useSelector((state: RootState) => state.path.pathName);
   if (pathName != location.pathname) {
     dispatch(setPathName(location.pathname));
@@ -64,6 +66,8 @@ function CheckoutPage() {
     localStorage.removeItem('cartItems');
     dispatch(deleteAllCartData());
   };
+  const items = useSelector((state: RootState) => state.cart.items);
+  const addresses = useSelector((state: RootState) => state.address.addresses);
   return (
     <>
       <div className="grid flex-row font-[avenir-next] font-bold lg:flex">
@@ -323,6 +327,14 @@ function CheckoutPage() {
                 onClick={() => {
                   setConfirmOrder(true);
                   setShowConfirmModal(false);
+                  dispatch(
+                    sendAddNewOrderRequest({
+                      address: {
+                        uuid: addresses[0].uuid,
+                      },
+                      items: items,
+                    }),
+                  );
                 }}
                 className="grid basis-1/2 items-center rounded bg-black px-3 py-1 text-white opacity-90 duration-300 hover:opacity-100"
               >

@@ -68,7 +68,7 @@ function ProductDetail() {
   const handleAddToCart = () => {
     dispatch(
       addItem({
-        id: thisProduct!.uuid,
+        productUuid: thisProduct!.uuid,
         size: sizeValue!,
       }),
     );

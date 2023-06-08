@@ -1,34 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderState } from './types';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { OrderPayload, OrderState } from './types';
+import axios from 'axios';
 
 const initialState: OrderState = {
-  note: localStorage.getItem('cartNote')
-    ? localStorage.getItem('cartNote')!
-    : '',
-  emailOrder: localStorage.getItem('emailOrder')
-    ? localStorage.getItem('emailOrder')!
-    : '',
-  streetOrder: localStorage.getItem('streetOrder')
-    ? localStorage.getItem('streetOrder')!
-    : '',
-  firstNameOrder: localStorage.getItem('firstNameOrder')
-    ? localStorage.getItem('firstNameOrder')!
-    : '',
-  lastNameOrder: localStorage.getItem('lastNameOrder')
-    ? localStorage.getItem('lastNameOrder')!
-    : '',
-  addressOrder: localStorage.getItem('addressOrder')
-    ? localStorage.getItem('addressOrder')!
-    : '',
-  districtOrder: localStorage.getItem('districtOrder')
-    ? localStorage.getItem('districtOrder')!
-    : '',
-  cityOrder: localStorage.getItem('cityOrder')
-    ? localStorage.getItem('cityOrder')!
-    : '',
-  phoneOrder: localStorage.getItem('phoneOrder')
-    ? localStorage.getItem('phoneOrder')!
-    : '',
+  note: localStorage.getItem('cartNote') || '',
+  emailOrder: localStorage.getItem('emailOrder') || '',
+  streetOrder: localStorage.getItem('streetOrder') || '',
+  firstNameOrder: localStorage.getItem('firstNameOrder') || '',
+  lastNameOrder: localStorage.getItem('lastNameOrder') || '',
+  addressOrder: localStorage.getItem('addressOrder') || '',
+  districtOrder: localStorage.getItem('districtOrder') || '',
+  cityOrder: localStorage.getItem('cityOrder') || '',
+  phoneOrder: localStorage.getItem('phoneOrder') || '',
   shippingPrice: localStorage.getItem('shippingPrice')
     ? Number(localStorage.getItem('shippingPrice'))!
     : 0,
@@ -39,6 +22,7 @@ const initialState: OrderState = {
     ? Number(localStorage.getItem('streetIndex'))!
     : 0,
   showQuantityWarning: false,
+  orders: {} as OrderPayload,
 };
 
 const orderSlice = createSlice({
@@ -97,7 +81,28 @@ const orderSlice = createSlice({
       localStorage.setItem('streetIndex', state.streetIndex.toString());
     },
   },
+  extraReducers: builder => {
+    builder.addCase(sendAddNewOrderRequest.fulfilled, (state, action) => {
+      state.orders = action.payload;
+    });
+  },
 });
+
+const sendAddNewOrderRequest = createAsyncThunk(
+  'order/addNewOrder',
+  async (payload: OrderPayload, { dispatch }) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_CUSTOMER_ORDER_CHECKOUT_API_URL}`,
+      payload,
+      {
+        withCredentials: true,
+      },
+    );
+
+    const orders = response.data as OrderPayload;
+    return orders;
+  },
+);
 
 export const {
   setNote,
@@ -114,5 +119,7 @@ export const {
   setShippingIndex,
   setStreetIndex,
 } = orderSlice.actions;
+
+export { sendAddNewOrderRequest };
 
 export default orderSlice.reducer;
