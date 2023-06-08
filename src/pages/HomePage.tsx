@@ -60,7 +60,7 @@ function HomePage() {
         />
       ))}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2">
         <div className="order-last md:order-last lg:order-first">
           <img
             src="https://cdn.shopify.com/s/files/1/0297/6293/files/spring-app-banner-web2_1200x.png?v=1679009396"

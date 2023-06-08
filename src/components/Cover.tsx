@@ -39,10 +39,6 @@ export default function Cover(props: Props) {
       });
   }, [collections, collection]);
 
-  if (!collection || collections.length === 0 || !products) {
-    return <></>;
-  }
-
   return (
     <>
       <div className="relative h-screen">
