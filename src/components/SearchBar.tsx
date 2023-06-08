@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import { Link } from 'react-router-dom';
-import {
-  setNumberOfResults,
-  setQuery,
-  setShowSearchBar,
-} from '../app/searchSlice';
+import { setQuery, setShowSearchBar } from '../app/searchSlice';
 import Loading from './Loading';
 import axios from 'axios';
 import { Product } from '../app/types';
@@ -26,8 +22,7 @@ function SearchBar() {
     };
   }, []);
   const [products, setProducts] = useState<Product[]>([]);
-  const [total, setTotal] = useState<number>(0);
-  const [remaining, setRemaining] = useState<number>(0);
+  const [totalElements, setTotalElements] = useState<number>(0);
   const query = useSelector((state: RootState) => state.search.query);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,46 +33,34 @@ function SearchBar() {
         })
         .then(res => {
           setProducts(res.data.products);
-          setTotal(res.data.total);
+          setTotalElements(res.data.totalElements);
         });
     } else {
       setProducts([]);
     }
   }, [query]);
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/search`, {
-        params: { query, page: Math.floor((total * 4) / 40) },
-      })
-      .then(res => {
-        setRemaining(res.data.length);
-      });
-  }, [total]);
-  useEffect(() => {
-    dispatch(setNumberOfResults(Math.floor((total * 4) / 40) * 40 + remaining));
-    console.log(Math.floor((total * 4) / 40) * 40 + remaining);
-  }, [total, remaining]);
-  const listItems = products ? (
-    <div className="grid h-full grid-cols-1 overflow-y-auto md:grid-cols-2 lg:grid-cols-4">
-      {products.slice(0, 4).map((product: Product) => (
-        <ProductCard
-          onClick={() => {
-            dispatch(setShowSearchBar(false));
-            dispatch(setQuery(''));
-          }}
-          id={product.uuid}
-          key={product.uuid}
-          name={product.name}
-          price={product.price}
-          imageOne={product.images[0]}
-          imageTwo={product.images[1]}
-          catalogs={product.catalogs}
-        />
-      ))}
-    </div>
-  ) : (
-    <Loading />
-  );
+  const listItems =
+    products.length > 0 ? (
+      <div className="grid h-full grid-cols-1 overflow-y-auto md:grid-cols-2 lg:grid-cols-4">
+        {products.slice(0, 4).map((product: Product) => (
+          <ProductCard
+            onClick={() => {
+              dispatch(setShowSearchBar(false));
+              dispatch(setQuery(''));
+            }}
+            id={product.uuid}
+            key={product.uuid}
+            name={product.name}
+            price={product.price}
+            imageOne={product.images[0]}
+            imageTwo={product.images[1]}
+            catalogs={product.catalogs}
+          />
+        ))}
+      </div>
+    ) : (
+      <Loading />
+    );
   return (
     <>
       <div
@@ -123,7 +106,7 @@ function SearchBar() {
             <div className="mb-5 border-b border-gray-500 pb-2">
               <div className="flex justify-between">
                 {products.length > 0 ? (
-                  <p>{Math.floor((total * 4) / 40) * 40 + remaining} results</p>
+                  <p>{totalElements} results</p>
                 ) : (
                   <p>Products</p>
                 )}

@@ -111,7 +111,6 @@ export interface PathState {
 export interface SearchState {
   showSearchBar: boolean;
   query: string;
-  numberOfResults: number;
 }
 
 export enum Color {

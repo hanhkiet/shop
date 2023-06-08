@@ -4,7 +4,6 @@ import { SearchState } from './types';
 const initialState: SearchState = {
   showSearchBar: false,
   query: '',
-  numberOfResults: 0,
 };
 
 const searchSlice = createSlice({
@@ -17,13 +16,9 @@ const searchSlice = createSlice({
     setQuery(state, action: PayloadAction<string>) {
       state.query = action.payload;
     },
-    setNumberOfResults(state, action: PayloadAction<number>) {
-      state.numberOfResults = action.payload;
-    },
   },
 });
 
-export const { setShowSearchBar, setQuery, setNumberOfResults } =
-  searchSlice.actions;
+export const { setShowSearchBar, setQuery } = searchSlice.actions;
 
 export default searchSlice.reducer;

@@ -11,39 +11,39 @@ import ProductCard from '../components/ProductCard';
 
 function SearchResultPage() {
   const filterMode = ['Relevance', 'Price, low to high', 'Price, high to low'];
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [originalProducts, setOriginalProducts] = useState<Product[]>([]);
-  const [total, setTotal] = useState<number>(0);
-  const [remaining, setRemaining] = useState<number>(0);
+  const [totalElements, setTotalElements] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const query = useSelector((state: RootState) => state.search.query);
-  const dispatch = useDispatch();
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (query.length > 0) {
       axios
         .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/search`, {
-          params: { query },
+          params: { query, page: currentPage - 1 },
         })
         .then(res => {
-          setProducts(res.data);
-          setOriginalProducts(res.data);
-          setTotal(res.data.total);
+          setProducts(res.data.products);
+          setOriginalProducts(res.data.products);
+          setTotalPages(res.data.totalPages);
+          setTotalElements(res.data.totalElements);
         });
     } else {
       setProducts([]);
+      setOriginalProducts([]);
+      setCurrentPage(1);
+      setTotalPages(0);
+      setTotalElements(0);
     }
-  }, [query]);
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/search`, {
-        params: { query, page: Math.floor((total * 4) / 40) },
-      })
-      .then(res => {
-        setRemaining(res.data.length);
-      });
-  }, [total]);
+  }, [query, currentPage]);
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
   const [filterChosen, setFilterChosen] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
   const [sortAppearSmall, setSortAppearSmall] = useState(false);
   const [gridLarge, setGridLarge] = useState(3);
   const [gridSmall, setGridSmall] = useState(2);
@@ -57,10 +57,7 @@ function SearchResultPage() {
     const sortedProducts = products.sort((a, b) => b.price - a.price);
     setProducts(sortedProducts);
   };
-  const numberOfResults = useSelector(
-    (state: RootState) => state.search.numberOfResults,
-  );
-  const searchTitle = `${numberOfResults} results for ${searchParams.get('q')}`;
+  const searchTitle = `${totalElements} results for ${searchParams.get('q')}`;
   return (
     <>
       <Navbar />
@@ -156,6 +153,57 @@ function SearchResultPage() {
               catalogs={item.catalogs}
             />
           ))}
+        </div>
+        <div className="flex flex-row justify-center">
+          {currentPage > 1 && (
+            <svg
+              onClick={() => {
+                setCurrentPage(currentPage - 1);
+                window.scrollTo(0, 0);
+              }}
+              className={`m-5 h-3 w-3 cursor-pointer`}
+              role="presentation"
+              viewBox="0 0 11 18"
+            >
+              <path
+                d="M9.5 1.5L1.5 9l8 7.5"
+                stroke="currentColor"
+                fill="none"
+              ></path>
+            </svg>
+          )}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+            pageNumber => (
+              <button
+                className={`${
+                  pageNumber === currentPage ? `font-bold` : `font-light`
+                }`}
+                key={pageNumber}
+                onClick={() => handlePageChange(pageNumber)}
+                style={{ margin: '0.5rem' }}
+                disabled={pageNumber === currentPage}
+              >
+                {pageNumber}
+              </button>
+            ),
+          )}
+          {currentPage < totalPages && (
+            <svg
+              onClick={() => {
+                setCurrentPage(currentPage + 1);
+                window.scrollTo(0, 0);
+              }}
+              className={`m-5 h-3 w-3 cursor-pointer`}
+              role="presentation"
+              viewBox="0 0 11 18"
+            >
+              <path
+                d="M1.5 1.5l8 7.5-8 7.5"
+                stroke="currentColor"
+                fill="none"
+              ></path>
+            </svg>
+          )}
         </div>
       </div>
       <Footer />
