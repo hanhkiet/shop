@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
-import { Catalog, ItemsInStore } from '../app/types';
+import { Catalog } from '../app/types';
 import Size from './Size';
-import axios from 'axios';
 
 type Props = {
   id: string;
