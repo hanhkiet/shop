@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { getCollectionData } from './app/collectionSlice';
 import { sendRefreshTokenRequest } from './app/customer/accountSlice';
-import { getProductQuantityData } from './app/productQuantitySlice';
 import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
 import ErrorPopUp from './components/ErrorPopUp';
@@ -38,7 +37,6 @@ function App() {
     dispatch(sendRefreshTokenRequest());
     dispatch(getCollectionData());
     dispatch(getProductData());
-    dispatch(getProductQuantityData());
   }, []);
 
   return (

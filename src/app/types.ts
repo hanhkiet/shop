@@ -196,24 +196,3 @@ export interface Catalog {
   size: Size;
   quantity: number;
 }
-
-export interface ItemsInStore {
-  id: number;
-  productUuid: string;
-  size: string;
-  quantity: number;
-}
-
-export interface ProductQuantityState {
-  productQuantity: Array<ItemsInStore>;
-}
-
-export interface CategoryProduct {
-  id: number;
-  product: Product;
-  productCollection: Collection;
-}
-
-export interface CategoryProductState {
-  categoryProduct: Array<CategoryProduct>;
-}

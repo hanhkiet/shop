@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
-import { ItemsInStore, Product } from '../app/types';
+import { Product } from '../app/types';
 import axios from 'axios';
 
 type Props = {

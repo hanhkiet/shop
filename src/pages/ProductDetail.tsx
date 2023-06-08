@@ -11,14 +11,6 @@ import Navbar from '../components/Navbar';
 import Modal from '../modals/Modal';
 
 function ProductDetail() {
-  const { name } = useParams<{ name: string }>();
-  const [thisProduct, setThisProduct] = useState<Product>();
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${name}`)
-      .then(response => setThisProduct(response.data));
-  }, [name]);
-  if (!thisProduct) return <></>;
   const sales = false;
   const salesMessage = 'FINAL SALE // NO RETURNS';
   const imageRefs = useRef<HTMLImageElement[]>([]);
@@ -48,29 +40,28 @@ function ProductDetail() {
     }
   };
   const dispatch: AppDispatch = useDispatch();
+  const { name } = useParams<{ name: string }>();
   const [clickModal, setClickModal] = useState(false);
   const [hoverMeasure, setHoverMeasure] = useState(false);
+  const [thisProduct, setThisProduct] = useState<Product | null>(null);
+  const [sizeValue, setSizeValue] = useState<string | null>(null);
   const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
   };
-  const isAddToCartButtonDisabled = thisProduct.catalogs.every(
-    (product: Catalog) => product.quantity === 0,
-  );
-  const [sizeValue, setSizeValue] = useState<string | null>(
-    thisProduct.catalogs[0].size,
-  );
   useEffect(() => {
-    if (isAddToCartButtonDisabled) {
-      setSizeValue(null);
-    } else {
-      setSizeValue(thisProduct.catalogs[0].size);
-    }
-  }, [isAddToCartButtonDisabled, name]);
+    axios
+      .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${name}`)
+      .then(response => {
+        setThisProduct(response.data);
+        setSizeValue(response.data.catalogs[0].size);
+      });
+  }, [name]);
+
   const handleAddToCart = () => {
     dispatch(
       addItem({
-        id: thisProduct.uuid,
+        id: thisProduct!.uuid,
         size: sizeValue!,
       }),
     );
@@ -79,16 +70,17 @@ function ProductDetail() {
     if (pictureIndex > 0) {
       setPictureIndex(pictureIndex - 1);
     } else {
-      setPictureIndex(thisProduct.images.length - 1);
+      setPictureIndex(thisProduct!.images.length - 1);
     }
   };
   const handleIncreasePictureIndex = () => {
-    if (pictureIndex < thisProduct.images.length - 1) {
+    if (pictureIndex < thisProduct!.images.length - 1) {
       setPictureIndex(pictureIndex + 1);
     } else {
       setPictureIndex(0);
     }
   };
+  if (!thisProduct) return <></>;
   return (
     <>
       <div className="flex min-h-screen flex-col">
@@ -98,7 +90,7 @@ function ProductDetail() {
             <div className="hidden basis-0 md:block md:basis-1/12">
               <div className="sticky top-16 left-0 py-3">
                 <div className="hidden lg:block">
-                  {thisProduct.images.map((item: string, index) => (
+                  {thisProduct!.images.map((item: string, index) => (
                     <img
                       key={index}
                       onClick={() => {
@@ -115,7 +107,7 @@ function ProductDetail() {
                 </div>
                 <div className="hidden h-0 place-items-center gap-3 md:grid md:h-[calc(100vh-4rem)] lg:hidden lg:h-0">
                   <div className="hidden gap-3 md:grid lg:hidden">
-                    {thisProduct.images.map((_, index) => (
+                    {thisProduct!.images.map((_, index) => (
                       <div
                         key={index}
                         onClick={() => {
@@ -134,7 +126,7 @@ function ProductDetail() {
               </div>
             </div>
             <div className="hidden basis-0 md:block md:basis-1/2">
-              {thisProduct.images.map((item: string, index) => (
+              {thisProduct!.images.map((item: string, index) => (
                 <div className="pt-20" id={index.toString()} key={index}>
                   <img
                     ref={handleRefUpdate(index)}
@@ -147,7 +139,7 @@ function ProductDetail() {
             </div>
             <div className="basis-1/2 justify-center md:hidden md:basis-0">
               <div className="flex overflow-x-hidden">
-                {thisProduct.images.map((image, index) => (
+                {thisProduct!.images.map((image, index) => (
                   <img
                     key={index}
                     src={image}
@@ -172,7 +164,7 @@ function ProductDetail() {
                     fill="none"
                   ></path>
                 </svg>
-                {thisProduct.images.map((_, index) => (
+                {thisProduct!.images.map((_, index) => (
                   <div
                     key={index}
                     onClick={() => {
@@ -203,16 +195,16 @@ function ProductDetail() {
             <div className="mx-5 basis-1/2 md:basis-5/12">
               <div className="sticky top-16 right-0 grid gap-6 pt-16">
                 <p className="text-center text-xl text-gray-700 md:text-left">
-                  {thisProduct.name.toUpperCase()}
+                  {thisProduct!.name.toUpperCase()}
                 </p>
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
-                  <p>${thisProduct.price} USD</p>
+                  <p>${thisProduct!.price} USD</p>
                 </div>
-                {thisProduct.catalogs.length > 0 && (
+                {thisProduct!.catalogs.length > 0 && (
                   <>
                     <p>Size: </p>
                     <div className={`flex gap-2`}>
-                      {thisProduct.catalogs.map((item: Catalog, index) => (
+                      {thisProduct!.catalogs.map((item: Catalog, index) => (
                         <button
                           disabled={item.quantity <= 0}
                           key={index}
@@ -250,18 +242,18 @@ function ProductDetail() {
                 </div>
                 <button
                   onClick={() => {
-                    if (!isAddToCartButtonDisabled) {
+                    if (!false) {
                       handleAddToCart();
                       dispatch(toggleVisibility(true));
                     }
                   }}
                   className={`h-12 ${
-                    isAddToCartButtonDisabled
+                    false
                       ? `cursor-not-allowed opacity-50`
                       : `cursor-pointer opacity-100 hover:bg-black`
                   } w-full bg-neutral-700 uppercase text-white duration-300`}
                 >
-                  {isAddToCartButtonDisabled ? 'NOT AVAILABLE' : 'ADD TO CART'}
+                  {false ? 'NOT AVAILABLE' : 'ADD TO CART'}
                 </button>
                 {sales && (
                   <p className="text-md text-center font-[ASRV-Standard] font-bold uppercase text-red-600">
@@ -272,7 +264,6 @@ function ProductDetail() {
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
       {clickModal && <RemoveScrollBar />}
@@ -285,7 +276,7 @@ function ProductDetail() {
         <div className="m-3 rounded-lg">
           <div className="flex flex-row justify-center">
             <p className=" text-center font-[ASRV-Standard] text-2xl text-gray-500">
-              SIZE GUIDE {thisProduct.name.split('.')[0]}
+              SIZE GUIDE {thisProduct!.name.split('.')[0]}
             </p>
             <svg
               onClick={() => setClickModal(false)}
@@ -304,7 +295,7 @@ function ProductDetail() {
             <img
               alt=""
               src={`https://cdn.shopify.com/s/files/1/0297/6293/files/${
-                thisProduct.name.split('.')[0]
+                thisProduct!.name.split('.')[0]
               }.png`}
               className="mx-auto h-72 md:h-[calc(100vh-150px)]"
             />

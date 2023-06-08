@@ -3,7 +3,7 @@ import { RootState } from '../app/store';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as cartSlice from '../app/cartSlice';
-import { ItemsInStore, Product } from '../app/types';
+import { Product } from '../app/types';
 import { useEffect, useState } from 'react';
 import QuantityWarningModal from '../modals/QuantityWarningModal';
 import axios from 'axios';
