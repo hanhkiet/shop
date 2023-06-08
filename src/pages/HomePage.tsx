@@ -44,7 +44,6 @@ function HomePage() {
   const collections = useSelector(
     (state: RootState) => state.collection.collections,
   );
-  const coverIndex = -1;
   return (
     <>
       <Navbar />

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import { useParams } from 'react-router-dom';
 import { addItem, toggleVisibility } from '../app/cartSlice';
@@ -29,7 +29,6 @@ function ProductDetail() {
 
       setPictureIndex(newPictureIndex);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pictureIndex]);
@@ -54,10 +53,15 @@ function ProductDetail() {
       .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${name}`)
       .then(response => {
         setThisProduct(response.data);
-        setSizeValue(response.data.catalogs[0].size);
+        setSizeValue(
+          response.data.catalogs.find((item: Catalog) => item.quantity > 0)
+            .size || null,
+        );
       });
   }, [name]);
-
+  const isNotAvaible = thisProduct?.catalogs.every(
+    (item: Catalog) => item.quantity === 0,
+  );
   const handleAddToCart = () => {
     dispatch(
       addItem({
@@ -242,18 +246,18 @@ function ProductDetail() {
                 </div>
                 <button
                   onClick={() => {
-                    if (!false) {
+                    if (!isNotAvaible) {
                       handleAddToCart();
                       dispatch(toggleVisibility(true));
                     }
                   }}
                   className={`h-12 ${
-                    false
+                    isNotAvaible
                       ? `cursor-not-allowed opacity-50`
                       : `cursor-pointer opacity-100 hover:bg-black`
                   } w-full bg-neutral-700 uppercase text-white duration-300`}
                 >
-                  {false ? 'NOT AVAILABLE' : 'ADD TO CART'}
+                  {isNotAvaible ? 'NOT AVAILABLE' : 'ADD TO CART'}
                 </button>
                 {sales && (
                   <p className="text-md text-center font-[ASRV-Standard] font-bold uppercase text-red-600">
