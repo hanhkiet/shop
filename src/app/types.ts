@@ -141,7 +141,6 @@ export interface ProductState {
   products: Array<Product>;
 }
 
-type Role = 'ADMIN';
 export interface Manager {
   uuid: string;
   firstName: string;
@@ -160,6 +159,7 @@ export interface StorageState {
   loading: boolean;
   collections: CollectionItem[];
   products: Product[];
+  recentlyAddedProducts: Product[];
   recentlyUpdatedProducts: Product[];
 }
 

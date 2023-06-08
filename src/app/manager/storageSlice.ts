@@ -13,6 +13,7 @@ const initialState: StorageState = {
   loading: false,
   collections: [],
   products: [],
+  recentlyAddedProducts: [],
   recentlyUpdatedProducts: [],
 };
 
@@ -102,9 +103,21 @@ const storageSlice = createSlice({
       })
       .addCase(sendAddProductRequest.fulfilled, (state, action) => {
         state.loading = false;
-        state.recentlyUpdatedProducts.push(action.payload);
+        state.recentlyAddedProducts.push(action.payload);
       })
       .addCase(sendAddProductRequest.rejected, state => {
+        state.loading = false;
+      });
+
+    builder
+      .addCase(sendAddCatalogProductRequest.pending, state => {
+        state.loading = true;
+      })
+      .addCase(sendAddCatalogProductRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.recentlyUpdatedProducts.push(action.payload);
+      })
+      .addCase(sendAddCatalogProductRequest.rejected, state => {
         state.loading = false;
       });
   },
@@ -392,6 +405,8 @@ const sendAddCatalogProductRequest = createAsyncThunk(
           status: 200,
         }),
       );
+
+      return response.data as Product;
     } catch (error) {
       const { response } = error as AxiosError;
       if (response) {
@@ -422,6 +437,6 @@ export {
   sendDeleteProductCollectionRequest,
   sendLoadProductsCollectionRequest,
   sendLoadProductsRequest,
-  sendUpdateProductCollectionRequest,
+  sendUpdateProductCollectionRequest
 };
 export default storageSlice.reducer;

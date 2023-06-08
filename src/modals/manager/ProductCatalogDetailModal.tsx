@@ -40,11 +40,11 @@ const ProductCatalogDetailModal = ({
           {catalogs.map((catalog, index) => (
             <div
               key={index}
-              className="flex items-center justify-between rounded-md bg-gray-100 px-4 py-2"
+              className="flex flex-col rounded-md border px-4 py-2"
             >
-              <div className="flex items-center space-x-2">
-                <p className="text-sm font-medium">{catalog.size}</p>
-                <p className="text-sm font-medium">{catalog.quantity}</p>
+              <div className="text-md flex items-center justify-between">
+                <p>{catalog.size}</p>
+                <p>{catalog.quantity}</p>
               </div>
             </div>
           ))}
