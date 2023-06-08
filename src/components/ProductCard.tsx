@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
-import { ItemsInStore } from '../app/types';
+import { Catalog, ItemsInStore } from '../app/types';
 import Size from './Size';
+import axios from 'axios';
 
 type Props = {
   id: string;
@@ -12,23 +13,15 @@ type Props = {
   className?: string;
   name: string;
   price: number;
+  catalogs: Catalog[];
   onClick?: () => void;
 };
 
 function ProductCard(props: Props) {
-  const showMaxQuantityMessage = useSelector(
-    (state: RootState) => state.order.showQuantityWarning,
-  );
   const [isShown, setIsShown] = useState(false);
-  const productQuantity = useSelector(
-    (state: RootState) => state.productQuantity.productQuantity,
-  );
-  const thisProductQuantity = productQuantity.filter(
-    (prod: ItemsInStore) => prod.productUuid === props.id,
-  );
   const hasSale = false;
-  const isSoldOut = thisProductQuantity.every(
-    (product: ItemsInStore) => product.quantity === 0,
+  const isSoldOut = props.catalogs.every(
+    (product: Catalog) => product.quantity === 0,
   );
   return (
     <div
@@ -77,8 +70,8 @@ function ProductCard(props: Props) {
       )}
       {isShown && (
         <>
-          {props.id === '-1' ? (
-            <Size id={props.id} />
+          {props.catalogs.length > 0 ? (
+            <Size id={props.id} catalogs={props.catalogs} />
           ) : (
             <p className="font-light uppercase text-neutral-500">
               ${props.price} usd

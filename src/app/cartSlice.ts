@@ -20,7 +20,11 @@ const cartSlice = createSlice({
         item => item.id === id && item.size === size,
       );
       if (existingItem) {
-        existingItem.quantity++;
+        if (existingItem.quantity < 3) {
+          existingItem.quantity++;
+        } else {
+          existingItem.quantity = 3;
+        }
       } else {
         state.items.push({ id, size, quantity: 1 });
       }
@@ -50,7 +54,11 @@ const cartSlice = createSlice({
         item => item.id === productId && item.size === size,
       );
       if (existingItem) {
-        existingItem.quantity++;
+        if (existingItem.quantity < 3) {
+          existingItem.quantity++;
+        } else {
+          existingItem.quantity = 3;
+        }
       }
       localStorage.setItem('cartItems', JSON.stringify(state.items)!);
     },

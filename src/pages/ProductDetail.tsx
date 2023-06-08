@@ -2,14 +2,13 @@ import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { addItem, toggleVisibility } from '../app/cartSlice';
 import { AppDispatch, RootState } from '../app/store';
-import { ItemsInStore, Product } from '../app/types';
+import { Catalog, Product } from '../app/types';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Modal from '../modals/Modal';
-import ProductCard from '../components/ProductCard';
 
 function ProductDetail() {
   const sales = false;
@@ -41,15 +40,10 @@ function ProductDetail() {
     }
   };
   const dispatch: AppDispatch = useDispatch();
-  const productQuantity = useSelector(
-    (state: RootState) => state.productQuantity.productQuantity,
-  );
   const { name } = useParams<{ name: string }>();
   const [clickModal, setClickModal] = useState(false);
   const [hoverMeasure, setHoverMeasure] = useState(false);
-  const products = useSelector((state: RootState) => state.product.products);
-  const sizes = useSelector((state: RootState) => state.product.sizes);
-  const [thisProduct, setThisProduct] = useState<Product | null>(null);
+  const [thisProduct, setThisProduct] = useState<Product>();
   const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -59,28 +53,10 @@ function ProductDetail() {
       .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${name}`)
       .then(response => setThisProduct(response.data));
   }, [name]);
-  const thisProductQuantity = productQuantity.filter(
-    (prod: ItemsInStore) => prod.productUuid === thisProduct?.uuid,
-  );
-  const thisProductQuantityAvailable = thisProductQuantity.filter(
-    (prod: ItemsInStore) => prod.quantity > 0,
-  )[0];
-  const isAddToCartButtonDisabled = thisProductQuantity.every(
-    (product: ItemsInStore) => product.quantity === 0,
-  );
-  const [sizeValue, setSizeValue] = useState<string | null>(sizes[0]);
-  useEffect(() => {
-    if (isAddToCartButtonDisabled) {
-      setSizeValue(null);
-    } else {
-      setSizeValue(thisProductQuantityAvailable.size);
-    }
-  }, [isAddToCartButtonDisabled, name]);
-  if (!thisProduct || !thisProductQuantity) return <></>;
-  const thisProductColor = products.filter(
-    (prod: Product) =>
-      prod.name.slice(0, prod.name.lastIndexOf('-')).trim() ===
-      thisProduct.name.slice(0, thisProduct.name.lastIndexOf('-')).trim(),
+  if (!thisProduct) return <></>;
+  const [sizeValue, setSizeValue] = useState<string>();
+  const isAddToCartButtonDisabled = thisProduct.catalogs.every(
+    (product: Catalog) => product.quantity === 0,
   );
   const handleAddToCart = () => {
     dispatch(
@@ -223,38 +199,11 @@ function ProductDetail() {
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
                   <p>${thisProduct.price} USD</p>
                 </div>
-                {thisProductColor.length > 0 && (
-                  <>
-                    <p>Color: </p>
-                    <div className="grid grid-cols-5">
-                      {thisProductColor.map((item: Product) => (
-                        <Link
-                          key={item.uuid}
-                          onClick={() => {
-                            setPictureIndex(0);
-                            setSizeValue(null);
-                          }}
-                          to={`/products/${item.uuid}`}
-                        >
-                          <img
-                            alt=""
-                            src={item.images[0]}
-                            className={`mx-auto ${
-                              thisProduct.uuid === item.uuid
-                                ? `border-2 border-gray-500`
-                                : ``
-                            }`}
-                          />
-                        </Link>
-                      ))}
-                    </div>
-                  </>
-                )}
-                {thisProductQuantity.length > 0 && (
+                {thisProduct.catalogs.length > 0 && (
                   <>
                     <p>Size: </p>
                     <div className={`flex gap-2`}>
-                      {thisProductQuantity.map((item: ItemsInStore, index) => (
+                      {thisProduct.catalogs.map((item: Catalog, index) => (
                         <button
                           disabled={item.quantity <= 0}
                           key={index}
@@ -314,35 +263,6 @@ function ProductDetail() {
             </div>
           </div>
         </div>
-        {thisProductColor.length < 2 ? (
-          <></>
-        ) : (
-          <div>
-            <h2 className="text-center font-[avenir-next] font-bold uppercase text-gray-700">
-              YOU MAY ALSO LIKE
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-              {thisProductColor
-                .filter((item: Product) => item.uuid != name)
-                .reverse()
-                .slice(0, 4)
-                .map((item: Product) => (
-                  <ProductCard
-                    key={item.uuid}
-                    id={item.uuid}
-                    name={item.name}
-                    imageOne={item.images[0]}
-                    imageTwo={item.images[1]}
-                    price={item.price}
-                    onClick={() => {
-                      setPictureIndex(0);
-                      setSizeValue(null);
-                    }}
-                  />
-                ))}
-            </div>
-          </div>
-        )}
         <Footer />
       </div>
       {clickModal && <RemoveScrollBar />}

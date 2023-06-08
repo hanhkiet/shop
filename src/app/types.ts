@@ -24,7 +24,7 @@ export interface CartState {
 export interface OrderState {
   note: string;
   emailOrder: string;
-  countryOrder: string;
+  streetOrder: string;
   firstNameOrder: string;
   lastNameOrder: string;
   addressOrder: string;
@@ -34,7 +34,7 @@ export interface OrderState {
   showQuantityWarning: boolean;
   shippingPrice: number;
   shippingIndex: number;
-  countryIndex: number;
+  streetIndex: number;
 }
 
 export interface CollectionState {

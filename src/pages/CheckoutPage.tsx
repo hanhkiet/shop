@@ -94,8 +94,7 @@ function CheckoutPage() {
             <span className="cursor-default text-black opacity-80 selection:bg-transparent">
               {'>'}
             </span>
-            <Link
-              to="/checkout/shipping"
+            <span
               className={`${
                 location.pathname.includes('shipping')
                   ? `opacity-100`
@@ -103,7 +102,7 @@ function CheckoutPage() {
               }`}
             >
               Shipping
-            </Link>
+            </span>
           </nav>
           <Outlet />
           {!location.pathname.includes('information') && (

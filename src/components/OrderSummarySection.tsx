@@ -126,7 +126,7 @@ function OrderSummarySection() {
             </div>
           )}
         </div>
-        <div className="flex w-full max-w-md flex-row gap-3 border-t border-neutral-300 p-3">
+        {/* <div className="flex w-full max-w-md flex-row gap-3 border-t border-neutral-300 p-3">
           <div className="relative mt-3 basis-2/3 rounded border bg-white p-3">
             {textVoucher && <div className="h-6"></div>}
             <input
@@ -157,7 +157,7 @@ function OrderSummarySection() {
               Apply
             </button>
           </div>
-        </div>
+        </div> */}
         <div className="grid w-full max-w-md border-t border-neutral-300 pt-3">
           <div className="flex justify-between">
             <p className="text-md">Subtotal</p>

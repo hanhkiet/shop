@@ -19,8 +19,8 @@ function CheckoutShippingSection() {
   ];
 
   const emailOrder = useSelector((state: RootState) => state.order.emailOrder);
-  const countryOrder = useSelector(
-    (state: RootState) => state.order.countryOrder,
+  const streetOrder = useSelector(
+    (state: RootState) => state.order.streetOrder,
   );
   const addressOrder = useSelector(
     (state: RootState) => state.order.addressOrder,
@@ -57,13 +57,7 @@ function CheckoutShippingSection() {
         <div className="flex flex-row">
           <div className="basis-2/12 text-gray-500">Ship to</div>
           <div className="basis-9/12">
-            {addressOrder +
-              ', ' +
-              districtOrder +
-              ', ' +
-              cityOrder +
-              ', ' +
-              countryOrder}
+            {streetOrder + ', ' + districtOrder + ', ' + cityOrder}
           </div>
           <div className="grid basis-1/12 items-center text-sm">
             <Link to="/checkout/information">Change</Link>

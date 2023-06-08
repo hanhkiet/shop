@@ -96,6 +96,7 @@ export default function Cover(props: Props) {
                 price={item.price}
                 imageOne={item.images[0]}
                 imageTwo={item.images[1]}
+                catalogs={item.catalogs}
               />
             ))}
           </div>

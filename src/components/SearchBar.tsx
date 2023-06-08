@@ -71,6 +71,7 @@ function SearchBar() {
           price={product.price}
           imageOne={product.images[0]}
           imageTwo={product.images[1]}
+          catalogs={product.catalogs}
         />
       ))}
     </div>

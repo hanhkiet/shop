@@ -22,7 +22,10 @@ function CheckoutButton() {
   }, 0);
 
   return (
-    <Link to="/checkout/information" onClick={() => dispatch(toggleVisibility(!visible))}>
+    <Link
+      to="/checkout/information"
+      onClick={() => dispatch(toggleVisibility(!visible))}
+    >
       <button className="relative mt-5 h-12 w-full bg-black text-white">
         <div className="flex flex-row align-top">
           <div className="basis-2/5 text-right">Checkout</div>

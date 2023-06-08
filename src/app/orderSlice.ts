@@ -8,8 +8,8 @@ const initialState: OrderState = {
   emailOrder: localStorage.getItem('emailOrder')
     ? localStorage.getItem('emailOrder')!
     : '',
-  countryOrder: localStorage.getItem('countryOrder')
-    ? localStorage.getItem('countryOrder')!
+  streetOrder: localStorage.getItem('streetOrder')
+    ? localStorage.getItem('streetOrder')!
     : '',
   firstNameOrder: localStorage.getItem('firstNameOrder')
     ? localStorage.getItem('firstNameOrder')!
@@ -35,8 +35,8 @@ const initialState: OrderState = {
   shippingIndex: localStorage.getItem('shippingIndex')
     ? Number(localStorage.getItem('shippingIndex'))!
     : 0,
-  countryIndex: localStorage.getItem('countryIndex')
-    ? Number(localStorage.getItem('countryIndex'))!
+  streetIndex: localStorage.getItem('streetIndex')
+    ? Number(localStorage.getItem('streetIndex'))!
     : 0,
   showQuantityWarning: false,
 };
@@ -53,9 +53,9 @@ const orderSlice = createSlice({
       state.emailOrder = action.payload;
       localStorage.setItem('emailOrder', state.emailOrder);
     },
-    setCountryOrder(state, action: PayloadAction<string>) {
-      state.countryOrder = action.payload;
-      localStorage.setItem('countryOrder', state.countryOrder);
+    setStreetOrder(state, action: PayloadAction<string>) {
+      state.streetOrder = action.payload;
+      localStorage.setItem('streetOrder', state.streetOrder);
     },
     setFirstNameOrder(state, action: PayloadAction<string>) {
       state.firstNameOrder = action.payload;
@@ -92,9 +92,9 @@ const orderSlice = createSlice({
       state.shippingIndex = action.payload;
       localStorage.setItem('shippingIndex', state.shippingIndex.toString());
     },
-    setCountryIndex(state, action: PayloadAction<number>) {
-      state.countryIndex = action.payload;
-      localStorage.setItem('countryIndex', state.countryIndex.toString());
+    setStreetIndex(state, action: PayloadAction<number>) {
+      state.streetIndex = action.payload;
+      localStorage.setItem('streetIndex', state.streetIndex.toString());
     },
   },
 });
@@ -102,7 +102,7 @@ const orderSlice = createSlice({
 export const {
   setNote,
   setEmailOrder,
-  setCountryOrder,
+  setStreetOrder,
   setFirstNameOrder,
   setLastNameOrder,
   setAddressOrder,
@@ -112,7 +112,7 @@ export const {
   setShowQuantityWarning,
   setShippingPrice,
   setShippingIndex,
-  setCountryIndex,
+  setStreetIndex,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

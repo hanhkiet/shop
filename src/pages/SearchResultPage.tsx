@@ -153,6 +153,7 @@ function SearchResultPage() {
               imageOne={item.images[0]}
               imageTwo={item.images[1]}
               price={item.price}
+              catalogs={item.catalogs}
             />
           ))}
         </div>
