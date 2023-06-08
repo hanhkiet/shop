@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Collection, CollectionState } from './types';
 
 const initialState: CollectionState = {
-  hoverMenuId: 0,
+  hoverMenuId: -1,
   activeMenu: null,
   activeMenuChild: [],
   visibleMenu: false,

@@ -5,34 +5,40 @@ const initialState: OrderState = {
   note: localStorage.getItem('cartNote')
     ? localStorage.getItem('cartNote')!
     : '',
-    emailOrder: localStorage.getItem('emailOrder')
+  emailOrder: localStorage.getItem('emailOrder')
     ? localStorage.getItem('emailOrder')!
     : '',
-    countryOrder: localStorage.getItem('countryOrder')
+  countryOrder: localStorage.getItem('countryOrder')
     ? localStorage.getItem('countryOrder')!
     : '',
-    firstNameOrder: localStorage.getItem('firstNameOrder')
+  firstNameOrder: localStorage.getItem('firstNameOrder')
     ? localStorage.getItem('firstNameOrder')!
     : '',
-    lastNameOrder: localStorage.getItem('lastNameOrder')
+  lastNameOrder: localStorage.getItem('lastNameOrder')
     ? localStorage.getItem('lastNameOrder')!
     : '',
-    addressOrder: localStorage.getItem('addressOrder')
+  addressOrder: localStorage.getItem('addressOrder')
     ? localStorage.getItem('addressOrder')!
     : '',
-    districtOrder: localStorage.getItem('districtOrder')
+  districtOrder: localStorage.getItem('districtOrder')
     ? localStorage.getItem('districtOrder')!
     : '',
-    cityOrder: localStorage.getItem('cityOrder')
+  cityOrder: localStorage.getItem('cityOrder')
     ? localStorage.getItem('cityOrder')!
     : '',
-    phoneOrder: localStorage.getItem('phoneOrder')
+  phoneOrder: localStorage.getItem('phoneOrder')
     ? localStorage.getItem('phoneOrder')!
     : '',
-    shippingPrice: localStorage.getItem('shippingPrice')
+  shippingPrice: localStorage.getItem('shippingPrice')
     ? Number(localStorage.getItem('shippingPrice'))!
     : 0,
-    showQuantityWarning: false,
+  shippingIndex: localStorage.getItem('shippingIndex')
+    ? Number(localStorage.getItem('shippingIndex'))!
+    : 0,
+  countryIndex: localStorage.getItem('countryIndex')
+    ? Number(localStorage.getItem('countryIndex'))!
+    : 0,
+  showQuantityWarning: false,
 };
 
 const orderSlice = createSlice({
@@ -80,10 +86,33 @@ const orderSlice = createSlice({
     },
     setShippingPrice(state, action: PayloadAction<number>) {
       state.shippingPrice = action.payload;
+      localStorage.setItem('shippingPrice', state.shippingPrice.toString());
+    },
+    setShippingIndex(state, action: PayloadAction<number>) {
+      state.shippingIndex = action.payload;
+      localStorage.setItem('shippingIndex', state.shippingIndex.toString());
+    },
+    setCountryIndex(state, action: PayloadAction<number>) {
+      state.countryIndex = action.payload;
+      localStorage.setItem('countryIndex', state.countryIndex.toString());
     },
   },
 });
 
-export const { setNote, setEmailOrder, setCountryOrder, setFirstNameOrder, setLastNameOrder, setAddressOrder, setDistrictOrder, setCityOrder, setPhoneOrder, setShowQuantityWarning, setShippingPrice } = orderSlice.actions;
+export const {
+  setNote,
+  setEmailOrder,
+  setCountryOrder,
+  setFirstNameOrder,
+  setLastNameOrder,
+  setAddressOrder,
+  setDistrictOrder,
+  setCityOrder,
+  setPhoneOrder,
+  setShowQuantityWarning,
+  setShippingPrice,
+  setShippingIndex,
+  setCountryIndex,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;

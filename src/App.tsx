@@ -16,6 +16,7 @@ import { errorRouter } from './routers/errorRouter';
 import { homeRouter } from './routers/homeRouter';
 import { managerRouter } from './routers/managerRouter';
 import { productRouter } from './routers/productRouter';
+import { searchRouter } from './routers/searchRouter';
 
 const router = createBrowserRouter([
   homeRouter,
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
   categoryRouter,
   errorRouter,
   productRouter,
+  searchRouter,
 ]);
 
 function App() {

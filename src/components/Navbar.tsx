@@ -8,6 +8,7 @@ import NavbarLeft from './NavbarLeft';
 import NavbarLogo from './NavbarLogo';
 import NavbarRight from './NavbarRight';
 import ScrollToTop from './ScrollToTop';
+import { setShowSearchBar } from '../app/searchSlice';
 
 function Navbar() {
   const hasSale = false;
@@ -20,6 +21,7 @@ function Navbar() {
   const location = useLocation();
   if (pathName != location.pathname) {
     dispatch(setPathName(location.pathname));
+    dispatch(setShowSearchBar(false));
     window.scrollTo(0, 0);
   }
   const handleAppearModal = () => {
@@ -44,8 +46,11 @@ function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  const showSearchBar = useSelector(
+    (state: RootState) => state.search.showSearchBar,
+  );
   const checkNavbarFirst =
-    location.pathname != '/' || (hoverNavbar && !showModal);
+    location.pathname != '/' || showSearchBar || (hoverNavbar && !showModal);
   const checkNavbar = changeNavbarColor || checkNavbarFirst;
   const checkOut = useRef<any>(null);
   const handleHeaderLeave = () => {
@@ -76,6 +81,7 @@ function Navbar() {
           }`}
           onMouseOver={() => {
             setHoverNavbar(true);
+            if (showSearchBar) setHoverNavbar(false);
           }}
           onMouseLeave={() => {
             setHoverNavbar(false);
@@ -93,7 +99,6 @@ function Navbar() {
             changeColor={checkNavbar}
             onClick={handleAppearModal}
             onClose={handleDisappearModal}
-            onSearch={() => setHoverNavbar(true)}
           />
         </nav>
       </header>

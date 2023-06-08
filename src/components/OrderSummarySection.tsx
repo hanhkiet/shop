@@ -165,7 +165,11 @@ function OrderSummarySection() {
           </div>
           <div className="flex justify-between">
             <p className="text-md">Shipping</p>
-            <p>${shippingPrice}</p>
+            <p>
+              {shippingPrice == 0
+                ? `Calculated at next step`
+                : `$${shippingPrice}`}
+            </p>
           </div>
         </div>
         <div className="flex w-full max-w-md flex-row justify-between border-t border-neutral-300 py-3">

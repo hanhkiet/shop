@@ -33,6 +33,8 @@ export interface OrderState {
   phoneOrder: string;
   showQuantityWarning: boolean;
   shippingPrice: number;
+  shippingIndex: number;
+  countryIndex: number;
 }
 
 export interface CollectionState {
@@ -108,6 +110,8 @@ export interface PathState {
 
 export interface SearchState {
   showSearchBar: boolean;
+  query: string;
+  numberOfResults: number;
 }
 
 export enum Color {

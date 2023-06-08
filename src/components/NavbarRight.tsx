@@ -13,7 +13,6 @@ type Props = {
   changeColor: boolean;
   onClick: () => void;
   onClose: () => void;
-  onSearch: () => void;
 };
 
 function NavbarRight(props: Props) {
@@ -46,7 +45,6 @@ function NavbarRight(props: Props) {
           <img
             onClick={() => {
               dispatch(setShowSearchBar(!showSearchBar));
-              props.onSearch();
             }}
             alt=""
             src="https://cdn-icons-png.flaticon.com/512/149/149852.png"

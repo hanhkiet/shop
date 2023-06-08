@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import * as orderSlice from '../app/orderSlice';
@@ -14,7 +14,7 @@ import {
 
 function CheckoutInformationSection() {
   const [isHovered, setIsHovered] = useState(false);
-
+  const countries = ['Vietnam', 'United States'];
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -41,6 +41,12 @@ function CheckoutInformationSection() {
   const cityOrder = useSelector((state: RootState) => state.order.cityOrder);
   const phoneOrder = useSelector((state: RootState) => state.order.phoneOrder);
   const dispatch: AppDispatch = useDispatch();
+  const countryIndex = useSelector(
+    (state: RootState) => state.order.countryIndex,
+  );
+  useEffect(() => {
+    dispatch(orderSlice.setCountryOrder(countries[countryIndex]));
+  }, []);
   const {
     ref: emailRef,
     error: emailError,
@@ -161,17 +167,19 @@ function CheckoutInformationSection() {
               name="address"
               id="address"
               className="w-full space-y-2 bg-white px-1 outline-none"
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-                dispatch(orderSlice.setCountryOrder(event.target.value))
-              }
+              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+                dispatch(orderSlice.setCountryOrder(event.target.value));
+                dispatch(
+                  orderSlice.setCountryIndex(event.target.selectedIndex),
+                );
+              }}
               value={countryOrder}
             >
-              <option className="p-1" value="Vietnam">
-                Vietnam
-              </option>
-              <option className="p-1" value="United States">
-                United States
-              </option>
+              {countries.map((item: string) => (
+                <option className="p-1" value={item}>
+                  {item}
+                </option>
+              ))}
             </select>
           </div>
           <div className="grid grid-cols-1 flex-row justify-between gap-3 lg:flex">
