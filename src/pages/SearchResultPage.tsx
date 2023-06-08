@@ -27,7 +27,7 @@ function SearchResultPage() {
         })
         .then(res => {
           setProducts(res.data.products);
-          setOriginalProducts(res.data.products);
+          setOriginalProducts([...res.data.products]);
           setTotalPages(res.data.totalPages);
           setTotalElements(res.data.totalElements);
         });
@@ -47,17 +47,24 @@ function SearchResultPage() {
   const [sortAppearSmall, setSortAppearSmall] = useState(false);
   const [gridLarge, setGridLarge] = useState(3);
   const [gridSmall, setGridSmall] = useState(2);
+  const sortDefault = () => {
+    window.scrollTo(0, 0);
+    setCurrentPage(1);
+    setProducts([...originalProducts]);
+  };
   const sortLowToHighPrice = () => {
+    window.scrollTo(0, 0);
     setCurrentPage(1);
     const sortedProducts = products.sort((a, b) => a.price - b.price);
     setProducts(sortedProducts);
   };
   const sortHighToLowPrice = () => {
+    window.scrollTo(0, 0);
     setCurrentPage(1);
     const sortedProducts = products.sort((a, b) => b.price - a.price);
     setProducts(sortedProducts);
   };
-  const searchTitle = `${totalElements} results for ${searchParams.get('q')}`;
+  const searchTitle = `${totalElements} results for ${query}`;
   return (
     <>
       <Navbar />
@@ -237,7 +244,7 @@ function SearchResultPage() {
                 onClick={() => {
                   setFilterChosen(index);
                   setSortAppearSmall(false);
-                  if (index === 0) setProducts(originalProducts);
+                  if (index === 0) sortDefault();
                   if (index === 1) sortLowToHighPrice();
                   if (index === 2) sortHighToLowPrice();
                 }}

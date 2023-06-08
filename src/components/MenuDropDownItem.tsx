@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   addActiveMenuChild,
   removeActiveMenuChild,
+  setVisibleMenu,
 } from '../app/collectionSlice';
 import { RootState } from '../app/store';
 import { Collection } from '../app/types';
@@ -103,6 +104,7 @@ function MenuDropDownItem(props: Props) {
             )
             .map((item: Collection, index) => (
               <Link
+                onClick={() => dispatch(setVisibleMenu(false))}
                 key={index}
                 to={`/collections/${item.name
                   .replace(/\W+/gi, '-')

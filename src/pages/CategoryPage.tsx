@@ -14,6 +14,7 @@ import axios from 'axios';
 function CategoryPage() {
   const { name } = useParams<{ name: string }>();
   const [products, setProducts] = useState<Product[]>([]);
+  const [originalProducts, setOriginalProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterChosen, setFilterChosen] = useState(0);
   const collections = useSelector(
@@ -32,6 +33,7 @@ function CategoryPage() {
       .get(`${import.meta.env.VITE_COLLECTIONS_API_URL}/${collection.id}`)
       .then(res => {
         setProducts(res.data);
+        setOriginalProducts([...res.data]);
       })
       .catch(error => {
         console.error('Error fetching products:', error);
@@ -51,6 +53,10 @@ function CategoryPage() {
   const [gridLarge, setGridLarge] = useState(3);
   const [gridSmall, setGridSmall] = useState(2);
   const [sortAppearSmall, setSortAppearSmall] = useState(false);
+  const sortDefault = () => {
+    setCurrentPage(1);
+    setProducts([...originalProducts]);
+  };
   const sortProductsAtoZ = () => {
     setCurrentPage(1);
     const sortedProducts = products.sort((a, b) =>
@@ -275,7 +281,7 @@ function CategoryPage() {
                 onClick={() => {
                   setFilterChosen(index);
                   setSortAppearSmall(false);
-                  if (index === 0) setProducts(products);
+                  if (index === 0) sortDefault();
                   if (index === 1) sortProductsAtoZ();
                   if (index === 2) sortProductsZtoA();
                   if (index === 3) sortLowToHighPrice();
