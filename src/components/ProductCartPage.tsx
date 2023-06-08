@@ -21,7 +21,7 @@ function ProductCartPage(props: Props) {
     axios
       .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${props.productId}`)
       .then(res => setThisProductCartPage(res.data));
-  });
+  }, []);
   const [showMaxQuantityMessage, setShowMaxQuantityMessage] = useState(false);
   const dispatch = useDispatch();
   const handleRemove = (productId: string, size: string) => {

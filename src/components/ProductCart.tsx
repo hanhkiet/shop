@@ -21,7 +21,7 @@ export default function ProductCart(props: Props) {
     axios
       .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${props.productId}`)
       .then(res => setThisProductCart(res.data));
-  });
+  }, []);
   const dispatch = useDispatch();
   const handleRemove = (productId: string, size: string) => {
     dispatch(cartSlice.removeItem({ productId, size }));

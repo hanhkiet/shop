@@ -18,7 +18,7 @@ function ProductCardCheckout(props: Props) {
     axios
       .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${props.productId}`)
       .then(res => setThisProductCartCheckout(res.data));
-  });
+  }, []);
   if (!thisProductCartCheckout) return <></>;
   return (
     <div className={`flex max-w-md items-center gap-4 ${props.className}`}>
