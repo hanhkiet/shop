@@ -35,7 +35,10 @@ export default function NavbarLeft(props: Props) {
     props.onClose();
   };
   const arrMenu = ['FEATURED', 'TOPS', 'BOTTOMS'] as CollectionType[];
-  if (collections.length === 0) return <></>;
+  if (collections.length === 0)
+    return (
+      <ul className="flex w-1/6 items-center justify-start gap-6 uppercase"></ul>
+    );
   return (
     <>
       <ul className="flex w-1/6 items-center justify-start gap-6 uppercase md:flex lg:hidden">

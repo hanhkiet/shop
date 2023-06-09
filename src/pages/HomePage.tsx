@@ -11,16 +11,6 @@ function HomePage() {
   const data = [
     {
       id: 1,
-      src: 'https://asrv.com/cdn/shop/files/BF-Banner-Desktop_3f36479b-ef35-40df-9b4e-7770efeb8c56.jpg',
-      srcSmallScreen: 'https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg',
-      mainTitle: null,
-      productListTitle: 'END OF SEASON SALE',
-      subTitle: 'UP TO 50% OFF - SALE ENDS 6.31.23',
-      firstButton: 'SHOP SALE',
-      secondButton: null,
-    },
-    {
-      id: 2,
       src: 'https://asrv.com/cdn/shop/files/App-download.png',
       srcSmallScreen:
         'https://asrv.com/cdn/shop/files/VOFJersey_0003_VOFJersey-2_474cde4c-606e-4013-8ca4-4d9bd69a3d44.jpg',
@@ -31,7 +21,7 @@ function HomePage() {
       secondButton: null,
     },
     {
-      id: 3,
+      id: 2,
       src: 'https://cdn.shopify.com/videos/c/o/v/a1e944e243cd4e06b50e5eebd96d0d2f.mp4',
       srcSmallScreen: 'https://asrv.com/cdn/shop/files/DSC00896.png',
       mainTitle: null,
@@ -41,7 +31,7 @@ function HomePage() {
       secondButton: 'TUTORIAL',
     },
     {
-      id: 5,
+      id: 3,
       src: 'https://asrv.com/cdn/shop/files/wide-boy-final.jpg',
       srcSmallScreen: 'https://asrv.com/cdn/shop/files/BF-Banner-Mobile.jpg',
       mainTitle: null,
@@ -54,35 +44,23 @@ function HomePage() {
   const collections = useSelector(
     (state: RootState) => state.collection.collections,
   );
-  const coverIndex = -1;
   return (
     <>
       <Navbar />
-      {data.map((item: any, index) => {
-        if (
-          collections.find(
-            (collectItem: Collection) =>
-              collectItem.name === item.productListTitle,
-          )
-        ) {
-          const coverKey = coverIndex + 1;
-          return (
-            <Cover
-              key={index}
-              coverKey={coverKey}
-              src={item.src}
-              srcSmallScreen={item.srcSmallScreen || item.src}
-              mainTitle={item.mainTitle || item.productListTitle}
-              productListTitle={item.productListTitle}
-              subTitle={item.subTitle}
-              firstButton={item.firstButton}
-            />
-          );
-        }
-        return null;
-      })}
+      {data.map((item: any, index) => (
+        <Cover
+          key={index}
+          coverKey={index}
+          src={item.src}
+          srcSmallScreen={item.srcSmallScreen || item.src}
+          mainTitle={item.mainTitle || item.productListTitle}
+          productListTitle={item.productListTitle}
+          subTitle={item.subTitle}
+          firstButton={item.firstButton}
+        />
+      ))}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2">
         <div className="order-last md:order-last lg:order-first">
           <img
             src="https://cdn.shopify.com/s/files/1/0297/6293/files/spring-app-banner-web2_1200x.png?v=1679009396"

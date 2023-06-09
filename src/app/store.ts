@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import addressReducer from './addressSlice';
 import cartReducer from './cartSlice';
-import categoryProductReducer from './categoryProductSlice';
 import accountReducer from './customer/accountSlice';
 import managerReducer from './manager/managerSlice';
 import storageReducer from './manager/storageSlice';
@@ -9,7 +8,7 @@ import collectionReducer from './collectionSlice';
 import messageReducer from './messageSlice';
 import orderReducer from './orderSlice';
 import pathSlice from './pathSlice';
-import productQuantityReducer from './productQuantitySlice';
+import searchSlice from './searchSlice';
 import productReducer from './productSlice';
 
 const store = configureStore({
@@ -23,9 +22,8 @@ const store = configureStore({
     collection: collectionReducer,
     account: accountReducer,
     product: productReducer,
-    productQuantity: productQuantityReducer,
-    categoryProduct: categoryProductReducer,
     path: pathSlice,
+    search: searchSlice,
   },
 });
 

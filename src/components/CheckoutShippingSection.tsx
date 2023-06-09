@@ -1,14 +1,26 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setShippingIndex, setShippingPrice } from '../app/orderSlice';
 import { RootState } from '../app/store';
-import { setShippingPrice } from '../app/orderSlice';
 
 function CheckoutShippingSection() {
-  const [checked, setChecked] = useState(true);
+  const shippingMethod = [
+    {
+      name: 'FedEx International Economy®',
+      deliveryTimeFrame: '6 to 10 business days',
+      price: 52.37,
+    },
+    {
+      name: 'FedEx International Priority®',
+      deliveryTimeFrame: '3 to 5 business days',
+      price: 58.61,
+    },
+  ];
+
   const emailOrder = useSelector((state: RootState) => state.order.emailOrder);
-  const countryOrder = useSelector(
-    (state: RootState) => state.order.countryOrder,
+  const streetOrder = useSelector(
+    (state: RootState) => state.order.streetOrder,
   );
   const addressOrder = useSelector(
     (state: RootState) => state.order.addressOrder,
@@ -17,10 +29,20 @@ function CheckoutShippingSection() {
     (state: RootState) => state.order.districtOrder,
   );
   const cityOrder = useSelector((state: RootState) => state.order.cityOrder);
+  const shippingPrice = useSelector(
+    (state: RootState) => state.order.shippingPrice,
+  );
+  const shippingIndex = useSelector(
+    (state: RootState) => state.order.shippingIndex,
+  );
   const dispatch = useDispatch();
-  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setShippingPrice(Number(event.target.value)));
+  const handleRadioClick = (index: number) => {
+    dispatch(setShippingIndex(index));
+    dispatch(setShippingPrice(shippingMethod[index].price));
   };
+  useEffect(() => {
+    dispatch(setShippingPrice(shippingMethod[shippingIndex].price));
+  }, []);
   return (
     <div className="w-full">
       <div className="relative grid gap-3 rounded border p-3">
@@ -35,13 +57,7 @@ function CheckoutShippingSection() {
         <div className="flex flex-row">
           <div className="basis-2/12 text-gray-500">Ship to</div>
           <div className="basis-9/12">
-            {addressOrder +
-              ', ' +
-              districtOrder +
-              ', ' +
-              cityOrder +
-              ', ' +
-              countryOrder}
+            {streetOrder + ', ' + districtOrder + ', ' + cityOrder}
           </div>
           <div className="grid basis-1/12 items-center text-sm">
             <Link to="/checkout/information">Change</Link>
@@ -50,54 +66,40 @@ function CheckoutShippingSection() {
       </div>
       <h2 className="py-3 text-xl">Shipping method</h2>
       <div className="relative grid rounded border">
-        <label
-          htmlFor="economy"
-          className="flex cursor-pointer flex-row justify-between p-3"
-        >
-          <div className="flex gap-3">
-            <div className="mt-1 grid items-start">
-              <input
-                className="cursor-pointer"
-                type="radio"
-                id="economy"
-                value={52.37}
-                name="shipping_method"
-                checked={checked}
-                onClick={() => setChecked(true)}
-                onChange={handleRadioChange}
-              />
-            </div>
-            <div className="grid">
-              <p>FedEx International Economy®</p>
-              <p className="text-sm text-gray-500">6 to 10 business days</p>
-            </div>
-          </div>
-          <p className="text-right font-[Mulish] font-bold">$52.37</p>
-        </label>
-        <div className="h-px w-full bg-gray-300"></div>
-        <label
-          htmlFor="priority"
-          className="flex cursor-pointer flex-row justify-between p-3"
-        >
-          <div className="flex gap-3">
-            <div className="mt-1 grid items-start">
-              <input
-                type="radio"
-                id="priority"
-                value={58.61}
-                name="shipping_method"
-                checked={!checked}
-                onClick={() => setChecked(false)}
-                onChange={handleRadioChange}
-              />
-            </div>
-            <div className="grid">
-              <p>FedEx International Priority®</p>
-              <p className="text-sm text-gray-500">3 to 5 business days</p>
-            </div>
-          </div>
-          <p className="text-right font-[Mulish] font-bold">$58.61</p>
-        </label>
+        {shippingMethod.map((item: any, index) => (
+          <>
+            <label
+              htmlFor={item.name}
+              className="flex cursor-pointer flex-row justify-between p-3"
+              onClick={() => handleRadioClick(index)}
+            >
+              <div className="flex gap-3">
+                <div className="mt-1 grid items-start">
+                  <input
+                    className="cursor-pointer"
+                    type="radio"
+                    id="economy"
+                    value={item.price}
+                    name="shipping_method"
+                    checked={index === shippingIndex}
+                  />
+                </div>
+                <div className="grid">
+                  <p>{item.name}</p>
+                  <p className="text-sm text-gray-500">
+                    {item.deliveryTimeFrame}
+                  </p>
+                </div>
+              </div>
+              <p className="text-right font-[Mulish] font-bold">
+                ${item.price}
+              </p>
+            </label>
+            {index < shippingMethod.length - 1 && (
+              <div className="h-px w-full bg-gray-300"></div>
+            )}
+          </>
+        ))}
       </div>
     </div>
   );

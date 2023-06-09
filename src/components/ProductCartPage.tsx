@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import * as cartSlice from '../app/cartSlice';
-import { ItemsInStore } from '../app/types';
-import { useState } from 'react';
+import { Product } from '../app/types';
 import QuantityWarningModal from '../modals/QuantityWarningModal';
 
 type Props = {
@@ -15,29 +14,19 @@ type Props = {
 };
 
 function ProductCartPage(props: Props) {
+  const [thisProductCartPage, setThisProductCartPage] = useState<Product>();
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${props.productId}`)
+      .then(res => setThisProductCartPage(res.data));
+  }, []);
   const [showMaxQuantityMessage, setShowMaxQuantityMessage] = useState(false);
-  const products = useSelector(
-    (state: RootState) => state.product.products,
-  ).filter(item => item.uuid == props.productId)[0];
-  const productQuantity = useSelector(
-    (state: RootState) => state.productQuantity.productQuantity,
-  );
-  const thisProductQuantity = productQuantity.filter(
-    (prod: ItemsInStore) => prod.productUuid === props.productId,
-  );
-  const thisProductQuantitySize = thisProductQuantity.find(
-    (prod: ItemsInStore) => prod.size === props.size,
-  )!;
   const dispatch = useDispatch();
   const handleRemove = (productId: string, size: string) => {
     dispatch(cartSlice.removeItem({ productId, size }));
   };
   const handleIncrement = (productId: string, size: string) => {
-    if (thisProductQuantitySize.quantity > props.quantity) {
-      dispatch(cartSlice.incrementQuantity({ productId, size }));
-    } else {
-      setShowMaxQuantityMessage(true);
-    }
+    dispatch(cartSlice.incrementQuantity({ productId, size }));
   };
   const handleDecrement = (productId: string, size: string) => {
     dispatch(cartSlice.decrementQuantity({ productId, size }));
@@ -47,9 +36,6 @@ function ProductCartPage(props: Props) {
     if (!newQuantity || newQuantity <= 0) {
       newQuantity = 1;
     }
-    if (thisProductQuantitySize.quantity < newQuantity) {
-      newQuantity = thisProductQuantitySize.quantity;
-    }
     dispatch(
       cartSlice.setQuantity({
         productId: props.productId,
@@ -58,24 +44,28 @@ function ProductCartPage(props: Props) {
       }),
     );
   };
-  if (!products) return <></>;
+  if (!thisProductCartPage) return <></>;
   return (
     <>
       <div className={`flex flex-row ${props.className}`}>
         <div className="basis-6/12">
           <div className="m-5 flex flex-row">
             <div className="my-auto basis-1/4">
-              <img className="mx-auto w-40" src={products.images[0]} alt="" />
+              <img
+                className="mx-auto w-40"
+                src={thisProductCartPage.images[0]}
+                alt=""
+              />
             </div>
             <div className="my-auto ml-5 basis-3/4">
               <Link
                 onClick={() => dispatch(cartSlice.toggleVisibility(false))}
-                to={`/products/${products.uuid}`}
+                to={`/products/${thisProductCartPage.uuid}`}
               >
-                {products.name}
+                {thisProductCartPage.name}
               </Link>
               <p className="mt-2">Size: {props.size}</p>
-              <p className="mt-2">Unit Price: ${products.price}</p>
+              <p className="mt-2">Unit Price: ${thisProductCartPage.price}</p>
             </div>
           </div>
         </div>
@@ -110,7 +100,7 @@ function ProductCartPage(props: Props) {
           </button>
         </div>
         <div className="flex basis-3/12 items-center justify-end">
-          <p>${products.price * props.quantity}</p>
+          <p>${thisProductCartPage.price * props.quantity}</p>
         </div>
       </div>
       <QuantityWarningModal

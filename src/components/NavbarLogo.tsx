@@ -1,4 +1,6 @@
+import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { setShowSearchBar } from '../app/searchSlice';
 
 type Props = {
   checkNavbar: boolean;
@@ -6,7 +8,9 @@ type Props = {
 
 function NavbarLogo(props: Props) {
   const location = useLocation();
+  const dispatch = useDispatch();
   const handleClickLogo = () => {
+    dispatch(setShowSearchBar(false));
     if (location.pathname == '/') {
       window.scrollTo({
         top: 0,
@@ -17,7 +21,7 @@ function NavbarLogo(props: Props) {
     }
   };
   return (
-    <div className="flex w-2/12 items-center justify-center">
+    <div className="flex items-center justify-center">
       <Link to="/" onClick={handleClickLogo}>
         <img
           src="https://cdn.shopify.com/s/files/1/0297/6293/files/Wings_ASRV_NEW_d5bba963-30a6-4d73-ba2e-68d1a8ea69c4_120x@2x.png?v=1664577873"

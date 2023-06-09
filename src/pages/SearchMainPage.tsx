@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../app/store';
+import { setQuery } from '../app/searchSlice';
 
-function Search() {
-  const [searchResult, setSearchResult] = useState('');
-
+function SearchMainPage() {
+  const query = useSelector((state: RootState) => state.search.query);
+  const dispatch = useDispatch();
   return (
     <div
       className={`${'md:h-[calc(100vh-68px)] lg:h-[calc(100vh-68px)]'} flex items-center justify-center`}
@@ -17,6 +19,10 @@ function Search() {
             className="block w-full border px-4 py-2 outline-none"
             type="text"
             placeholder="Search..."
+            value={query}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              dispatch(setQuery(event.target.value))
+            }
           />
         </div>
       </form>
@@ -24,4 +30,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchMainPage;

@@ -2,24 +2,49 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { Link } from 'react-router-dom';
 import { toggleVisibility } from '../app/cartSlice';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 function CheckoutButton() {
   const visible = useSelector((state: RootState) => state.cart.visible);
   const dispatch = useDispatch();
-  const products = useSelector((state: RootState) => state.product.products);
   const items = useSelector((state: RootState) => state.cart.items);
 
-  if (!products || !items) return <></>;
+  if (!items) return <></>;
 
-  const totalPrice = items.reduce((total, item) => {
-    const product = products.find(p => p.uuid === item.id);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-    if (product && product.price) {
-      return total + item.quantity * product.price;
-    } else {
-      return total;
-    }
-  }, 0);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (items.length === 0) {
+        setTotalPrice(0);
+        return;
+      }
+
+      const productPrices = await Promise.all(
+        items.map(async item => {
+          try {
+            const response = await axios.get(
+              `${import.meta.env.VITE_PRODUCTS_API_URL}/${item.productUuid}`,
+            );
+            const product = response.data;
+            return product.price * item.quantity;
+          } catch (error) {
+            console.error('Error fetching product:', error);
+            return 0;
+          }
+        }),
+      );
+
+      const calculatedTotalPrice = productPrices.reduce(
+        (total, price) => total + price,
+        0,
+      );
+      setTotalPrice(calculatedTotalPrice);
+    };
+
+    fetchProducts();
+  }, [items]);
 
   return (
     <Link

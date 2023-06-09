@@ -1,34 +1,24 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
-import { ItemsInStore } from '../app/types';
+import { Catalog } from '../app/types';
 import Size from './Size';
 
 type Props = {
   id: string;
   imageOne: string;
-  imageTwo: string;
+  imageTwo?: string;
   className?: string;
   name: string;
   price: number;
+  catalogs: Catalog[];
   onClick?: () => void;
 };
 
 function ProductCard(props: Props) {
-  const showMaxQuantityMessage = useSelector(
-    (state: RootState) => state.order.showQuantityWarning,
-  );
   const [isShown, setIsShown] = useState(false);
-  const productQuantity = useSelector(
-    (state: RootState) => state.productQuantity.productQuantity,
-  );
-  const thisProductQuantity = productQuantity.filter(
-    (prod: ItemsInStore) => prod.productUuid === props.id,
-  );
   const hasSale = false;
-  const isSoldOut = thisProductQuantity.every(
-    (product: ItemsInStore) => product.quantity === 0,
+  const isSoldOut = props.catalogs.every(
+    (product: Catalog) => product.quantity === 0,
   );
   return (
     <div
@@ -47,7 +37,7 @@ function ProductCard(props: Props) {
           />
           <img
             onClick={props.onClick}
-            src={props.imageTwo}
+            src={props.imageTwo || props.imageOne}
             className={`relative top-0 block ${
               isShown ? `visible opacity-100` : `collapse opacity-0`
             } duration-300`}
@@ -64,7 +54,7 @@ function ProductCard(props: Props) {
       </Link>
 
       <Link
-        className="mb-5 text-sm font-light uppercase text-neutral-800"
+        className="mb-5 h-8 text-sm font-light uppercase text-neutral-800"
         to={`/products/${props.id}`}
         onClick={props.onClick}
       >
@@ -75,7 +65,17 @@ function ProductCard(props: Props) {
           ${props.price} usd
         </p>
       )}
-      {isShown && <Size id={props.id} />}
+      {isShown && (
+        <>
+          {props.catalogs.length > 0 ? (
+            <Size id={props.id} catalogs={props.catalogs} />
+          ) : (
+            <p className="font-light uppercase text-neutral-500">
+              ${props.price} usd
+            </p>
+          )}
+        </>
+      )}
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { addItem, toggleVisibility } from '../app/cartSlice';
-import { AppDispatch, RootState } from '../app/store';
-import { ItemsInStore, Product } from '../app/types';
+import { AppDispatch } from '../app/store';
+import { Catalog, Product } from '../app/types';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Modal from '../modals/Modal';
@@ -18,6 +18,8 @@ function ProductDetail() {
   const [pictureIndex, setPictureIndex] = useState(0);
   useEffect(() => {
     const handleScroll = () => {
+      if (window.innerWidth >= 768) {
+      }
       const imageElements = imageRefs.current;
       let newPictureIndex = pictureIndex;
 
@@ -27,10 +29,10 @@ function ProductDetail() {
           newPictureIndex = index;
         }
       });
-
-      setPictureIndex(newPictureIndex);
+      if (window.innerWidth >= 768) {
+        setPictureIndex(newPictureIndex);
+      }
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pictureIndex]);
@@ -41,15 +43,12 @@ function ProductDetail() {
     }
   };
   const dispatch: AppDispatch = useDispatch();
-  const productQuantity = useSelector(
-    (state: RootState) => state.productQuantity.productQuantity,
-  );
   const { name } = useParams<{ name: string }>();
   const [clickModal, setClickModal] = useState(false);
   const [hoverMeasure, setHoverMeasure] = useState(false);
-  const products = useSelector((state: RootState) => state.product.products);
-  const sizes = useSelector((state: RootState) => state.product.sizes);
   const [thisProduct, setThisProduct] = useState<Product | null>(null);
+  const [sizeValue, setSizeValue] = useState<string | null>(null);
+  const [collectionProducts, setCollectionProducts] = useState<Product[]>();
   const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -57,35 +56,35 @@ function ProductDetail() {
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_PRODUCTS_API_URL}/${name}`)
-      .then(response => setThisProduct(response.data));
+      .then(response => {
+        setThisProduct(response.data);
+        setSizeValue(
+          response.data.catalogs.find((item: Catalog) => item.quantity > 0)
+            .size || null,
+        );
+      });
   }, [name]);
-  const thisProductQuantity = productQuantity.filter(
-    (prod: ItemsInStore) => prod.productUuid === thisProduct?.uuid,
-  );
-  const thisProductQuantityAvailable = thisProductQuantity.filter(
-    (prod: ItemsInStore) => prod.quantity > 0,
-  )[0];
-  const isAddToCartButtonDisabled = thisProductQuantity.every(
-    (product: ItemsInStore) => product.quantity === 0,
-  );
-  const [sizeValue, setSizeValue] = useState<string | null>(sizes[0]);
   useEffect(() => {
-    if (isAddToCartButtonDisabled) {
-      setSizeValue(null);
-    } else {
-      setSizeValue(thisProductQuantityAvailable.size);
+    if (thisProduct) {
+      axios
+        .get(
+          `${import.meta.env.VITE_COLLECTIONS_API_URL}/${
+            thisProduct.collections[0].id
+          }`,
+        )
+        .then(res => {
+          setCollectionProducts(res.data);
+        });
     }
-  }, [isAddToCartButtonDisabled, name]);
-  if (!thisProduct || !thisProductQuantity) return <></>;
-  const thisProductColor = products.filter(
-    (prod: Product) =>
-      prod.name.slice(0, prod.name.lastIndexOf('-')).trim() ===
-      thisProduct.name.slice(0, thisProduct.name.lastIndexOf('-')).trim(),
+  }, [thisProduct]);
+  console.log(collectionProducts);
+  const isNotAvaible = thisProduct?.catalogs.every(
+    (item: Catalog) => item.quantity === 0,
   );
   const handleAddToCart = () => {
     dispatch(
       addItem({
-        id: thisProduct.uuid,
+        productUuid: thisProduct!.uuid,
         size: sizeValue!,
       }),
     );
@@ -94,16 +93,17 @@ function ProductDetail() {
     if (pictureIndex > 0) {
       setPictureIndex(pictureIndex - 1);
     } else {
-      setPictureIndex(thisProduct.images.length - 1);
+      setPictureIndex(thisProduct!.images.length - 1);
     }
   };
   const handleIncreasePictureIndex = () => {
-    if (pictureIndex < thisProduct.images.length - 1) {
+    if (pictureIndex < thisProduct!.images.length - 1) {
       setPictureIndex(pictureIndex + 1);
     } else {
       setPictureIndex(0);
     }
   };
+  if (!thisProduct) return <></>;
   return (
     <>
       <div className="flex min-h-screen flex-col">
@@ -113,7 +113,7 @@ function ProductDetail() {
             <div className="hidden basis-0 md:block md:basis-1/12">
               <div className="sticky top-16 left-0 py-3">
                 <div className="hidden lg:block">
-                  {thisProduct.images.map((item: string, index) => (
+                  {thisProduct!.images.map((item: string, index) => (
                     <img
                       key={index}
                       onClick={() => {
@@ -130,7 +130,7 @@ function ProductDetail() {
                 </div>
                 <div className="hidden h-0 place-items-center gap-3 md:grid md:h-[calc(100vh-4rem)] lg:hidden lg:h-0">
                   <div className="hidden gap-3 md:grid lg:hidden">
-                    {thisProduct.images.map((_, index) => (
+                    {thisProduct!.images.map((_, index) => (
                       <div
                         key={index}
                         onClick={() => {
@@ -149,7 +149,7 @@ function ProductDetail() {
               </div>
             </div>
             <div className="hidden basis-0 md:block md:basis-1/2">
-              {thisProduct.images.map((item: string, index) => (
+              {thisProduct!.images.map((item: string, index) => (
                 <div className="pt-20" id={index.toString()} key={index}>
                   <img
                     ref={handleRefUpdate(index)}
@@ -162,7 +162,7 @@ function ProductDetail() {
             </div>
             <div className="basis-1/2 justify-center md:hidden md:basis-0">
               <div className="flex overflow-x-hidden">
-                {thisProduct.images.map((image, index) => (
+                {thisProduct!.images.map((image, index) => (
                   <img
                     key={index}
                     src={image}
@@ -187,7 +187,7 @@ function ProductDetail() {
                     fill="none"
                   ></path>
                 </svg>
-                {thisProduct.images.map((_, index) => (
+                {thisProduct!.images.map((_, index) => (
                   <div
                     key={index}
                     onClick={() => {
@@ -218,43 +218,16 @@ function ProductDetail() {
             <div className="mx-5 basis-1/2 md:basis-5/12">
               <div className="sticky top-16 right-0 grid gap-6 pt-16">
                 <p className="text-center text-xl text-gray-700 md:text-left">
-                  {thisProduct.name.toUpperCase()}
+                  {thisProduct!.name.toUpperCase()}
                 </p>
                 <div className="flex flex-row justify-center gap-3 font-bold text-gray-500 md:justify-start">
-                  <p>${thisProduct.price} USD</p>
+                  <p>${thisProduct!.price} USD</p>
                 </div>
-                {thisProductColor.length > 0 && (
-                  <>
-                    <p>Color: </p>
-                    <div className="grid grid-cols-5">
-                      {thisProductColor.map((item: Product) => (
-                        <Link
-                          key={item.uuid}
-                          onClick={() => {
-                            setPictureIndex(0);
-                            setSizeValue(null);
-                          }}
-                          to={`/products/${item.uuid}`}
-                        >
-                          <img
-                            alt=""
-                            src={item.images[0]}
-                            className={`mx-auto ${
-                              thisProduct.uuid === item.uuid
-                                ? `border-2 border-gray-500`
-                                : ``
-                            }`}
-                          />
-                        </Link>
-                      ))}
-                    </div>
-                  </>
-                )}
-                {thisProductQuantity.length > 0 && (
+                {thisProduct!.catalogs.length > 0 && (
                   <>
                     <p>Size: </p>
                     <div className={`flex gap-2`}>
-                      {thisProductQuantity.map((item: ItemsInStore, index) => (
+                      {thisProduct!.catalogs.map((item: Catalog, index) => (
                         <button
                           disabled={item.quantity <= 0}
                           key={index}
@@ -292,18 +265,18 @@ function ProductDetail() {
                 </div>
                 <button
                   onClick={() => {
-                    if (!isAddToCartButtonDisabled) {
+                    if (!isNotAvaible) {
                       handleAddToCart();
                       dispatch(toggleVisibility(true));
                     }
                   }}
                   className={`h-12 ${
-                    isAddToCartButtonDisabled
+                    isNotAvaible
                       ? `cursor-not-allowed opacity-50`
                       : `cursor-pointer opacity-100 hover:bg-black`
                   } w-full bg-neutral-700 uppercase text-white duration-300`}
                 >
-                  {isAddToCartButtonDisabled ? 'NOT AVAILABLE' : 'ADD TO CART'}
+                  {isNotAvaible ? 'NOT AVAILABLE' : 'ADD TO CART'}
                 </button>
                 {sales && (
                   <p className="text-md text-center font-[ASRV-Standard] font-bold uppercase text-red-600">
@@ -314,7 +287,7 @@ function ProductDetail() {
             </div>
           </div>
         </div>
-        {thisProductColor.length < 2 ? (
+        {!collectionProducts ? (
           <></>
         ) : (
           <div>
@@ -322,7 +295,7 @@ function ProductDetail() {
               YOU MAY ALSO LIKE
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-              {thisProductColor
+              {collectionProducts!
                 .filter((item: Product) => item.uuid != name)
                 .reverse()
                 .slice(0, 4)
@@ -334,6 +307,7 @@ function ProductDetail() {
                     imageOne={item.images[0]}
                     imageTwo={item.images[1]}
                     price={item.price}
+                    catalogs={item.catalogs}
                     onClick={() => {
                       setPictureIndex(0);
                       setSizeValue(null);
@@ -355,7 +329,7 @@ function ProductDetail() {
         <div className="m-3 rounded-lg">
           <div className="flex flex-row justify-center">
             <p className=" text-center font-[ASRV-Standard] text-2xl text-gray-500">
-              SIZE GUIDE {thisProduct.name.split('.')[0]}
+              SIZE GUIDE {thisProduct!.name.split('.')[0]}
             </p>
             <svg
               onClick={() => setClickModal(false)}
@@ -374,7 +348,7 @@ function ProductDetail() {
             <img
               alt=""
               src={`https://cdn.shopify.com/s/files/1/0297/6293/files/${
-                thisProduct.name.split('.')[0]
+                thisProduct!.name.split('.')[0]
               }.png`}
               className="mx-auto h-72 md:h-[calc(100vh-150px)]"
             />

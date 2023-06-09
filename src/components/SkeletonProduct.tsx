@@ -15,13 +15,10 @@ function SkeletonProduct() {
         setArrayLength(1);
       }
     };
-
-    handleResize(); // Initial setup
-
-    window.addEventListener('resize', handleResize); // Listen to window resize event
-
+    handleResize();
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize); // Cleanup the event listener
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
