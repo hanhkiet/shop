@@ -287,7 +287,7 @@ function ProductDetail() {
             </div>
           </div>
         </div>
-        {!collectionProducts || collectionProducts.length < 2 ? (
+        {!collectionProducts ? (
           <></>
         ) : (
           <div>
