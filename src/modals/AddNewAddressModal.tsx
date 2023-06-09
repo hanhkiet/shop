@@ -4,7 +4,7 @@ import { sendAddNewAddressRequest } from '../app/addressSlice';
 import { AppDispatch } from '../app/store';
 import { Address } from '../app/types';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
-import { cityRegex, nameRegex, phoneRegex, streetRegex } from '../utils/regex';
+import { cityRegex, phoneRegex, streetRegex } from '../utils/regex';
 import Modal from './Modal';
 
 type Props = {
@@ -19,7 +19,7 @@ const AddNewAddressModal = ({ onClose }: Props) => {
     error: recipientNameError,
     validate: validateRecipientName,
   } = useRefWithValidator(
-    nameRegex,
+    (value: string) => value.trim().length > 0,
     'Please enter a valid recipient name (e.g. John Doe)',
   );
 

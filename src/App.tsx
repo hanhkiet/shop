@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { getCollectionData } from './app/collectionSlice';
-import { sendRefreshTokenRequest } from './app/customer/accountSlice';
 import { getProductData } from './app/productSlice';
 import { AppDispatch } from './app/store';
 import ErrorPopUp from './components/ErrorPopUp';
@@ -34,7 +33,6 @@ function App() {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(sendRefreshTokenRequest());
     dispatch(getCollectionData());
     dispatch(getProductData());
   }, []);

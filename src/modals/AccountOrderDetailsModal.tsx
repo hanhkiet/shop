@@ -13,7 +13,7 @@ const AccountOrderDetailModal = ({ order, onClose }: Props) => {
 
   useEffect(() => {
     axios
-      .get(`localhost:8080/api/v1/customer/orders/${order.uuid}`, {
+      .get(`${import.meta.env.VITE_CUSTOMER_ORDER_API_URL}/${order.uuid}`, {
         withCredentials: true,
       })
       .then(res => {
@@ -22,7 +22,7 @@ const AccountOrderDetailModal = ({ order, onClose }: Props) => {
   }, []);
 
   return (
-    <Modal onClose={onClose} className="items-center justify-center">
+    <Modal onClose={onClose} className="flex items-center justify-center">
       <div className="flex-1 justify-center p-12">
         <div className="space-y-9 text-neutral-700">
           <div className="space-y-6">

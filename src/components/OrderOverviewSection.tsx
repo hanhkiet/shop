@@ -1,17 +1,21 @@
 import { faCircleInfo, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
-import { Order } from '../app/types';
+import { useDispatch } from 'react-redux';
+import { popUpMessage } from '../app/messageSlice';
+import { AppDispatch } from '../app/store';
+import { MessagePayload, Order } from '../app/types';
 import AccountOrderDetailModal from '../modals/AccountOrderDetailsModal';
 import YesNoDialogModal from '../modals/YesNoDialogModal';
 
 const OrderOverviewSection = () => {
   const [data, setData] = useState<Order[]>([]);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     axios
-      .get(`localhost:8080/api/v1/customers/orders`, {
+      .get(`${import.meta.env.VITE_CUSTOMER_ORDER_API_URL}`, {
         withCredentials: true,
       })
       .then(res => {
@@ -24,14 +28,28 @@ const OrderOverviewSection = () => {
   const handleCancel = (order: Order) => {
     axios
       .put(
-        `localhost:8080/api/v1/customers/orders/${order.uuid}/cancel`,
+        `${import.meta.env.VITE_CUSTOMER_ORDER_API_URL}/${order.uuid}/cancel`,
         {},
         {
           withCredentials: true,
         },
       )
       .then(res => {
-        setData(data.map(o => (o.uuid === order.uuid ? res.data : o)));
+        setData(
+          data.map(o =>
+            o.uuid === order.uuid ? { ...o, status: 'CANCELLED' } : o,
+          ),
+        );
+      })
+      .catch(err => {
+        const axiosError = err as AxiosError;
+
+        dispatch(
+          popUpMessage({
+            message: axiosError.response?.data || 'Something went wrong',
+            status: 404,
+          } as MessagePayload),
+        );
       });
   };
 
@@ -40,10 +58,11 @@ const OrderOverviewSection = () => {
       <p className="border-b border-b-neutral-200 pb-3 text-sm font-light capitalize text-neutral-500">
         my orders
       </p>
-      <div>
+      <div className="space-y-6">
         <OrderSection
           title="Pending"
           orders={data.filter(o => o.status === 'PENDING')}
+          handleCancel={handleCancel}
         />
 
         <OrderSection
@@ -76,7 +95,7 @@ const OrderSection = ({ title, orders, handleCancel }: OrderSectionProps) => {
   return (
     <div>
       <h2 className="text-2xl uppercase text-neutral-600">{title}</h2>
-      <div className="mt-3 grid grid-cols-4 gap-3">
+      <div className="mt-3 grid grid-cols-2 gap-3">
         {orders.map(order => (
           <OrderCard
             order={order}
@@ -99,7 +118,7 @@ const OrderCard = ({ order, onCancel }: OrderCardProps) => {
 
   return (
     <>
-      {isCancelModalOpen && (
+      {isCancelModalOpen && order.status === 'PENDING' && (
         <YesNoDialogModal
           title="Cancel order"
           description="Are you sure you want to cancel this order?"
