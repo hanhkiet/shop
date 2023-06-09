@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { RootState } from '../app/store';
 import { setShippingIndex, setShippingPrice } from '../app/orderSlice';
+import { RootState } from '../app/store';
 
 function CheckoutShippingSection() {
   const shippingMethod = [

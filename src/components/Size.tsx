@@ -1,8 +1,8 @@
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem, toggleVisibility } from '../app/cartSlice';
 import { RootState } from '../app/store';
-import { useSelector, useDispatch } from 'react-redux';
 import { Catalog } from '../app/types';
-import { useState } from 'react';
 import QuantityWarningModal from '../modals/QuantityWarningModal';
 
 type Props = {

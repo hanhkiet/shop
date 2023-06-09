@@ -1,33 +1,54 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Order, OrderDetail } from '../app/types';
 import Modal from './Modal';
 
-const AccountOrderDetailModal = () => {
-  const { orderId } = useParams<{ orderId: string }>();
-  const navigate = useNavigate();
+type Props = {
+  order: Order;
+  onClose: () => void;
+};
+
+const AccountOrderDetailModal = ({ order, onClose }: Props) => {
+  const [data, setData] = useState<OrderDetail[]>([]);
+
+  useEffect(() => {
+    axios
+      .get(`localhost:8080/api/v1/customer/orders/${order.uuid}`, {
+        withCredentials: true,
+      })
+      .then(res => {
+        setData(res.data as OrderDetail[]);
+      });
+  }, []);
 
   return (
-    <Modal onClose={() => navigate(-1)} className="items-center justify-center">
+    <Modal onClose={onClose} className="items-center justify-center">
       <div className="flex-1 justify-center p-12">
         <div className="space-y-9 text-neutral-700">
           <div className="space-y-6">
             <h2 className="text-3xl font-light">Order details</h2>
           </div>
           <div className="space-y-6">
-            <h3 className="text-xl font-light">Order #000{orderId}</h3>
+            <h3 className="text-xl font-light">Order #{order.uuid}</h3>
             <div className="space-y-3">
               <div className="flex justify-between gap-x-10">
                 <span className="font-light">Order date</span>
-                <span className="font-light">21-04-2023</span>
+                <span className="font-light">{order.createdAt.toString()}</span>
               </div>
               <div className="flex justify-between gap-x-10">
                 <span className="font-light">Order status</span>
-                <span className="font-light">Pending</span>
+                <span className="font-light">{order.status}</span>
               </div>
               <div className="flex justify-between gap-x-10">
                 <span className="font-light">Order address</span>
                 <span className="font-light">
-                  164 Nguyen Van Thuong, Ho Chi Minh City
+                  {order.address.street}, {order.address.district},{' '}
+                  {order.address.city}
                 </span>
+              </div>
+              <div className="flex justify-between gap-x-10">
+                <span className="font-light">Total price</span>
+                <span className="font-light">{order.totalPrice}</span>
               </div>
             </div>
           </div>
@@ -44,27 +65,25 @@ const AccountOrderDetailModal = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="border border-neutral-400 p-2">1</td>
-                  <td className="border border-neutral-400 p-2">Product 1</td>
-                  <td className="border border-neutral-400 p-2">$10.00</td>
-                  <td className="border border-neutral-400 p-2">1</td>
-                  <td className="border border-neutral-400 p-2">$10.00</td>
-                </tr>
-                <tr>
-                  <td className="border border-neutral-400 p-2">2</td>
-                  <td className="border border-neutral-400 p-2">Product 2</td>
-                  <td className="border border-neutral-400 p-2">$20.00</td>
-                  <td className="border border-neutral-400 p-2">2</td>
-                  <td className="border border-neutral-400 p-2">$40.00</td>
-                </tr>
-                <tr>
-                  <td className="border border-neutral-400 p-2">3</td>
-                  <td className="border border-neutral-400 p-2">Product 3</td>
-                  <td className="border border-neutral-400 p-2">$30.00</td>
-                  <td className="border border-neutral-400 p-2">3</td>
-                  <td className="border border-neutral-400 p-2">$90.00</td>
-                </tr>
+                {data.map((item, index) => (
+                  <tr key={index}>
+                    <td className="border border-neutral-400 p-2">
+                      {item.uuid}
+                    </td>
+                    <td className="border border-neutral-400 p-2">
+                      {item.name}
+                    </td>
+                    <td className="border border-neutral-400 p-2">
+                      {item.price}
+                    </td>
+                    <td className="border border-neutral-400 p-2">
+                      {item.quantity}
+                    </td>
+                    <td className="border border-neutral-400 p-2">
+                      {item.price * item.quantity}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

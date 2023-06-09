@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendLoadProductsRequest } from '../../app/manager/storageSlice';
 import { AppDispatch, RootState } from '../../app/store';
-import { Color, ProductFilterPayload } from '../../app/types';
+import { Color, Product, ProductFilterPayload } from '../../app/types';
 import AddProductModal from '../../modals/manager/AddProductModal';
 import ProductCard from './ProductCard';
 
@@ -12,6 +12,15 @@ const ProductManagementSection = () => {
     (state: RootState) => state.storage.collections,
   );
   const products = useSelector((state: RootState) => state.storage.products);
+  const [maxShowItems, setMaxShowItems] = useState(20);
+
+  const recentlyAddedProducts = useSelector(
+    (state: RootState) => state.storage.recentlyAddedProducts,
+  );
+
+  const recentlyUpdatedProducts = useSelector(
+    (state: RootState) => state.storage.recentlyUpdatedProducts,
+  );
 
   const [searchQuery, setSearchQuery] = useState('');
   const queryRef = useRef<HTMLInputElement>(null);
@@ -59,7 +68,7 @@ const ProductManagementSection = () => {
   };
 
   return (
-    <>
+    <div className="space-y-6">
       {isAddProductModalOpen && (
         <AddProductModal onClose={() => setIsAddProductModalOpen(false)} />
       )}
@@ -141,7 +150,7 @@ const ProductManagementSection = () => {
           </select>
         </div>
       </div>
-      <div className="mx-auto mb-3 flex items-center gap-3 text-center lg:max-w-7xl">
+      <div className="mx-auto flex items-center gap-3 text-center lg:max-w-7xl">
         <button
           onClick={() => setSearchQuery(queryRef.current?.value || '')}
           className="button button-dark"
@@ -166,15 +175,56 @@ const ProductManagementSection = () => {
           </button>
         )}
       </div>
-      <div className="mx-auto lg:max-w-7xl">
-        <div className="grid grid-cols-4 gap-6">
-          {products.map(product => (
-            <ProductCard key={product.uuid} {...product} />
-          ))}
-        </div>
+      <div className="flex flex-col items-center gap-6 pb-12">
+        {recentlyUpdatedProducts.length > 0 && (
+          <ProductSection
+            title="recently updated"
+            products={recentlyUpdatedProducts}
+          />
+        )}
+
+        {recentlyAddedProducts.length > 0 && (
+          <ProductSection
+            title="recently added"
+            products={recentlyAddedProducts}
+          />
+        )}
+
+        {products.length > 0 && (
+          <ProductSection
+            title="all"
+            products={products.slice(0, maxShowItems)}
+          />
+        )}
+
+        {products.length > maxShowItems && (
+          <button
+            onClick={() =>
+              setMaxShowItems(Math.min(maxShowItems + 20, products.length))
+            }
+            className="button button-dark w-fit"
+          >
+            Load more
+          </button>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
 export default ProductManagementSection;
+
+type ProductSectionProps = {
+  title: string;
+  products: Product[];
+};
+const ProductSection = ({ title, products }: ProductSectionProps) => (
+  <div className="mx-auto lg:max-w-7xl">
+    <h2 className="mb-3 text-2xl uppercase text-neutral-600">{title}</h2>
+    <div className="grid grid-cols-5 gap-6">
+      {products.map(product => (
+        <ProductCard key={product.uuid} {...product} />
+      ))}
+    </div>
+  </div>
+);

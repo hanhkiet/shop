@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 export default function ManagerLeftNavbar() {
   const menuItem = [
     {
-      name: 'DASHBOARD',
-      pathname: 'dashboard',
+      name: 'ORDERS',
+      pathname: 'orders',
     },
     {
       name: 'STORAGE',

@@ -149,7 +149,6 @@ export interface ProductState {
   products: Array<Product>;
 }
 
-type Role = 'ADMIN';
 export interface Manager {
   uuid: string;
   firstName: string;
@@ -164,10 +163,32 @@ export interface ManagerState {
   collections: CollectionItem[];
 }
 
+export type OrderStatus = 'PENDING' | 'DELIVERING' | 'DELIVERED' | 'CANCELLED';
+export type PaymentMethod = 'COD' | 'CREDIT_CARD';
+export interface Order {
+  uuid: string;
+  address: Address;
+  status: OrderStatus;
+  paymentMethod: PaymentMethod;
+  createdAt: Date;
+  totalPrice: number;
+}
+
+export interface OrderDetail {
+  uuid: string;
+  name: string;
+  price: number;
+  color: Color;
+  size: Size;
+  quantity: number;
+}
+
 export interface StorageState {
   loading: boolean;
   collections: CollectionItem[];
   products: Product[];
+  recentlyAddedProducts: Product[];
+  recentlyUpdatedProducts: Product[];
 }
 
 export interface ProductFilterPayload {
@@ -196,6 +217,11 @@ export enum Size {
 export interface Catalog {
   size: Size;
   quantity: number;
+}
+
+export interface AddCatalogPayload {
+  productUuid: string;
+  catalogs: Catalog[];
 }
 
 export interface AddressPayload {

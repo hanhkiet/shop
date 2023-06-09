@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { popUpMessage } from '../messageSlice';
 import {
+  AddCatalogPayload,
   CollectionItem,
   Product,
   ProductFilterPayload,
@@ -12,6 +13,8 @@ const initialState: StorageState = {
   loading: false,
   collections: [],
   products: [],
+  recentlyAddedProducts: [],
+  recentlyUpdatedProducts: [],
 };
 
 const storageSlice = createSlice({
@@ -26,6 +29,7 @@ const storageSlice = createSlice({
       .addCase(sendLoadProductsCollectionRequest.fulfilled, (state, action) => {
         state.loading = false;
         state.collections = action.payload;
+        state.recentlyUpdatedProducts = [];
       })
       .addCase(sendLoadProductsCollectionRequest.rejected, state => {
         state.loading = false;
@@ -99,9 +103,21 @@ const storageSlice = createSlice({
       })
       .addCase(sendAddProductRequest.fulfilled, (state, action) => {
         state.loading = false;
-        state.products.push(action.payload);
+        state.recentlyAddedProducts.push(action.payload);
       })
       .addCase(sendAddProductRequest.rejected, state => {
+        state.loading = false;
+      });
+
+    builder
+      .addCase(sendAddCatalogProductRequest.pending, state => {
+        state.loading = true;
+      })
+      .addCase(sendAddCatalogProductRequest.fulfilled, (state, action) => {
+        state.loading = false;
+        state.recentlyUpdatedProducts.push(action.payload);
+      })
+      .addCase(sendAddCatalogProductRequest.rejected, state => {
         state.loading = false;
       });
   },
@@ -369,7 +385,53 @@ const sendAddProductRequest = createAsyncThunk(
   },
 );
 
+const sendAddCatalogProductRequest = createAsyncThunk(
+  'storage/addCatalogProduct',
+  async (payload: AddCatalogPayload, { dispatch }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_MANAGER_STORAGE_API_URL}/catalogs/${
+          payload.productUuid
+        }`,
+        payload.catalogs,
+        {
+          withCredentials: true,
+        },
+      );
+
+      dispatch(
+        popUpMessage({
+          message: 'Product added successfully.',
+          status: 200,
+        }),
+      );
+
+      return response.data as Product;
+    } catch (error) {
+      const { response } = error as AxiosError;
+      if (response) {
+        dispatch(
+          popUpMessage({
+            message: 'Error adding catalogs. Please try again later.',
+            status: response.status,
+          }),
+        );
+      } else {
+        dispatch(
+          popUpMessage({
+            message: 'Please check your internet connection.',
+            status: 500,
+          }),
+        );
+      }
+
+      throw error;
+    }
+  },
+);
+
 export {
+  sendAddCatalogProductRequest,
   sendAddProductCollectionRequest,
   sendAddProductRequest,
   sendDeleteProductCollectionRequest,

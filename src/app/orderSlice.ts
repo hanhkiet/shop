@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderPayload, OrderState } from './types';
 import axios from 'axios';
+import { OrderPayload, OrderState } from './types';
 
 const initialState: OrderState = {
   note: localStorage.getItem('cartNote') || '',
@@ -15,7 +15,7 @@ const initialState: OrderState = {
   shippingPrice: localStorage.getItem('shippingPrice')
     ? Number(localStorage.getItem('shippingPrice'))!
     : 0,
-  shippingIndex: localStorage.getItem('shippingIndex')
+shippingIndex: localStorage.getItem('shippingIndex')
     ? Number(localStorage.getItem('shippingIndex'))!
     : 0,
   streetIndex: localStorage.getItem('streetIndex')

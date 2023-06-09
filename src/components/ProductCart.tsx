@@ -1,10 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as cartSlice from '../app/cartSlice';
-import { RootState } from '../app/store';
-import { useState, useEffect } from 'react';
-import QuantityWarningModal from '../modals/QuantityWarningModal';
-import axios from 'axios';
 import { Product } from '../app/types';
 
 type Props = {
