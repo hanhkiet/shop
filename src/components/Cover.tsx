@@ -33,7 +33,7 @@ export default function Cover(props: Props) {
     if (!collection) return;
     axios
       .get(`${import.meta.env.VITE_COLLECTIONS_API_URL}/${collection.id}`)
-      .then(res => setProducts(res.data))
+      .then(res => setProducts(res.data.reverse()))
       .catch(error => {
         console.error('Error fetching products:', error);
       });
