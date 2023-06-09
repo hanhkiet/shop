@@ -1,6 +1,6 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import * as orderSlice from '../app/orderSlice';
 import { AppDispatch, RootState } from '../app/store';
 import { useRefWithValidator } from '../hooks/useRefWithValidator';
@@ -11,10 +11,16 @@ import {
   phoneRegex,
   streetRegex,
 } from '../utils/regex';
+import { Address } from '../app/types';
 
 function CheckoutInformationSection() {
+  const { isAuthenticated } = useSelector((state: RootState) => state.account);
+  if (!isAuthenticated) return <Navigate to="/auth/login" replace={true} />;
+  const user = useSelector((state: RootState) => state.account.user);
   const [isHovered, setIsHovered] = useState(false);
-
+  const streets = useSelector((state: RootState) => state.address.addresses);
+  if (streets.length === 0 || !streets)
+    return <Navigate to="/account/addresses" replace={true} />;
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -23,8 +29,8 @@ function CheckoutInformationSection() {
     setIsHovered(false);
   };
   const emailOrder = useSelector((state: RootState) => state.order.emailOrder);
-  const countryOrder = useSelector(
-    (state: RootState) => state.order.countryOrder,
+  const streetOrder = useSelector(
+    (state: RootState) => state.order.streetOrder,
   );
   const firstNameOrder = useSelector(
     (state: RootState) => state.order.firstNameOrder,
@@ -41,6 +47,16 @@ function CheckoutInformationSection() {
   const cityOrder = useSelector((state: RootState) => state.order.cityOrder);
   const phoneOrder = useSelector((state: RootState) => state.order.phoneOrder);
   const dispatch: AppDispatch = useDispatch();
+  const streetIndex = useSelector(
+    (state: RootState) => state.order.streetIndex,
+  );
+  useEffect(() => {
+    dispatch(orderSlice.setEmailOrder(user!.username));
+    dispatch(orderSlice.setStreetOrder(streets[streetIndex].street));
+    dispatch(orderSlice.setDistrictOrder(streets[streetIndex].district));
+    dispatch(orderSlice.setCityOrder(streets[streetIndex].city));
+    dispatch(orderSlice.setPhoneOrder(streets[streetIndex].recipientPhone));
+  }, [streetIndex]);
   const {
     ref: emailRef,
     error: emailError,
@@ -59,14 +75,6 @@ function CheckoutInformationSection() {
     error: lastNameError,
     validate: validateLastName,
   } = useRefWithValidator(nameRegex, 'Please enter a valid last name');
-  const {
-    ref: streetRef,
-    error: streetError,
-    validate: validateStreet,
-  } = useRefWithValidator(
-    streetRegex,
-    'Please enter a valid street (e.g. 123 Street)',
-  );
   const {
     ref: districtRef,
     error: districtError,
@@ -94,11 +102,9 @@ function CheckoutInformationSection() {
   const navigate = useNavigate();
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const isValidEmail = validateEmail();
     const isValidFirstName = validateFirstName();
     const isValidLastName = validateLastName();
-    const isValidStreet = validateStreet();
     const isValidDistrict = validateDistrict();
     const isValidCity = validateCity();
     const isValidRecipientPhone = validateRecipientPhone();
@@ -107,7 +113,6 @@ function CheckoutInformationSection() {
       isValidEmail &&
       isValidFirstName &&
       isValidLastName &&
-      isValidStreet &&
       isValidDistrict &&
       isValidCity &&
       isValidRecipientPhone
@@ -119,10 +124,10 @@ function CheckoutInformationSection() {
     <form className="w-full" onSubmit={handleSubmit}>
       <div className="flex flex-row justify-between p-3">
         <h2 className="text-xl">Contact information</h2>
-        <span>
+        {/* <span>
           <span className="text-gray-500">Already have an account?</span>{' '}
           <Link to="/auth/login">Log in</Link>
-        </span>
+        </span> */}
       </div>
       <div className="p-3">
         <div
@@ -140,7 +145,7 @@ function CheckoutInformationSection() {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               dispatch(orderSlice.setEmailOrder(event.target.value))
             }
-            value={emailOrder}
+            value={emailOrder || user!.username}
           />
         </div>
         <p className="mx-1 mt-1 text-xs text-red-500">
@@ -150,30 +155,6 @@ function CheckoutInformationSection() {
       <div className="space-y-2">
         <h2 className="p-3 text-xl">Shipping address</h2>
         <div className="space-y-6 p-3">
-          <div className="group relative rounded border p-3">
-            <label htmlFor="address" className="absolute -top-3 bg-white px-1">
-              Country/region
-            </label>
-            <div className="absolute top-0 right-10 grid h-full items-center">
-              <div className="h-[50%] w-px bg-gray-300"></div>
-            </div>
-            <select
-              name="address"
-              id="address"
-              className="w-full space-y-2 bg-white px-1 outline-none"
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-                dispatch(orderSlice.setCountryOrder(event.target.value))
-              }
-              value={countryOrder}
-            >
-              <option className="p-1" value="Vietnam">
-                Vietnam
-              </option>
-              <option className="p-1" value="United States">
-                United States
-              </option>
-            </select>
-          </div>
           <div className="grid grid-cols-1 flex-row justify-between gap-3 lg:flex">
             <div className="basis-full lg:basis-1/2">
               <div
@@ -188,13 +169,14 @@ function CheckoutInformationSection() {
                   First name
                 </label>
                 <input
+                  disabled
                   type="text"
-                  className="w-full px-2 outline-none"
+                  className="w-full bg-white px-2 outline-none"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     dispatch(orderSlice.setFirstNameOrder(event.target.value))
                   }
                   ref={firstNameRef}
-                  value={firstNameOrder}
+                  value={firstNameOrder || user!.firstName}
                 />
               </div>
               <p className="mx-1 mt-1 text-xs text-red-500">
@@ -214,13 +196,14 @@ function CheckoutInformationSection() {
                   Last name
                 </label>
                 <input
+                  disabled
                   type="text"
-                  className="w-full px-2 outline-none"
+                  className="w-full bg-white px-2 outline-none"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     dispatch(orderSlice.setLastNameOrder(event.target.value))
                   }
                   ref={lastNameRef}
-                  value={lastNameOrder}
+                  value={lastNameOrder || user!.lastName}
                 />
               </div>
               <p className="mx-1 mt-1 text-xs text-red-500">
@@ -229,30 +212,32 @@ function CheckoutInformationSection() {
             </div>
           </div>
           <div>
-            <div
-              className={`relative rounded border p-3 ${
-                streetError && 'border-red-500'
-              }`}
-            >
-              <label
-                htmlFor="address"
-                className="absolute -top-3 bg-white px-1"
-              >
-                Address
+            <div className="group relative rounded border p-3">
+              <label htmlFor="street" className="absolute -top-3 bg-white px-1">
+                Street
               </label>
-              <input
-                type="text"
-                className="w-full px-2 outline-none"
-                ref={streetRef}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  dispatch(orderSlice.setAddressOrder(event.target.value))
-                }
-                value={addressOrder}
-              />
+              <div className="absolute top-0 right-10 grid h-full items-center">
+                <div className="h-[50%] w-px bg-gray-300"></div>
+              </div>
+              <select
+                name="street"
+                id="street"
+                className="w-full space-y-2 bg-white px-1 outline-none"
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+                  dispatch(orderSlice.setStreetOrder(event.target.value));
+                  dispatch(
+                    orderSlice.setStreetIndex(event.target.selectedIndex),
+                  );
+                }}
+                value={streetOrder}
+              >
+                {streets.map((item: Address) => (
+                  <option className="p-1" value={item.street}>
+                    {item.street}
+                  </option>
+                ))}
+              </select>
             </div>
-            <p className="mx-1 mt-1 text-xs text-red-500">
-              {streetError ?? <span></span>}
-            </p>
           </div>
           <div>
             <div
@@ -267,9 +252,10 @@ function CheckoutInformationSection() {
                 District
               </label>
               <input
+                disabled
                 type="text"
                 ref={districtRef}
-                className="w-full px-2 outline-none"
+                className="w-full bg-white px-2 outline-none"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch(orderSlice.setDistrictOrder(event.target.value))
                 }
@@ -291,9 +277,10 @@ function CheckoutInformationSection() {
                   City
                 </label>
                 <input
+                  disabled
                   ref={cityRef}
                   type="text"
-                  className="w-full px-2 outline-none"
+                  className="w-full bg-white px-2 outline-none"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     dispatch(orderSlice.setCityOrder(event.target.value))
                   }
@@ -317,9 +304,10 @@ function CheckoutInformationSection() {
                   Phone
                 </label>
                 <input
+                  disabled
                   ref={recipientPhoneRef}
                   type="text"
-                  className="relative w-full px-2 outline-none"
+                  className="relative w-full bg-white px-2 outline-none"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     dispatch(orderSlice.setPhoneOrder(event.target.value))
                   }

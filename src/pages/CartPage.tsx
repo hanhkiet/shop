@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { setNote } from '../app/orderSlice';
@@ -7,6 +8,7 @@ import Navbar from '../components/Navbar';
 import { CartItem, Collection } from '../app/types';
 import ProductCartPage from '../components/ProductCartPage';
 import ProductCart from '../components/ProductCart';
+import axios from 'axios';
 
 function CartPage() {
   const notes = useSelector((state: RootState) => state.order.note);
@@ -15,17 +17,40 @@ function CartPage() {
     const newNote = event.target.value;
     dispatch(setNote(newNote));
   };
-  const products = useSelector((state: RootState) => state.product.products);
   const items = useSelector((state: RootState) => state.cart.items);
-  const totalPrice = items.reduce((total, item) => {
-    const product = products.find(p => p.uuid === item.id);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-    if (product && product.price) {
-      return total + item.quantity * product.price;
-    } else {
-      return total;
-    }
-  }, 0);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (items.length === 0) {
+        setTotalPrice(0);
+        return;
+      }
+
+      const productPrices = await Promise.all(
+        items.map(async item => {
+          try {
+            const response = await axios.get(
+              `${import.meta.env.VITE_PRODUCTS_API_URL}/${item.productUuid}`,
+            );
+            const product = response.data;
+            return product.price * item.quantity;
+          } catch (error) {
+            console.error('Error fetching product:', error);
+            return 0;
+          }
+        }),
+      );
+
+      const calculatedTotalPrice = productPrices.reduce(
+        (total, price) => total + price,
+        0,
+      );
+      setTotalPrice(calculatedTotalPrice);
+    };
+
+    fetchProducts();
+  }, [items]);
   const hasSale = false;
   const collections = useSelector(
     (state: RootState) => state.collection.collections,
@@ -33,7 +58,7 @@ function CartPage() {
   return (
     <>
       <Navbar />
-      {!products || !items || items.length == 0 || products.length == 0 ? (
+      {!items || items.length == 0 ? (
         <div
           className={`grid place-content-center ${
             hasSale ? `h-[calc(100vh-64px)]` : `h-screen`
@@ -72,16 +97,16 @@ function CartPage() {
                 .slice(0)
                 .reverse()
                 .map((item: CartItem) => (
-                  <div key={item.id}>
+                  <div key={item.productUuid}>
                     <ProductCartPage
                       className="hidden md:flex"
-                      productId={item.id}
+                      productId={item.productUuid}
                       quantity={item.quantity}
                       size={item.size}
                     />
                     <ProductCart
                       className="flex md:hidden"
-                      productId={item.id}
+                      productId={item.productUuid}
                       quantity={item.quantity}
                       size={item.size}
                     />

@@ -1,5 +1,5 @@
 export interface CartItem {
-  id: string;
+  productUuid: string;
   quantity: number;
   size: string;
 }
@@ -24,7 +24,7 @@ export interface CartState {
 export interface OrderState {
   note: string;
   emailOrder: string;
-  countryOrder: string;
+  streetOrder: string;
   firstNameOrder: string;
   lastNameOrder: string;
   addressOrder: string;
@@ -33,6 +33,9 @@ export interface OrderState {
   phoneOrder: string;
   showQuantityWarning: boolean;
   shippingPrice: number;
+  shippingIndex: number;
+  streetIndex: number;
+  orders: OrderPayload;
 }
 
 export interface CollectionState {
@@ -104,6 +107,11 @@ export interface Address {
 
 export interface PathState {
   pathName: string;
+}
+
+export interface SearchState {
+  showSearchBar: boolean;
+  query: string;
 }
 
 export enum Color {
@@ -190,23 +198,11 @@ export interface Catalog {
   quantity: number;
 }
 
-export interface ItemsInStore {
-  id: number;
-  productUuid: string;
-  size: string;
-  quantity: number;
+export interface AddressPayload {
+  uuid: string;
 }
 
-export interface ProductQuantityState {
-  productQuantity: Array<ItemsInStore>;
-}
-
-export interface CategoryProduct {
-  id: number;
-  product: Product;
-  productCollection: Collection;
-}
-
-export interface CategoryProductState {
-  categoryProduct: Array<CategoryProduct>;
+export interface OrderPayload {
+  address: AddressPayload;
+  items: CartItem[];
 }

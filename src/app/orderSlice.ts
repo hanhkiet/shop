@@ -1,38 +1,28 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderState } from './types';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { OrderPayload, OrderState } from './types';
+import axios from 'axios';
 
 const initialState: OrderState = {
-  note: localStorage.getItem('cartNote')
-    ? localStorage.getItem('cartNote')!
-    : '',
-    emailOrder: localStorage.getItem('emailOrder')
-    ? localStorage.getItem('emailOrder')!
-    : '',
-    countryOrder: localStorage.getItem('countryOrder')
-    ? localStorage.getItem('countryOrder')!
-    : '',
-    firstNameOrder: localStorage.getItem('firstNameOrder')
-    ? localStorage.getItem('firstNameOrder')!
-    : '',
-    lastNameOrder: localStorage.getItem('lastNameOrder')
-    ? localStorage.getItem('lastNameOrder')!
-    : '',
-    addressOrder: localStorage.getItem('addressOrder')
-    ? localStorage.getItem('addressOrder')!
-    : '',
-    districtOrder: localStorage.getItem('districtOrder')
-    ? localStorage.getItem('districtOrder')!
-    : '',
-    cityOrder: localStorage.getItem('cityOrder')
-    ? localStorage.getItem('cityOrder')!
-    : '',
-    phoneOrder: localStorage.getItem('phoneOrder')
-    ? localStorage.getItem('phoneOrder')!
-    : '',
-    shippingPrice: localStorage.getItem('shippingPrice')
+  note: localStorage.getItem('cartNote') || '',
+  emailOrder: localStorage.getItem('emailOrder') || '',
+  streetOrder: localStorage.getItem('streetOrder') || '',
+  firstNameOrder: localStorage.getItem('firstNameOrder') || '',
+  lastNameOrder: localStorage.getItem('lastNameOrder') || '',
+  addressOrder: localStorage.getItem('addressOrder') || '',
+  districtOrder: localStorage.getItem('districtOrder') || '',
+  cityOrder: localStorage.getItem('cityOrder') || '',
+  phoneOrder: localStorage.getItem('phoneOrder') || '',
+  shippingPrice: localStorage.getItem('shippingPrice')
     ? Number(localStorage.getItem('shippingPrice'))!
     : 0,
-    showQuantityWarning: false,
+  shippingIndex: localStorage.getItem('shippingIndex')
+    ? Number(localStorage.getItem('shippingIndex'))!
+    : 0,
+  streetIndex: localStorage.getItem('streetIndex')
+    ? Number(localStorage.getItem('streetIndex'))!
+    : 0,
+  showQuantityWarning: false,
+  orders: {} as OrderPayload,
 };
 
 const orderSlice = createSlice({
@@ -47,9 +37,9 @@ const orderSlice = createSlice({
       state.emailOrder = action.payload;
       localStorage.setItem('emailOrder', state.emailOrder);
     },
-    setCountryOrder(state, action: PayloadAction<string>) {
-      state.countryOrder = action.payload;
-      localStorage.setItem('countryOrder', state.countryOrder);
+    setStreetOrder(state, action: PayloadAction<string>) {
+      state.streetOrder = action.payload;
+      localStorage.setItem('streetOrder', state.streetOrder);
     },
     setFirstNameOrder(state, action: PayloadAction<string>) {
       state.firstNameOrder = action.payload;
@@ -80,10 +70,56 @@ const orderSlice = createSlice({
     },
     setShippingPrice(state, action: PayloadAction<number>) {
       state.shippingPrice = action.payload;
+      localStorage.setItem('shippingPrice', state.shippingPrice.toString());
     },
+    setShippingIndex(state, action: PayloadAction<number>) {
+      state.shippingIndex = action.payload;
+      localStorage.setItem('shippingIndex', state.shippingIndex.toString());
+    },
+    setStreetIndex(state, action: PayloadAction<number>) {
+      state.streetIndex = action.payload;
+      localStorage.setItem('streetIndex', state.streetIndex.toString());
+    },
+  },
+  extraReducers: builder => {
+    builder.addCase(sendAddNewOrderRequest.fulfilled, (state, action) => {
+      state.orders = action.payload;
+    });
   },
 });
 
-export const { setNote, setEmailOrder, setCountryOrder, setFirstNameOrder, setLastNameOrder, setAddressOrder, setDistrictOrder, setCityOrder, setPhoneOrder, setShowQuantityWarning, setShippingPrice } = orderSlice.actions;
+const sendAddNewOrderRequest = createAsyncThunk(
+  'order/addNewOrder',
+  async (payload: OrderPayload, { dispatch }) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_CUSTOMER_ORDER_CHECKOUT_API_URL}`,
+      payload,
+      {
+        withCredentials: true,
+      },
+    );
+
+    const orders = response.data as OrderPayload;
+    return orders;
+  },
+);
+
+export const {
+  setNote,
+  setEmailOrder,
+  setStreetOrder,
+  setFirstNameOrder,
+  setLastNameOrder,
+  setAddressOrder,
+  setDistrictOrder,
+  setCityOrder,
+  setPhoneOrder,
+  setShowQuantityWarning,
+  setShippingPrice,
+  setShippingIndex,
+  setStreetIndex,
+} = orderSlice.actions;
+
+export { sendAddNewOrderRequest };
 
 export default orderSlice.reducer;
