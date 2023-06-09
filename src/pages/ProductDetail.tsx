@@ -9,6 +9,7 @@ import { Catalog, Product } from '../app/types';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Modal from '../modals/Modal';
+import ProductCard from '../components/ProductCard';
 
 function ProductDetail() {
   const sales = false;
@@ -47,6 +48,7 @@ function ProductDetail() {
   const [hoverMeasure, setHoverMeasure] = useState(false);
   const [thisProduct, setThisProduct] = useState<Product | null>(null);
   const [sizeValue, setSizeValue] = useState<string | null>(null);
+  const [collectionProducts, setCollectionProducts] = useState<Product[]>();
   const scrollToElement = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -62,6 +64,20 @@ function ProductDetail() {
         );
       });
   }, [name]);
+  useEffect(() => {
+    if (thisProduct) {
+      axios
+        .get(
+          `${import.meta.env.VITE_COLLECTIONS_API_URL}/${
+            thisProduct.collections[0].id
+          }`,
+        )
+        .then(res => {
+          setCollectionProducts(res.data);
+        });
+    }
+  }, [thisProduct]);
+  console.log(collectionProducts);
   const isNotAvaible = thisProduct?.catalogs.every(
     (item: Catalog) => item.quantity === 0,
   );
@@ -271,6 +287,36 @@ function ProductDetail() {
             </div>
           </div>
         </div>
+        {!collectionProducts || collectionProducts.length < 2 ? (
+          <></>
+        ) : (
+          <div>
+            <h2 className="text-center font-[avenir-next] font-bold uppercase text-gray-700">
+              YOU MAY ALSO LIKE
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+              {collectionProducts!
+                .filter((item: Product) => item.uuid != name)
+                .reverse()
+                .slice(0, 4)
+                .map((item: Product) => (
+                  <ProductCard
+                    key={item.uuid}
+                    id={item.uuid}
+                    name={item.name}
+                    imageOne={item.images[0]}
+                    imageTwo={item.images[1]}
+                    price={item.price}
+                    catalogs={item.catalogs}
+                    onClick={() => {
+                      setPictureIndex(0);
+                      setSizeValue(null);
+                    }}
+                  />
+                ))}
+            </div>
+          </div>
+        )}
         <Footer />
       </div>
       {clickModal && <RemoveScrollBar />}

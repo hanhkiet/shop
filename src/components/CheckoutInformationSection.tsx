@@ -169,8 +169,9 @@ function CheckoutInformationSection() {
                   First name
                 </label>
                 <input
+                  disabled
                   type="text"
-                  className="w-full px-2 outline-none"
+                  className="w-full bg-white px-2 outline-none"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     dispatch(orderSlice.setFirstNameOrder(event.target.value))
                   }
@@ -195,8 +196,9 @@ function CheckoutInformationSection() {
                   Last name
                 </label>
                 <input
+                  disabled
                   type="text"
-                  className="w-full px-2 outline-none"
+                  className="w-full bg-white px-2 outline-none"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     dispatch(orderSlice.setLastNameOrder(event.target.value))
                   }
@@ -250,9 +252,10 @@ function CheckoutInformationSection() {
                 District
               </label>
               <input
+                disabled
                 type="text"
                 ref={districtRef}
-                className="w-full px-2 outline-none"
+                className="w-full bg-white px-2 outline-none"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                   dispatch(orderSlice.setDistrictOrder(event.target.value))
                 }
@@ -274,9 +277,10 @@ function CheckoutInformationSection() {
                   City
                 </label>
                 <input
+                  disabled
                   ref={cityRef}
                   type="text"
-                  className="w-full px-2 outline-none"
+                  className="w-full bg-white px-2 outline-none"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     dispatch(orderSlice.setCityOrder(event.target.value))
                   }
@@ -300,9 +304,10 @@ function CheckoutInformationSection() {
                   Phone
                 </label>
                 <input
+                  disabled
                   ref={recipientPhoneRef}
                   type="text"
-                  className="relative w-full px-2 outline-none"
+                  className="relative w-full bg-white px-2 outline-none"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     dispatch(orderSlice.setPhoneOrder(event.target.value))
                   }
